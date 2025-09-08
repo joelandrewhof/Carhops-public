@@ -1,0 +1,66 @@
+package crowbar.states;
+
+import flixel.FlxSprite;
+import flixel.FlxState;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.group.FlxSpriteGroup;
+import flixel.input.FlxInput;
+import flixel.input.keyboard.FlxKey;
+import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxTimer;
+//crowbar testing
+import crowbar.display.CrowbarSprite;
+import crowbar.display.CrowbarText;
+
+class DefaultState extends FlxState
+{
+	var crashObj:Dynamic;
+
+    	override public function create()
+	{
+		super.create();
+
+		var hello:CrowbarText = new CrowbarText(0, 0, "This is the default state", 48);
+		hello.screenCenter();
+		add(hello);
+
+		var cbar:CrowbarSprite = new CrowbarSprite(800, 300);
+		cbar.loadGraphic(Paths.image('engine/icon64'));
+		cbar.updateHitbox();
+		add(cbar);
+	}
+
+	override public function update(elapsed:Float):Void
+	{
+		super.update(elapsed);
+
+		if(FlxG.keys.justPressed.J)
+		{
+			FlxG.sound.play(Paths.sound('engine/bip'));
+		}
+
+		try {
+			if(FlxG.keys.justPressed.K)
+			{
+				trace('lol');
+				throw('intentional throw');
+			}
+		}
+		catch(e:haxe.Exception) {
+			trace(e.message);
+		}
+
+		
+		/*
+
+		if(Controls.ACCEPT)
+		{
+			//FlxG.sound.play(Paths.sound('sfx/engine/bip'));
+		}
+		
+		*/
+		
+	}
+}
