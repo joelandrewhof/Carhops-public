@@ -34,9 +34,7 @@ class TopDownInteractionManager extends FlxBasic
     //includes everything that should be tracked normally, like signs, NPCs, followers, etc.
     public function setupInteractables()
     {
-        TopDownState.current.room.interactables.forEach(function(i:Interactable) {
-            interactables.add(i);
-        });
+        //removed
     }
 
     //manages player movement and collision.
@@ -60,23 +58,7 @@ class TopDownInteractionManager extends FlxBasic
 
     public function loadingZoneCheck()
     {
-        //if the player's overlapping a loading zone, get that zone's data, transition, and warp to the next room
-        var isCol:Bool = false;
-        TopDownState.current.room.loadingZones.forEach(function(zone:LoadingZone)
-        {
-            if(zone.collision.checkOverlap(TopDownState.current.playerHitbox))
-            {
-                isCol = true;
-                //this only gets triggered once. is NOT called unless the player wasn't in a loading zone before.
-                if(!TopDownState.current.isPlayerInLoadingZone)
-                {
-                    TopDownState.current.isPlayerInLoadingZone = true;
-                    TopDownState.current.nextRoomTransition(zone.toRoom, zone.toX, zone.toY);
-                }
-            }
-        });
-        //will set this var to false if no collision happened
-        TopDownState.current.isPlayerInLoadingZone = isCol;
+        //removed
     }
 
     public function interactableCheck()

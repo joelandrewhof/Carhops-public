@@ -163,6 +163,28 @@ class RoomParser
         return entityLayers;
     }
 
+    public function getEntityLayerByName(name:String):EntityLayer
+    {
+        for(layer in json.layers)
+        {
+            if(Reflect.hasField(layer, "entities") && layer.name == name)
+            {
+                return cast layer;
+            }
+        }
+        return {
+            name: "",
+            _eid: "",
+            offsetX: 0,
+            offsetY: 0,
+            gridCellWidth: 64,
+            gridCellHeight: 64,
+            gridCellsX: 1,
+            gridCellsY: 1,
+            entities: []
+        };
+    }
+
     public function getAllEntities(?ignoreTags:Bool = false):Array<EntityData>
     {
         //flattens all entity layers into one array of entitydatas and returns it
@@ -175,6 +197,16 @@ class RoomParser
                 if(ignoreTags) //only add if flags are met or we're just ignoring them
                 entityList.push(cast entity);
             }
+        }
+        return entityList;
+    }
+
+    public function getEntitiesByLayerName(name:String):Array<EntityData>
+    {
+        var entityList:Array<EntityData> = new Array<EntityData>();
+        var layer:EntityLayer = getEntityLayerByName(name);
+        for(entity in layer.entities) {
+            entityList.push(cast entity);
         }
         return entityList;
     }

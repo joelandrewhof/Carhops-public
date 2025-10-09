@@ -39,6 +39,7 @@ class CustomerCar extends TopDownSprite
         }
 
         if(!impatient) {
+            impatient = true;
             expirePatienceCall();
         }
 
@@ -49,6 +50,7 @@ class CustomerCar extends TopDownSprite
     {
         this.variant = variant;
         loadSprite(path+variant, true);
+        playAnim('neutral');
     }
 
     private function startPatience()
@@ -60,6 +62,6 @@ class CustomerCar extends TopDownSprite
 
     public function expirePatienceCall()
     {
-        impatient = true;
+        playAnim('impatient');
     }
 }

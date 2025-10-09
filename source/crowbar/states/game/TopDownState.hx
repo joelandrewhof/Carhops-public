@@ -109,6 +109,7 @@ class TopDownState extends FlxState
 
         controlInputCall(elapsed); //checks for inputs
         debugInputCall();
+        debugCall();
 
         triggersCheck(); //interactables only need to be checked when ACCEPT is pressed; triggers do need to be checked constantly.
 
@@ -191,6 +192,7 @@ class TopDownState extends FlxState
         visMngr.addSprite(player);
 
         visMngr.addSprites(room.decals.members);
+        visMngr.addSprites(room.objects.members);
         //reminder: the problem is not here, check tiledroom
 
         //visMngr.sortSprites();
@@ -315,6 +317,11 @@ class TopDownState extends FlxState
     {
         
 
+    }
+
+    private function debugCall()
+    {
+        trace(room.objects.length);
     }
 
     public function triggersCheck()

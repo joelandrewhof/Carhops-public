@@ -33,8 +33,8 @@ class TiledRoom extends FlxTypedGroup<FlxObject>
     public var collisionGrid:CrowbarTilemap;
 
     //entities
-    public var loadingZones:FlxTypedGroup<LoadingZone>;
-    public var interactables:FlxTypedGroup<Interactable>;
+    //NOTE: Loading zones and interactables were removed for the engine
+    public var objects:FlxTypedGroup<TopDownSprite>;
     public var triggers:FlxTypedGroup<EventTrigger>;
 
     //the boundaries of the room
@@ -66,38 +66,17 @@ class TiledRoom extends FlxTypedGroup<FlxObject>
 
         //add the black backdrop
         //add(black);
-        
-        //loads all loading zones/doorways
-        loadingZones = new FlxTypedGroup<LoadingZone>();
-        var loadZoneData:Array<EntityData> = parser.getEntitiesByName("LoadingZone");
-        for (loadZone in loadZoneData)
+
+        objects = new FlxTypedGroup<TopDownSprite>();
+        var objData:Array<EntityData> = parser.getEntitiesByLayerName("objects");
+        for(t in objData)
         {
-            var newZone:LoadingZone = new LoadingZone(
-                loadZone.x, //this is for pixel scale shit
-                loadZone.y,
-                loadZone.width,
-                loadZone.height,
-                loadZone.values.toRoom,
-                loadZone.values.toX,
-                loadZone.values.toY
+            var newObj:TopDownSprite = new TopDownSprite(
+                t.x,
+                t.y
             );
-            loadingZones.add(newZone);
-            add(newZone);
-        }
-        //loads all interactables (stuff you can check)
-        interactables = new FlxTypedGroup<Interactable>();
-        var interactablesData:Array<EntityData> = parser.getEntitiesByName("Interactable");
-        for(i in interactablesData)
-        {
-            var newInter:Interactable = new Interactable(
-                i.x,
-                i.y,
-                i.width,
-                i.height,
-                i.values.dialogue
-            );
-            interactables.add(newInter);
-            add(newInter);
+            objects.add(newObj);
+            add(newObj);
         }
 
         //loads all event triggers

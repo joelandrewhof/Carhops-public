@@ -10,4 +10,22 @@ class Stall extends FlxObject
     public var occupied:Bool = false; //if a car is currently here
     public var currentCar:CustomerCar;
     public var orientation:Int; //range from 0-7, cardinal directions clockwise. depends which way the spawned car faces.
+
+    public function new(x:Int, y:Int)
+    {
+        super(x, y);
+
+
+    }
+
+    public function spawnCar()
+    {
+        if(!occupied) {
+            
+        }
+    }
+
+    public function makeVacant() {
+        occupied = false;
+    }
 }
