@@ -1,0 +1,106 @@
+package crowbar.components;
+
+
+import flixel.FlxBasic;
+import haxe.ds.StringMap;
+import crowbar.components.TopDownUtil;
+import crowbar.states.game.TopDownState;
+import crowbar.objects.NPC;
+import crowbar.objects.LoadingZone;
+import crowbar.objects.Interactable;
+import flixel.group.FlxGroup;
+
+//manages objects interacting with each other in the overworld, like collision, etc.
+class TopDownInteractionManager extends FlxBasic
+{
+    public var interactables:FlxTypedGroup<Interactable>;
+
+    public function new()
+    {
+        super();
+
+        interactables = new FlxTypedGroup<Interactable>();
+    }
+
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+        playerMoveAndCollide(); //moves player while checking for collision
+        loadingZoneCheck(); //checks if the player has entered a loading zone, updates and starts a room transition if so
+    }
+
+    //adds all interactables from the overworld to the list of them to track here.
+    //includes everything that should be tracked normally, like signs, NPCs, followers, etc.
+    public function setupInteractables()
+    {
+        TopDownState.current.room.interactables.forEach(function(i:Interactable) {
+            interactables.add(i);
+        });
+    }
+
+    //manages player movement and collision.
+    //in the future, might want to add all collision objects to a general dynamic list, not check groups of them like this
+    public function playerMoveAndCollide()
+    {
+        var futurePos:Array<Float> = TopDownState.current.playerController.calculateMove();
+
+        //ROOM COLLISION MAP
+        var dirCol = TopDownUtil.isPlayerTilemapCollideAfterMove(futurePos[0], futurePos[1]);
+
+        //NPCS
+
+
+        //if we can at least move in a direction
+        if(!dirCol[0] || !dirCol[1])
+        {
+            TopDownState.current.playerController.move(dirCol[0], dirCol[1]);
+        }
+    }
+
+    public function loadingZoneCheck()
+    {
+        //if the player's overlapping a loading zone, get that zone's data, transition, and warp to the next room
+        var isCol:Bool = false;
+        TopDownState.current.room.loadingZones.forEach(function(zone:LoadingZone)
+        {
+            if(zone.collision.checkOverlap(TopDownState.current.playerHitbox))
+            {
+                isCol = true;
+                //this only gets triggered once. is NOT called unless the player wasn't in a loading zone before.
+                if(!TopDownState.current.isPlayerInLoadingZone)
+                {
+                    TopDownState.current.isPlayerInLoadingZone = true;
+                    TopDownState.current.nextRoomTransition(zone.toRoom, zone.toX, zone.toY);
+                }
+            }
+        });
+        //will set this var to false if no collision happened
+        TopDownState.current.isPlayerInLoadingZone = isCol;
+    }
+
+    public function interactableCheck()
+    {
+        interactables.forEach(function(i:Interactable)
+        {
+            if(i.collision.checkOverlap(TopDownState.current.playerHitbox) && i.areClicksReached(1))
+            {
+                i.checkIncrement();
+                return; //don't open multiple dialogues
+            }
+        });
+    }
+
+    //quick function to make bool overrides easier. orCheck will check if either of the bools is [true/false] and set it to that
+    private function getBoolArrayOr(ary1:Array<Bool>, ary2:Array<Bool>, ?orCheck:Bool = true):Array<Bool>
+    {
+        if(ary1.length != ary2.length)
+            return [false, false];
+        for(i in 0...ary1.length)
+        {
+            if(ary1[i] == orCheck || ary2[i] == orCheck)
+                ary1[i] = orCheck;
+        }
+        return ary1;
+    }
+}

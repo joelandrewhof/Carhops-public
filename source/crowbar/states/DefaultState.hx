@@ -1,5 +1,6 @@
 package crowbar.states;
 
+import crowbar.states.game.TopDownState;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.transition.FlxTransitionableState;
@@ -16,9 +17,9 @@ import crowbar.display.CrowbarText;
 
 class DefaultState extends FlxState
 {
-	var crashObj:Dynamic;
+	var doCtrlCheck:Bool = true;
 
-    	override public function create()
+    override public function create()
 	{
 		super.create();
 
@@ -36,31 +37,17 @@ class DefaultState extends FlxState
 	{
 		super.update(elapsed);
 
-		if(FlxG.keys.justPressed.J)
-		{
-			FlxG.sound.play(Paths.sound('engine/bip'));
-		}
-
-		try {
-			if(FlxG.keys.justPressed.K)
-			{
-				trace('lol');
-				throw('intentional throw');
-			}
-		}
-		catch(e:haxe.Exception) {
-			trace(e.message);
-		}
-
-		
-		/*
-
 		if(Controls.ACCEPT)
 		{
-			//FlxG.sound.play(Paths.sound('sfx/engine/bip'));
+			FlxG.sound.play(Paths.sound('engine/bip'));
+			trace(Controls.current);
+		}
+
+		if(Controls.BACK)
+		{
+			FlxG.switchState(new TopDownState());
 		}
 		
-		*/
 		
 	}
 }

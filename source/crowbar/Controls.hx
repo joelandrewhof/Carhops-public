@@ -40,6 +40,8 @@ class Controls {
 
 	@:justPressed(ui_right) function UI_RIGHT_P() {}
 
+	@:justPressed(jump) function JUMP() {}
+
 	// -- HOLDING -- //
 
 	@:pressed(left) function LEFT() {}
@@ -57,5 +59,7 @@ class Controls {
 	@:pressed(ui_up) function UI_UP() {}
 
 	@:pressed(ui_right) function UI_RIGHT() {}
+
+	@:pressed(run) function RUN() {}
 
 }

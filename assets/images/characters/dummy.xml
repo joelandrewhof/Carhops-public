@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="dummy.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="dummy_idle_down0000" x="0" y="0" width="71" height="161"/>
+	<SubTexture name="dummy_idle_left0000" x="71" y="0" width="44" height="159"/>
+	<SubTexture name="dummy_idle_right0000" x="115" y="0" width="45" height="157"/>
+	<SubTexture name="dummy_idle_up0000" x="160" y="0" width="69" height="161"/>
+	<SubTexture name="dummy_walk_down0000" x="229" y="0" width="77" height="177" frameX="-9" frameY="0" frameWidth="86" frameHeight="177"/>
+	<SubTexture name="dummy_walk_down0001" x="0" y="0" width="71" height="161" frameX="-6" frameY="-1" frameWidth="71" frameHeight="161"/>
+	<SubTexture name="dummy_walk_down0002" x="306" y="0" width="77" height="177" frameX="0" frameY="0" frameWidth="86" frameHeight="177"/>
+	<SubTexture name="dummy_walk_left0000" x="383" y="0" width="72" height="151" frameX="0" frameY="-7" frameWidth="72" frameHeight="159"/>
+	<SubTexture name="dummy_walk_left0001" x="455" y="0" width="44" height="159" frameX="-15" frameY="0" frameWidth="72" frameHeight="159"/>
+	<SubTexture name="dummy_walk_left0002" x="0" y="177" width="68" height="150" frameX="-3" frameY="-7" frameWidth="72" frameHeight="159"/>
+	<SubTexture name="dummy_walk_right0000" x="68" y="177" width="72" height="151" frameX="0" frameY="-6" frameWidth="72" frameHeight="157"/>
+	<SubTexture name="dummy_walk_right0001" x="115" y="0" width="45" height="157" frameX="-15" frameY="0" frameWidth="45" frameHeight="157"/>
+	<SubTexture name="dummy_walk_right0002" x="140" y="177" width="68" height="150" frameX="-3" frameY="-6" frameWidth="72" frameHeight="157"/>
+	<SubTexture name="dummy_walk_up0000" x="208" y="177" width="61" height="164" frameX="-5" frameY="0" frameWidth="69" frameHeight="164"/>
+	<SubTexture name="dummy_walk_up0001" x="160" y="0" width="69" height="161" frameX="0" frameY="-1" frameWidth="69" frameHeight="161"/>
+	<SubTexture name="dummy_walk_up0002" x="269" y="177" width="61" height="164" frameX="-5" frameY="0" frameWidth="69" frameHeight="164"/>
+</TextureAtlas>

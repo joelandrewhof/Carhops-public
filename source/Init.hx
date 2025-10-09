@@ -33,20 +33,6 @@ class Init extends FlxState
 
 		FlxG.save.flush();
 
-		// -- CUSTOM SPLASH SCREEN -- //
-
-		/*
-		final graph:FlxGraphic = Paths.image("ui/splash/clover");
-
-		final clover:FlxSprite = new FlxSprite().loadGraphic(graph, true, graph.width, graph.height);
-		clover.animation.add("wink", [0, 1, 2, 3, 4, 5, 6, 7, 8], 24, false);
-		clover.animation.curAnim.curFrame = 0;
-		clover.alpha = 0.0;
-		add(clover);
-
-		clover.animation.finishCallback = function(a:String):Void
-			FlxG.switchState(Type.createInstance(Main.initialState, []));
-		*/
 
 		FlxG.switchState(Type.createInstance(Main.initialState, []));
     }
@@ -63,6 +49,7 @@ class Init extends FlxState
         crowbar.Settings.load();
         flixel.FlxSprite.defaultAntialiasing = crowbar.Settings.globalAntialias;
         //setup controls here ******
+		crowbar.Controls.current = new crowbar.ControlsManager();
 
         #if DISCORD 
         //crowbar.core.DiscordWrapper.initialize("1325211048801992715"); 

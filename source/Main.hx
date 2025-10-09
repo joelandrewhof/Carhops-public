@@ -1,16 +1,9 @@
 package;
 
 import flixel.FlxGame;
-import flixel.FlxState;
 import openfl.display.Sprite;
 import crowbar.states.DefaultState;
-
-import crowbar.ui.CrowbarConsole;
-import crowbar.ui.CrowbarOverlay;
-
-import openfl.display.Sprite;
-
-typedef GameClient = #if CRASH_HANDLER external.crash.CrowbarGame #else flixel.FlxGame #end;
+import cataclysm.Cataclysm;
 
 class Main extends Sprite
 {
@@ -21,16 +14,15 @@ class Main extends Sprite
 	public static var self:Main;
 	public static var noGpuBitmaps:Bool = false;
 
-	private var gameClient:GameClient;
-	public var overlay:OverlayContainer;
-
 	public function new()
 	{
 		super();
 		self = this;
 
-		addChild(gameClient = new GameClient(0, 0, Init, initialFramerate, initialFramerate, true));
-		addChild(overlay = new OverlayContainer());
+		addChild(new FlxGame(0, 0, Init, initialFramerate, initialFramerate, true));
+
+		var crash_handler:Cataclysm = new Cataclysm();
+		crash_handler.setup("crash", "CrowbarEngine-crash");
 	}
 
 	/*
@@ -54,11 +46,11 @@ class Main extends Sprite
 	}
 	*/
 
-	
+	/*
 	private function onStateCreate(state:FlxState):Void {
 		@:privateAccess AssetHelper.clearCacheEntirely(true);
 	}
-	
+	*/
 
 	public function switchState()
 	{

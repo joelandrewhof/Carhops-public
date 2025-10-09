@@ -20,6 +20,9 @@ class ControlsManager {
 		"up" => [W],
 		"right" => [D],
 		//
+ 		"jump" => [J],
+		"run" => [K],
+		//
 		"ui_left" => [A],
 		"ui_down" => [S],
 		"ui_up" => [W],
