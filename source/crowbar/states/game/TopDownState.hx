@@ -303,7 +303,7 @@ class TopDownState extends FlxState
         {
             if(Controls.ACCEPT)
             {
-                actMngr.interactableCheck();
+                
             }
         }
 

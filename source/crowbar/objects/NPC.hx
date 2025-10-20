@@ -42,7 +42,7 @@ class NPC extends TopDownCharacter
 
     public function updateDialogue(dialogueName:String)
     {
-        interactable.updateDialogue(dialogueName);
+        //removed
     }
 
     public function updateTargetCoords(x:Float, y:Float)

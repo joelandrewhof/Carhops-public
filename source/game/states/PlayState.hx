@@ -58,9 +58,10 @@ class PlayState extends TopDownState
 		{
 			for(i in 0...2)
 			{
-				for(i in 0...7)
+				for(j in 0...7)
 				{
-					var s = new Stall(Std.int(stallin.x), Std.int(stallin.y) + (352 * i));
+					var id:String = (i == 0 ? "A" : "B");
+					var s = new Stall(Std.int(stallin.x), Std.int(stallin.y) + (352 * j), id + (j + 1));
 					conductor.stalls.push(s);
 					this.add(s); //we can do this for now, but best to add them from the array later
 				}
@@ -85,7 +86,8 @@ class PlayState extends TopDownState
 
 		if(Math.floor(elapsedTime + elapsed) > Math.floor(elapsedTime)) //call every ~1 second
 		{
-			trace("active orders: " + conductor.orders.length);
+			trace("active orders: " + conductor.orders);
+			//trace("active cars: " + conductor.customers);
 		}
 	}
 

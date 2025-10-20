@@ -17,9 +17,11 @@ class Stall extends FlxSprite
 
     public var showDebug:Bool = true;
 
-    public function new(x:Int, y:Int)
+    public function new(x:Int, y:Int, id:String)
     {
         super(x, y);
+
+        this.id = id;
 
         spawnX = x + 20;
         spawnY = y + 20;

@@ -13,13 +13,10 @@ import flixel.group.FlxGroup;
 //manages objects interacting with each other in the overworld, like collision, etc.
 class TopDownInteractionManager extends FlxBasic
 {
-    public var interactables:FlxTypedGroup<Interactable>;
 
     public function new()
     {
         super();
-
-        interactables = new FlxTypedGroup<Interactable>();
     }
 
     override function update(elapsed:Float)
@@ -59,18 +56,6 @@ class TopDownInteractionManager extends FlxBasic
     public function loadingZoneCheck()
     {
         //removed
-    }
-
-    public function interactableCheck()
-    {
-        interactables.forEach(function(i:Interactable)
-        {
-            if(i.collision.checkOverlap(TopDownState.current.playerHitbox) && i.areClicksReached(1))
-            {
-                i.checkIncrement();
-                return; //don't open multiple dialogues
-            }
-        });
     }
 
     //quick function to make bool overrides easier. orCheck will check if either of the bools is [true/false] and set it to that

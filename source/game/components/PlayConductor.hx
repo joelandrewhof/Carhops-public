@@ -10,12 +10,14 @@ class PlayConductor
 {
     public var orders:Array<Order>;
     public var stalls:Array<Stall>;
+    public var customers:Array<CustomerCar>;
     public var nextOrder:Int = 1;
 
     public function new()
     {
         orders = new Array<Order>();
         stalls = new Array<Stall>();
+        customers = new Array<CustomerCar>();
     }
 
     public function getVacantStalls():Array<Stall>
@@ -28,17 +30,18 @@ class PlayConductor
         return vacants;
     }
 
-    public function createCustomer():Null<CustomerCar>
+    private function createCustomer(stall:Stall):CustomerCar
     {
-        var vacants:Array<Stall> = getVacantStalls();
-        if(vacants.length <= 0)
-            return null;
-        var s:Int = FlxG.random.int(0, vacants.length - 1);
-
-        var car = new CustomerCar(vacants[s].spawnX, vacants[s].spawnY, vacants[s].id);
+        var car = new CustomerCar(stall.spawnX, stall.spawnY, stall.id);
         PlayState.current.customers.add(car);
-        vacants[s].setOccupied(true);
+        stall.setOccupied(true);
         return car;
+    }
+
+    private function createCustomerAtRandomStall():CustomerCar
+    {
+        var vacants = getVacantStalls();
+        return createCustomer(vacants[FlxG.random.int(0, vacants.length - 1)]);
     }
 
     public function createOrderEntire()
@@ -49,7 +52,9 @@ class PlayConductor
             return;
         }
         else
-            spawnOrderTray(createOrderToCustomer(createCustomer()));
+        {
+            spawnOrderTray(createOrderToCustomer(createCustomerAtRandomStall()));
+        }
     }
 
     public function createOrderToCustomer(customer:CustomerCar):Order
