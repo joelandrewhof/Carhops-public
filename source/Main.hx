@@ -3,12 +3,13 @@ package;
 import flixel.FlxGame;
 import openfl.display.Sprite;
 import crowbar.states.DefaultState;
+import game.states.PlayState;
 import cataclysm.Cataclysm;
 
 class Main extends Sprite
 {
 	public static final initialFramerate:Int = 60;
-	public static final initialState = crowbar.states.DefaultState;
+	public static final initialState = game.states.PlayState;
 	public static final version:String = "1.0.0-ALPHA";
 
 	public static var self:Main;

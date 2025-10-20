@@ -22,6 +22,7 @@ import crowbar.components.SoundManager;
 import crowbar.components.TopDownInteractionManager;
 import crowbar.objects.*;
 import crowbar.objects.Player;
+import crowbar.components.Directional;
 
 import flixel.addons.display.FlxPieDial;
 
@@ -62,10 +63,8 @@ class TopDownState extends FlxState
     var centerWidth = FlxG.width / 2;
     var centerHeight = FlxG.height / 2;
 
-    var roomTransitionTime:Float = 0.7;
     var loadCallback:Void->Void;
 
-    public var isPlayerInLoadingZone:Bool = true; //for various loading zone features
     //such as not triggering a loading zone when spawning within one, and only triggering the transition once
 
     public function new(?room:String, ?x:Int, ?y:Int, ?callback:Void->Void)
@@ -278,19 +277,19 @@ class TopDownState extends FlxState
         /* ----------------------------------------------------
         ---                    MOVEMENT                     ---
         -----------------------------------------------------*/
-        var hor:String = Direction.NONE;
-        var ver:String = Direction.NONE;
+        var hor:String = DirectionString.NONE;
+        var ver:String = DirectionString.NONE;
 
         if(!player.lockMoveInput)
         {
             if (Controls.UI_UP && !Controls.UI_DOWN) //up
-                ver = Direction.UP;
+                ver = DirectionString.NORTH;
             if (Controls.UI_DOWN && !Controls.UI_UP) //down
-                ver = Direction.DOWN;
+                ver = DirectionString.SOUTH;
             if (Controls.UI_LEFT && !Controls.UI_RIGHT) //left
-                hor = Direction.LEFT;
+                hor = DirectionString.WEST;
             if (Controls.UI_RIGHT && !Controls.UI_LEFT) //right
-                hor = Direction.RIGHT;
+                hor = DirectionString.EAST;
         }
 
         playerController.setMoving(hor, ver);
@@ -321,7 +320,8 @@ class TopDownState extends FlxState
 
     private function debugCall()
     {
-        trace(room.objects.length);
+        //trace("objects in room: " + room.objects.length);
+        //trace(player.direction.getDirString());
     }
 
     public function triggersCheck()
@@ -358,12 +358,12 @@ class TopDownState extends FlxState
         blackScreen.alpha = 0.0;
         add(blackScreen);
 
-        FlxTween.tween(blackScreen, {alpha: 1.0}, roomTransitionTime / 2, {
+        FlxTween.tween(blackScreen, {alpha: 1.0}, 0.5 / 2, {
             onComplete: function(twn:FlxTween)
                 {
                     roomCleanup();
                     load(roomName, playerX, playerY);
-                    FlxTween.tween(blackScreen, {alpha: 0.0}, roomTransitionTime / 2);
+                    FlxTween.tween(blackScreen, {alpha: 0.0}, 0.5 / 2);
                 }
         });
     }

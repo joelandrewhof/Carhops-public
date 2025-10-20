@@ -1,0 +1,20 @@
+spritesheet: "test_car"
+
+animations:
+ - {name: "idle_n", prefix: "idle_n", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_s", prefix: "idle_s", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_e", prefix: "idle_e", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_w", prefix: "idle_w", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_nw", prefix: "idle_nw", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_sw", prefix: "idle_sw", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_se", prefix: "idle_se", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_ne", prefix: "idle_ne", fps: 0, loop: false, indices: [0]}
+
+ - {name: "walk_n", prefix: "idle_n", fps: 0, loop: false, indices: [0]}
+ - {name: "walk_s", prefix: "idle_s", fps: 0, loop: false, indices: [0]}
+ - {name: "walk_e", prefix: "idle_e", fps: 0, loop: false, indices: [0]}
+ - {name: "walk_w", prefix: "idle_w", fps: 0, loop: false, indices: [0]}
+ - {name: "walk_nw", prefix: "idle_nw", fps: 0, loop: false, indices: [0]}
+ - {name: "walk_sw", prefix: "idle_sw", fps: 0, loop: false, indices: [0]}
+ - {name: "walk_se", prefix: "idle_se", fps: 0, loop: false, indices: [0]}
+ - {name: "walk_ne", prefix: "idle_ne", fps: 0, loop: false, indices: [0]}

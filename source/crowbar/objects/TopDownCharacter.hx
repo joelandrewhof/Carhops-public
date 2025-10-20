@@ -10,14 +10,9 @@ import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import crowbar.components.Collision;
+import crowbar.components.Directional;
+import flixel.math.FlxAngle;
 
-enum abstract Direction(String) to String{
-    var NONE = "none";
-    var UP = "up";
-    var DOWN = "down";
-    var LEFT = "left";
-    var RIGHT = "right";
-}
 
 //some basic actions
 enum abstract Action(String) to String{
@@ -38,7 +33,7 @@ class TopDownCharacter extends TopDownSprite
 {
     //VARS
     public var characterName:String = "dummy";
-    public var facingDirection:String = DOWN;
+    public var direction:Directional;
     public var playingSpecialAnim:Bool = false;
     //OBJECTS
     public var specialAnimTimer:FlxTimer;
@@ -48,15 +43,17 @@ class TopDownCharacter extends TopDownSprite
     private final _defaultSpriteDirectory:String = "images/characters/";
 
 
-    public function new(charName:String = "dummy", x:Float, y:Float, facing:String = "down")
+    public function new(charName:String = "dummy", x:Float, y:Float, facing:String = "s")
     {
         super(x, y);
         characterName = charName;
         name = charName;
-        facingDirection = facing;
+        direction = new Directional(); //set later
 
         //sprite stuff
         loadCharacterSprite(charName);
+        direction.updateDiv(autoDirectionCheck());
+        direction.updateDirFromString(facing);
     }
 
     override function update(elapsed:Float)
@@ -87,7 +84,7 @@ class TopDownCharacter extends TopDownSprite
             }
         }
         else
-            sprite.addAtlasAnim("idle_down", "default_walk_down", 0, false, [0]);
+            sprite.addAtlasAnim("idle_s", "default_walk_s", 0, false, [0]);
 
         var hitbox:Dynamic = data.hitbox ?? {x: 0, y: 0, width: 0, height: 0};
         collision = new Collision(0, 0, hitbox.width, hitbox.height, hitbox.offsetX, hitbox.offsetY);
@@ -99,7 +96,14 @@ class TopDownCharacter extends TopDownSprite
         return this;
     }
 
-    public function playBasicAnimation(action:String = "idle", ?direction:String = "down", ?modifier:String = "")
+    //very non-dynamic but for characters specifically it will work fine
+    private function autoDirectionCheck():Int
+    {
+        var list = sprite.animation.getNameList();
+        return list.filter(list -> list.contains('idle_')).length;
+    }
+
+    public function playBasicAnimation(action:String = "idle", ?direction:String = "s", ?modifier:String = "")
     {
         //do not override a special animation
         if(playingSpecialAnim) 
@@ -157,24 +161,14 @@ class TopDownCharacter extends TopDownSprite
         }
     }
 
-    public function updateDirection(direction:String)
-    {
-        facingDirection = direction;
-    }
-
     public function faceTowards(x:Float, y:Float)
     {
         var xDif = x - this.bottomCenter.x;
         var yDif = y - this.bottomCenter.y;
+        var slope = yDif / xDif;
+        var angle = Math.atan(slope) * FlxAngle.TO_DEG;
 
-        if(Math.abs(xDif) > Math.abs(yDif))
-        {
-            updateDirection(xDif > 0 ? RIGHT : LEFT);
-        }
-        else
-        {
-            updateDirection(yDif > 0 ? DOWN : UP);
-        }
+        direction.updateDirFromDegrees(angle);
     }
 
     public function faceTowardsSpr(obj:TopDownSprite)
@@ -274,13 +268,13 @@ class CharacterController
         return [moveX, moveY];
     }
 
-    public function setMoving(horizontal:String = NONE, vertical:String = NONE)
+    public function setMoving(horizontal:String = DirectionString.NONE, vertical:String = DirectionString.NONE)
     {
         switch (horizontal)
         {
-            case LEFT:
+            case DirectionString.WEST:
                 movingX = -1;
-            case RIGHT:
+            case DirectionString.EAST:
                 movingX = 1;
             default:
                 movingX = 0;
@@ -288,9 +282,9 @@ class CharacterController
 
         switch (vertical)
         {
-            case UP:
+            case DirectionString.NORTH:
                 movingY = -1;
-            case DOWN:
+            case DirectionString.SOUTH:
                 movingY = 1;
             default:
                 movingY = 0;
@@ -329,18 +323,21 @@ class CharacterController
 
     public function updateFacingDirection()
     {
+        character.direction.updateDirFromInput(movingY, movingX);
         //diagonal inputs get outright ignored here
 
+        /*
         if(movingX != 0 && movingY == 0) //horizontal
         {
-            if(movingX == -1) character.facingDirection = LEFT;
-            if(movingX == 1) character.facingDirection = RIGHT;
+            if(movingX == -1) character.direction.updateDirFromStr = Directional.WEST;
+            if(movingX == 1) character.facingDirection = Directional.EAST;
         }
         else if(movingX == 0 && movingY != 0) //vertical
         {
-            if(movingY == -1) character.facingDirection = UP;
-            if(movingY == 1) character.facingDirection = DOWN;
+            if(movingY == -1) character.facingDirection = Directional.NORTH;
+            if(movingY == 1) character.facingDirection = Directional.SOUTH;
         }
+            */
     }
 
     public function updateMoveAnimation()
@@ -349,7 +346,7 @@ class CharacterController
         if(isMoving)
             action = (isRunning ? RUN : WALK);
 
-        character.playBasicAnimation(action, character.facingDirection);
+        character.playBasicAnimation(action, character.direction.getDirString());
     }
 
     public function addScriptInput(direction:String, running:Bool, time:Float)

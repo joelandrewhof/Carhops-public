@@ -40,7 +40,6 @@ class DefaultState extends FlxState
 		if(Controls.ACCEPT)
 		{
 			FlxG.sound.play(Paths.sound('engine/bip'));
-			trace(Controls.current);
 		}
 
 		if(Controls.BACK)

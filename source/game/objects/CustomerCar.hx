@@ -1,9 +1,12 @@
 package game.objects;
 
-import crowbar.objects.TopDownSprite;
+import crowbar.objects.TopDownCharacter;
 
-class CustomerCar extends TopDownSprite
+class CustomerCar extends TopDownCharacter
 {
+    public var stallID:String; //the stall the car spawned at. for orders to reference.
+
+    public var ordered:Bool = false; //if the customer is vacant for an order or not
     public var basePatience:Float; //how long it takes for the customer to get pissed off
     public var curPatience:Float;
     public var variant:String;
@@ -22,10 +25,10 @@ class CustomerCar extends TopDownSprite
         "test_car"
     ];
 
-    public function new(x:Int, y:Int, ?variant:String = "test_car")
+    public function new(x:Int, y:Int, stall:String, ?variant:String = "test_car")
     {
         super(x, y);
-
+        stallID = stall;
         setCar(variant);
         startPatience();
     }
@@ -50,11 +53,11 @@ class CustomerCar extends TopDownSprite
     {
         this.variant = variant;
         loadSprite(path+variant, true);
-        playAnim('neutral');
     }
 
     private function startPatience()
     {
+        if(!ordered) return;
         basePatience = FlxG.random.float(patienceRange[0], patienceRange[1]);
         curPatience = basePatience;
         patienceDrainEnabled = true;
@@ -62,6 +65,6 @@ class CustomerCar extends TopDownSprite
 
     public function expirePatienceCall()
     {
-        playAnim('impatient');
+        
     }
 }
