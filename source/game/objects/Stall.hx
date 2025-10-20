@@ -1,10 +1,11 @@
 package game.objects;
 
 import flixel.FlxObject;
+import flixel.FlxSprite;
 import game.objects.CustomerCar;
 //a location that associates with orders and cars
 
-class Stall extends FlxObject
+class Stall extends FlxSprite
 {
     public var id:String; //ID will be a letter and number; just making a string cuz it's mainly for differentiation.
     public var occupied:Bool = false; //if a car is currently here
@@ -14,12 +15,19 @@ class Stall extends FlxObject
     public var spawnX:Int;
     public var spawnY:Int;
 
+    public var showDebug:Bool = true;
+
     public function new(x:Int, y:Int)
     {
         super(x, y);
 
         spawnX = x + 20;
         spawnY = y + 20;
+
+        if(showDebug)
+        {
+            makeGraphic(20, 20, FlxColor.YELLOW);
+        }
     }
 
     public function setOccupied(bool:Bool = false) {

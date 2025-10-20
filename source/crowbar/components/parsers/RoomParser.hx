@@ -406,6 +406,11 @@ class RoomParser
                     (Reflect.hasField(decal.values, "frameRate") && decal.values.frameRate != null) ?
                         decal.values.frameRate : 12, true);
             }
+            //flipping
+            if(Reflect.hasField(decal.values, "flipX"))
+                sprite.flipX = decal.values.flipX; 
+            if(Reflect.hasField(decal.values, "flipY"))
+                sprite.flipY = decal.values.flipY; 
         }
 
         return sprite;
@@ -597,6 +602,8 @@ typedef DecalValues =
 {
     drawHeight:Int,
     elevation:Int,
+    flipX:Bool,
+    flipY:Bool,
     ?scrollFactorX:Float,
     ?scrollFactorY:Float,
     ?animated:Bool,

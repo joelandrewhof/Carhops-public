@@ -192,8 +192,8 @@ class CharacterController
 {
     public var character:TopDownCharacter; //the character to be controlled
 
-    public static var walkSpeed:Float = 4.5;
-    public static var runSpeed:Float = 7.5;
+    public var walkSpeed:Float = 4.5;
+    public var runSpeed:Float = 7.5;
     public var movingX:Int = 0; //1: right, -1: left
     public var movingY:Int = 0; //1: down, -1: up
     public var isMoving:Bool = false;
@@ -356,5 +356,13 @@ class CharacterController
 
     public function getCharacterName():String {
         return character.characterName;
+    }
+
+    public inline function setWalkSpeed(spd:Float) {
+        walkSpeed = spd;
+    }
+
+    public inline function setRunSpeed(spd:Float) {
+        runSpeed = spd;
     }
 }

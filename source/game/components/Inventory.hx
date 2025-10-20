@@ -14,6 +14,6 @@ class Inventory
 
     public function addOrder(order:Order)
     {
-
+        
     }
 }

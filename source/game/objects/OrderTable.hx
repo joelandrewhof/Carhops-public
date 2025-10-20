@@ -17,7 +17,7 @@ class OrderTable extends TopDownSprite
     public function new(x:Int, y:Int)
     {
         super(x,y);
-        loadSprite("objects/test_table");
+        loadSprite("images/objects/test_table.png");
 
         trays = new Array<OrderTray>();
     }

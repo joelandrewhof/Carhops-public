@@ -18,7 +18,7 @@ class CustomerCar extends TopDownCharacter
     /*
     *   CONSTANTS
     */
-    public final spritePath = "objects/";
+    public final spritePath = "images/characters/";
     public static var patienceRange = [30.0, 45.0];
 
     public static var carVariants:Array<String> = [
@@ -52,7 +52,7 @@ class CustomerCar extends TopDownCharacter
     private function setCar(variant:String)
     {
         this.variant = variant;
-        loadSprite(path+variant, true);
+        loadSprite(spritePath+variant, true);
     }
 
     private function startPatience()

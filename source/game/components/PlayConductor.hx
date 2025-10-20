@@ -14,7 +14,8 @@ class PlayConductor
 
     public function new()
     {
-        
+        orders = new Array<Order>();
+        stalls = new Array<Stall>();
     }
 
     public function getVacantStalls():Array<Stall>
@@ -43,7 +44,10 @@ class PlayConductor
     public function createOrderEntire()
     {
         if(getVacantStalls().length <= 0)
+        {
+            trace("Notice: no vacant stalls left, cancelling order");
             return;
+        }
         else
             spawnOrderTray(createOrderToCustomer(createCustomer()));
     }
@@ -52,6 +56,7 @@ class PlayConductor
     {
         var order = new Order(nextOrder, customer.stallID);
         nextOrder++;
+        orders.push(order);
         return order;
     }
 

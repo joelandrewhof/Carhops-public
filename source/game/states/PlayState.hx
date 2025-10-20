@@ -5,6 +5,7 @@ import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.group.FlxGroup;
 import crowbar.states.game.TopDownState;
+import flixel.math.FlxPoint;
 import game.objects.*;
 import game.components.*;
 
@@ -14,9 +15,14 @@ class PlayState extends TopDownState
 
 	public var conductor:PlayConductor;
 
+	public var elapsedTime:Float = 0.0;
+
 	//object lists
 	public var customers:FlxTypedGroup<CustomerCar>;
 	public var orderTable:OrderTable;
+
+	//gameplay mechanics
+	public var inventory:Inventory;
 
 	public function new(?room:String, ?x:Int, ?y:Int, ?callback:Void->Void)
     {
@@ -24,11 +30,17 @@ class PlayState extends TopDownState
 		current = this;
 
 		conductor = new PlayConductor();
+		inventory = new Inventory();
     }
 
 	override public function create()
 	{
 		super.create();
+
+		playerController.setRunSpeed(15.0);
+
+		createLevel1Objects();
+		createLevel1Debug();
 
 	}
 
@@ -39,15 +51,42 @@ class PlayState extends TopDownState
 
 		add(customers);
 		add(orderTable);
+
+		//create the stalls
+		var stallin:FlxPoint = new FlxPoint(128, 256);
+		if(conductor.stalls != null)
+		{
+			for(i in 0...2)
+			{
+				for(i in 0...7)
+				{
+					var s = new Stall(Std.int(stallin.x), Std.int(stallin.y) + (352 * i));
+					conductor.stalls.push(s);
+					this.add(s); //we can do this for now, but best to add them from the array later
+				}
+				stallin.x += 2368;
+			}
+		}
+	}
+
+	public function createLevel1Debug()
+	{
 		for(i in 0...4)
 		{
 			conductor.createOrderEntire();
 		}
+
 	}
 
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		elapsedTime += elapsed;
+
+		if(Math.floor(elapsedTime + elapsed) > Math.floor(elapsedTime)) //call every ~1 second
+		{
+			trace("active orders: " + conductor.orders.length);
+		}
 	}
 
 }
