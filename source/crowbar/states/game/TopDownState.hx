@@ -16,14 +16,11 @@ import flixel.tweens.FlxTween;
 import flixel.FlxState;
 import crowbar.display.CrowbarSprite;
 import crowbar.components.parsers.RoomParser;
-import crowbar.objects.Interactable;
-import crowbar.objects.TopDownCharacter;
-import crowbar.components.SoundManager;
-import crowbar.components.TopDownInteractionManager;
 import crowbar.objects.*;
+import crowbar.objects.TopDownCharacter;
 import crowbar.objects.Player;
-import crowbar.components.Directional;
-import game.objects.CarhopPlayer;
+import crowbar.components.*;
+import game.components.SkateMovement;
 
 import flixel.addons.display.FlxPieDial;
 
@@ -37,8 +34,8 @@ class TopDownState extends FlxState
     var spawnX:Int;
     var spawnY:Int;
     public var room:TiledRoom;
-    public var player:CarhopPlayer;
-    public var playerController:CharacterController;
+    public var player:Player;
+    public var playerController:PlayerController;
     public var playerHitbox:PlayerHitbox;
 
     public var camGame:FlxCamera;
@@ -221,12 +218,14 @@ class TopDownState extends FlxState
             x = 480;
             y = 540;
         }
-        player = new CarhopPlayer("dummy", x, y);
+        player = new Player("dummy", x, y);
 
-        playerController = new CharacterController(player);
-        playerController.autoUpdateMove = false;
+        playerController = new PlayerController(player);
+        //add movement components
+        playerController.addMoveComponent(new SkateMovement(playerController));
 
         playerHitbox = new PlayerHitbox(player);
+        playerHitbox.alpha = 1.0;
         add(playerHitbox);
     }
 
@@ -278,6 +277,9 @@ class TopDownState extends FlxState
         /* ----------------------------------------------------
         ---                    MOVEMENT                     ---
         -----------------------------------------------------*/
+
+        /*
+
         var hor:String = DirectionString.NONE;
         var ver:String = DirectionString.NONE;
 
@@ -295,6 +297,7 @@ class TopDownState extends FlxState
 
         playerController.setMoving(hor, ver);
         playerController.setRunning(Controls.RUN); //checks if we're running based on the run key being held
+        */
 
         /* ----------------------------------------------------
         ---                   ACTION KEYS                   ---

@@ -12,14 +12,21 @@ import flixel.util.FlxTimer;
 import crowbar.components.Collision;
 import crowbar.components.Directional;
 import flixel.math.FlxAngle;
+import crowbar.components.MoveComponent;
 
 
 //some basic actions
-enum abstract Action(String) to String{
+enum abstract ActionType(String) to String{
     var IDLE = "idle";
     var WALK = "walk";
     var RUN = "run";
     var TALK = "talk";
+}
+
+typedef Action = 
+{
+    name:String,
+    priority:Int
 }
 
 /*
@@ -192,21 +199,22 @@ class CharacterController
 {
     public var character:TopDownCharacter; //the character to be controlled
 
-    public var walkSpeed:Float = 4.5;
-    public var runSpeed:Float = 7.5;
+    public var requestMoveX:Float = 0;
+    public var requestMoveY:Float = 0;
+    
+    public var moveComponents:Array<MoveComponent>;
+    public var actions:Array<Action>;
+
+    public var locked:Bool = false;
+
+    public var isMoving:Bool = false;
     public var movingX:Int = 0; //1: right, -1: left
     public var movingY:Int = 0; //1: down, -1: up
-    public var isMoving:Bool = false;
-    public var isRunning:Bool = false;
     public var slope:Float = 0; //will augment Y movement when moving X
-    //the axes should be checked for collision separately
+
     public var prevPosition:FlxPoint; 
 
-    //this will determine if this object's update function takes care of movement.
-    //for things like the player controller, where collision checking elsewhere is imperative, it's good to disable this
     public var autoUpdateMove:Bool = true;
-
-    public var scriptInputList:Array<ScriptInput>;
     
     private final _diagonal = 0.707; //diagonal movement speed for characters: [(sqrt 2) / 2]
 
@@ -214,33 +222,41 @@ class CharacterController
     {
         character = char;
         prevPosition = new FlxPoint(character.x, character.y);
-
-        scriptInputList = new Array<ScriptInput>();
+        
+        actions = new Array<Action>();
+        moveComponents = new Array<MoveComponent>();
     }
 
     public function update(elapsed:Float)
     {
-        updateScriptedMove(elapsed);
+        //clear previous actions
+        actions = new Array<Action>();
+
+        //sort priority
+        moveComponents.sort(function(a, b) {
+            if(a.priority > b.priority) return -1;
+            else if(a.priority < b.priority) return 1;
+            else return 0;
+        });
+
+        //Performs all movement actions from components
+        for(comp in moveComponents)
+        {
+            comp.update(elapsed);
+            comp.addAction();
+        }
+
         if(autoUpdateMove)
+        {
             move();
-        updateFacingDirection();
-        updateMoveAnimation();
+        }
+
+        updateAnimation();
     }
 
-    public function updateScriptedMove(elapsed:Float)
+    public function addMoveComponent(comp:MoveComponent)
     {
-        if(scriptInputList.length > 0)
-            {
-                var leadInput = scriptInputList[0].getParameters();
-                setMoving(leadInput[0], leadInput[0]);
-                setRunning(leadInput[1]);
-                //timer function
-                scriptInputList[0] = ScriptInput(leadInput[0], leadInput[1], leadInput[2] - elapsed);
-                if(leadInput[2] - elapsed <= 0.0)
-                {
-                    scriptInputList.shift();
-                }
-            }
+        moveComponents.push(comp);
     }
 
     public function move(?noX:Bool = false, ?noY:Bool = false)
@@ -248,24 +264,11 @@ class CharacterController
         //move character based on moving vars
         prevPosition.set(character.x, character.y);
 
-        var move:Array<Float> = calculateMove();
-        character.x += noX ? 0 : move[0];
-        character.y += noY ? 0 : move[1];
-    }
+        character.x += noX ? 0 : requestMoveX;
+        character.y += noY ? 0 : requestMoveY;
 
-    public function calculateMove():Array<Float>
-    {
-        var moveAmount = (isRunning ? runSpeed : walkSpeed); //move by the run speed if we're running
-        if(movingX != 0 && movingY != 0) //if moving diagonally
-            moveAmount *= _diagonal;
-        //move sprite according to move direction
-        //maybe it's inefficient to do all this multiplication shit each frame, but whatever. i want smooth movement
-        var moveX = moveAmount * movingX;
-        var moveY = moveAmount * movingY;
-        //slope
-        moveY -= (moveX * slope);
-
-        return [moveX, moveY];
+        requestMoveX = 0;
+        requestMoveY = 0;
     }
 
     public function setMoving(horizontal:String = DirectionString.NONE, vertical:String = DirectionString.NONE)
@@ -292,6 +295,8 @@ class CharacterController
 
         //checks if we're currently moving based on these inputs
         isMoving = !(movingX == 0 && movingY == 0); 
+
+        character.direction.updateDirFromInput(movingY, movingX);
     }
 
     public function setMovingFromInt(horizontal:Int = 0, vertical:Int = 0)
@@ -308,11 +313,6 @@ class CharacterController
         setMovingFromInt(Std.int(point.x), Std.int(point.y));
     }
 
-    public function setRunning(running:Bool)
-    {
-        isRunning = running;
-    }
-
     public function previousPosition(?x:Bool = true, ?y:Bool = true)
     {
         if(x)
@@ -321,48 +321,29 @@ class CharacterController
             character.y = prevPosition.y;
     }
 
-    public function updateFacingDirection()
+    public function updateAnimation()
     {
-        character.direction.updateDirFromInput(movingY, movingX);
-        //diagonal inputs get outright ignored here
+        //add idle as an action
+        addAction({name: IDLE, priority: 0});
 
-        /*
-        if(movingX != 0 && movingY == 0) //horizontal
-        {
-            if(movingX == -1) character.direction.updateDirFromStr = Directional.WEST;
-            if(movingX == 1) character.facingDirection = Directional.EAST;
-        }
-        else if(movingX == 0 && movingY != 0) //vertical
-        {
-            if(movingY == -1) character.facingDirection = Directional.NORTH;
-            if(movingY == 1) character.facingDirection = Directional.SOUTH;
-        }
-            */
-    }
+        //highest priority (9999) first
+        actions.sort(function(a, b) {
+            if(a.priority > b.priority) return -1;
+            else if(a.priority < b.priority) return 1;
+            else return 0;
+        });
 
-    public function updateMoveAnimation()
-    {
-        var action = IDLE;
-        if(isMoving)
-            action = (isRunning ? RUN : WALK);
+        var priorityAction = actions[0].name;
 
-        character.playBasicAnimation(action, character.direction.getDirString());
-    }
-
-    public function addScriptInput(direction:String, running:Bool, time:Float)
-    {
-        scriptInputList.push(ScriptInput(direction, running, time));
+        character.playBasicAnimation(priorityAction, character.direction.getDirString());
     }
 
     public function getCharacterName():String {
         return character.characterName;
     }
 
-    public inline function setWalkSpeed(spd:Float) {
-        walkSpeed = spd;
-    }
-
-    public inline function setRunSpeed(spd:Float) {
-        runSpeed = spd;
+    public function addAction(action:Action)
+    {
+        actions.push(action);
     }
 }

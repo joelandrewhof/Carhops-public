@@ -1,11 +1,14 @@
 package crowbar.objects;
 
+import crowbar.components.PlayerDirMovement;
+import crowbar.objects.TopDownCharacter.CharacterController;
 import crowbar.states.game.TopDownState;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.group.FlxSpriteGroup;
 import crowbar.display.CrowbarSprite;
 import flixel.math.FlxMath;
+import crowbar.components.TopDownUtil;
 
 //private var controls(get, never):Controls;
 //private function get_controls() return Controls.instance;
@@ -61,4 +64,39 @@ class PlayerHitbox extends FlxSprite
         x = player.x + playerOffset[0];
         y = player.y + playerOffset[1];
     }
+
+
+}
+
+class PlayerController extends CharacterController
+{
+    public var playerMove:PlayerDirMovement; //for other classes to access
+
+    public function new(player:Player)
+    {
+        super(player);
+
+        playerMove = new PlayerDirMovement(this);
+        autoUpdateMove = false;
+
+        addMoveComponent(playerMove);
+    }
+
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+        //ROOM COLLISION MAP
+        var dirCol = TopDownUtil.isPlayerTilemapCollideAfterMove(requestMoveX, requestMoveY);
+
+        //if we can at least move in a direction
+        if(!dirCol[0] || !dirCol[1])
+        {
+            move(dirCol[0], dirCol[1]);
+        }
+
+        requestMoveX = 0;
+        requestMoveY = 0;
+    }
+
 }

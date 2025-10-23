@@ -23,7 +23,6 @@ class TopDownInteractionManager extends FlxBasic
     {
         super.update(elapsed);
 
-        playerMoveAndCollide(); //moves player while checking for collision
         loadingZoneCheck(); //checks if the player has entered a loading zone, updates and starts a room transition if so
     }
 
@@ -36,22 +35,6 @@ class TopDownInteractionManager extends FlxBasic
 
     //manages player movement and collision.
     //in the future, might want to add all collision objects to a general dynamic list, not check groups of them like this
-    public function playerMoveAndCollide()
-    {
-        var futurePos:Array<Float> = TopDownState.current.playerController.calculateMove();
-
-        //ROOM COLLISION MAP
-        var dirCol = TopDownUtil.isPlayerTilemapCollideAfterMove(futurePos[0], futurePos[1]);
-
-        //NPCS
-
-
-        //if we can at least move in a direction
-        if(!dirCol[0] || !dirCol[1])
-        {
-            TopDownState.current.playerController.move(dirCol[0], dirCol[1]);
-        }
-    }
 
     public function loadingZoneCheck()
     {

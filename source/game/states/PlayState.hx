@@ -37,8 +37,6 @@ class PlayState extends TopDownState
 	{
 		super.create();
 
-		playerController.setRunSpeed(15.0);
-
 		createLevel1Objects();
 		createLevel1Debug();
 
@@ -86,7 +84,7 @@ class PlayState extends TopDownState
 
 		if(Math.floor(elapsedTime + elapsed) > Math.floor(elapsedTime)) //call every ~1 second
 		{
-			trace("active orders: " + conductor.orders);
+			//trace("active orders: " + conductor.orders);
 			//trace("active cars: " + conductor.customers);
 		}
 	}
