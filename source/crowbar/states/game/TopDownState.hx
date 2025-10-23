@@ -23,6 +23,7 @@ import crowbar.components.TopDownInteractionManager;
 import crowbar.objects.*;
 import crowbar.objects.Player;
 import crowbar.components.Directional;
+import game.objects.CarhopPlayer;
 
 import flixel.addons.display.FlxPieDial;
 
@@ -36,7 +37,7 @@ class TopDownState extends FlxState
     var spawnX:Int;
     var spawnY:Int;
     public var room:TiledRoom;
-    public var player:Player;
+    public var player:CarhopPlayer;
     public var playerController:CharacterController;
     public var playerHitbox:PlayerHitbox;
 
@@ -220,7 +221,7 @@ class TopDownState extends FlxState
             x = 480;
             y = 540;
         }
-        player = new Player("dummy", x, y);
+        player = new CarhopPlayer("dummy", x, y);
 
         playerController = new CharacterController(player);
         playerController.autoUpdateMove = false;
