@@ -8,6 +8,7 @@ class MoveComponent
 {
     public var parent:FlxObject;
     public var controller:CharacterController;
+    public var name:String; //use for retrieving specific components. set for child classes. sorry, idk how to typecheck safely
 
     public var priority:Int = 0; //determines when a move component will be called
     public var enabled:Bool = true; //disabling this cancels movement behavior

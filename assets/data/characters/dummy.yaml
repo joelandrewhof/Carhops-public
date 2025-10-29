@@ -1,18 +1,30 @@
 spritesheet: "dummy"
 
 animations:
- - {name: "idle_n", prefix: "dummy_idle_n", fps: 0, loop: false, indices: [0]}
- - {name: "idle_s", prefix: "dummy_idle_s", fps: 0, loop: false, indices: [0]}
- - {name: "idle_w", prefix: "dummy_idle_w", fps: 0, loop: false, indices: [0]}
- - {name: "idle_e", prefix: "dummy_idle_e", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_n", prefix: "idle_n", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_s", prefix: "idle_s", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_w", prefix: "idle_w", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_e", prefix: "idle_e", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_nw", prefix: "idle_nw", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_sw", prefix: "idle_sw", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_ne", prefix: "idle_ne", fps: 0, loop: false, indices: [0]}
+ - {name: "idle_se", prefix: "idle_se", fps: 0, loop: false, indices: [0]}
 
- - {name: "walk_n", prefix: "dummy_walk_n", fps: 4, loop: true, indices: [0, 1, 2, 1]}
- - {name: "walk_s", prefix: "dummy_walk_s", fps: 4, loop: true, indices: [0, 1, 2, 1]}
- - {name: "walk_w", prefix: "dummy_walk_w", fps: 4, loop: true, indices: [0, 1, 2, 1]}
- - {name: "walk_e", prefix: "dummy_walk_e", fps: 4, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "walk_n", prefix: "walk_n", fps: 4, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "walk_s", prefix: "walk_s", fps: 4, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "walk_w", prefix: "walk_w", fps: 4, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "walk_e", prefix: "walk_e", fps: 4, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "walk_nw", prefix: "walk_nw", fps: 4, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "walk_sw", prefix: "walk_sw", fps: 4, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "walk_ne", prefix: "walk_ne", fps: 4, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "walk_se", prefix: "walk_se", fps: 4, loop: true, indices: [0, 1, 2, 1]}
 
- - {name: "run_n", prefix: "dummy_walk_n", fps: 8, loop: true, indices: [0, 1, 2, 1]}
- - {name: "run_s", prefix: "dummy_walk_s", fps: 8, loop: true, indices: [0, 1, 2, 1]}
- - {name: "run_w", prefix: "dummy_walk_w", fps: 8, loop: true, indices: [0, 1, 2, 1]}
- - {name: "run_e", prefix: "dummy_walk_e", fps: 8, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "run_n", prefix: "walk_n", fps: 8, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "run_s", prefix: "walk_s", fps: 8, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "run_w", prefix: "walk_w", fps: 8, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "run_e", prefix: "walk_e", fps: 8, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "run_nw", prefix: "walk_nw", fps: 8, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "run_sw", prefix: "walk_sw", fps: 8, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "run_ne", prefix: "walk_ne", fps: 8, loop: true, indices: [0, 1, 2, 1]}
+ - {name: "run_se", prefix: "walk_se", fps: 8, loop: true, indices: [0, 1, 2, 1]}
  

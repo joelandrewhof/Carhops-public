@@ -11,6 +11,7 @@ class ScriptedWalkMovement extends WalkMovement
     public function new(controller:CharacterController)
     {
         super(controller);
+        name = "ScriptedWalkMovement";
     }
 
     override function update(elapsed:Float)

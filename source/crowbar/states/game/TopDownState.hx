@@ -20,7 +20,6 @@ import crowbar.objects.*;
 import crowbar.objects.TopDownCharacter;
 import crowbar.objects.Player;
 import crowbar.components.*;
-import game.components.SkateMovement;
 
 import flixel.addons.display.FlxPieDial;
 
@@ -80,24 +79,39 @@ class TopDownState extends FlxState
     {
         super.create();
 
-        //game camera
-        camGame = new FlxCamera();
-        camGame.zoom = cameraScale;
-        camGame.followLerp = 0.9;
-        camPoint = new FlxObject(0, 0);
-        camOffset = new FlxPoint(0, 0);
-        FlxG.cameras.reset(camGame);
-        FlxG.cameras.setDefaultDrawTarget(camGame, true);
-        //UI camera
-        camHUD = new FlxCamera();
-        camHUD.bgColor.alphaFloat = 0.0; //so we're not looking at a black screen
-        FlxG.cameras.add(camHUD, false); //UI elements will need to be manually assigned to this camera with { object.cameras = [camHUD] }
+        setupCameras();
 
         soundMngr = new SoundManager();
 
         current = this;
 
         load(curRoomName);
+    }
+
+    public function setupCameras()
+    {
+        //game camera
+        camGame = new FlxCamera();
+        camGame.zoom = cameraScale;
+        camGame.followLerp = 0.2;
+
+        camPoint = new FlxObject(0, 0);
+        camOffset = new FlxPoint(0, 0);
+        FlxG.cameras.reset(camGame);
+        FlxG.cameras.setDefaultDrawTarget(camGame, true);
+        camGame.follow(camPoint);
+
+        //UI camera
+        camHUD = new FlxCamera();
+        camHUD.bgColor.alphaFloat = 0.0; //so we're not looking at a black screen
+        FlxG.cameras.add(camHUD, false); //UI elements will need to be manually assigned to this camera with { object.cameras = [camHUD] }
+    }
+
+    public function updateCameras()
+    {
+        //update camera
+        if(camPlayerLock)
+            camPoint.setPosition(player.bottomCenter.x + camOffset.x, player.bottomCenter.y + camOffset.y);
     }
 
     override function update(elapsed:Float)
@@ -108,24 +122,12 @@ class TopDownState extends FlxState
         debugInputCall();
         debugCall();
 
-        triggersCheck(); //interactables only need to be checked when ACCEPT is pressed; triggers do need to be checked constantly.
+        playerHitbox.updatePosition();
 
-        playerHitbox.updatePosition(); //move the hitbox with the player
+        updateCameras();
 
-        //update controllers
-        playerController.update(elapsed); //update AFTER the control call so the scripted stuff can override controls
-
-        //update camera
-        if(camPlayerLock)
-            camPoint.setPosition(player.bottomCenter.x + camOffset.x, player.bottomCenter.y + camOffset.y);
-
-        //debug
-        //trace('player position: x${player.x} y${player.y}');
-        //trace('cam position: x${camGame.x} y${camGame.y}');
-
+        //managers
         visMngr.sortSprites();
-
-        //interaction manager stuff
         actMngr.update(elapsed);
     }
 
@@ -136,7 +138,6 @@ class TopDownState extends FlxState
         roomParser = new RoomParser(curRoomName);
 
         loadSound(roomParser.getRoomValues().music, roomParser.getRoomValues().ambience);
-        //note that players and npcs are add()ed to the object sorter group and not directly to the scene
         loadRoom(curRoomName);
 
         //if there's no spawn point override, load from the map default
@@ -149,6 +150,7 @@ class TopDownState extends FlxState
             playerX = spawn[0];
             playerY = spawn[1];
         }
+
         loadPlayer(playerX, playerY);
         
         loadRoomVisuals();
@@ -198,7 +200,7 @@ class TopDownState extends FlxState
         trace("VIS MNGR SPRITE LENGTH: " + visMngr.owSprites.members.length);
     }
 
-    function loadRoom(roomName:String)
+    inline function loadRoom(roomName:String)
     {
         room = new TiledRoom(roomName);
     }
@@ -211,21 +213,19 @@ class TopDownState extends FlxState
         soundMngr.setAmbienceVolume(1.0);
     }
 
+    /*
+    *   Function that sets up the player class, using the default engine Player object.
+    *   If you extend the player object, this function should be easy to overwrite.
+    */
     function loadPlayer(x:Float, y:Float)
     {
-        if(!roomParser.roomFileExists(curRoomName))
-        {
-            x = 480;
-            y = 540;
-        }
         player = new Player("dummy", x, y);
 
         playerController = new PlayerController(player);
         //add movement components
-        playerController.addMoveComponent(new SkateMovement(playerController));
+        playerController.addMoveComponent(new WalkMovement(playerController));
 
         playerHitbox = new PlayerHitbox(player);
-        playerHitbox.alpha = 1.0;
         add(playerHitbox);
     }
 
@@ -278,38 +278,12 @@ class TopDownState extends FlxState
         ---                    MOVEMENT                     ---
         -----------------------------------------------------*/
 
-        /*
-
-        var hor:String = DirectionString.NONE;
-        var ver:String = DirectionString.NONE;
-
-        if(!player.lockMoveInput)
-        {
-            if (Controls.UI_UP && !Controls.UI_DOWN) //up
-                ver = DirectionString.NORTH;
-            if (Controls.UI_DOWN && !Controls.UI_UP) //down
-                ver = DirectionString.SOUTH;
-            if (Controls.UI_LEFT && !Controls.UI_RIGHT) //left
-                hor = DirectionString.WEST;
-            if (Controls.UI_RIGHT && !Controls.UI_LEFT) //right
-                hor = DirectionString.EAST;
-        }
-
-        playerController.setMoving(hor, ver);
-        playerController.setRunning(Controls.RUN); //checks if we're running based on the run key being held
-        */
+        playerController.update(elapsed);
 
         /* ----------------------------------------------------
         ---                   ACTION KEYS                   ---
         -----------------------------------------------------*/
 
-        if(!player.lockActionInput)
-        {
-            if(Controls.ACCEPT)
-            {
-                
-            }
-        }
 
         /* ----------------------------------------------------
         ---                      ESCAPE                     ---
@@ -422,13 +396,10 @@ class TopDownState extends FlxState
     {
         roomCleanup();
         load(room, x, y);
-        FlxG.sound.play(AssetHelper.getAsset('audio/sfx/snd_flowey_glitch_yellow', SOUND));
+        FlxG.sound.play(AssetHelper.getAsset('audio/sfx/engine/bip', SOUND));
     }
 }
 
-//might use later for better organization because this is becoming spaghetti code with all these added room layers
-//my whole system for layering right now is pretty stupid, searching by name for "foreground" and "background"
-//ogmo (or perhaps my brain) is unfortunately a bit too primitive to easily replicate UTY's detailed artistic overworld
 class TopDownVisualManager extends FlxTypedGroup<FlxBasic>
 {
     //so this order: background tiles/decals, tiles (in layer order), sprites, foreground tiles/decals

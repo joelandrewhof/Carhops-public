@@ -5,7 +5,7 @@ import crowbar.objects.TopDownCharacter;
 
 class SkateMovement extends MoveComponent
 {
-    public final baseFriction:Float = 0.960; //default when moving forward on normal terrain
+    public final baseFriction:Float = 0.980; //default when moving forward on normal terrain
 
     public final kickCooldownBase:Float = 2.0; //cooldown to fully recharge the kick without the added exponent
     public final kickCooldownExp:Float = 1.7; //these exponents make kicking work best when done rhythmically
@@ -27,7 +27,7 @@ class SkateMovement extends MoveComponent
     public function new(controller:CharacterController)
     {
         super(controller);
-
+        name = "SkateMovement";
         priority = 100;
 
         curFriction = baseFriction;
@@ -36,16 +36,17 @@ class SkateMovement extends MoveComponent
     override function update(elapsed:Float)
     {
         super.update(elapsed);
-        //trace("NO KICK: " + Std.int(timeWithoutKick * 100) * 0.01 + " | STAMINA: " + Std.int(kickStamina));
 
         if(Controls.RUN)
         {
             if(kickStamina < 0 || kickStamina < 20 && timeWithoutKick != 0) //short cooldown for an exhaustive kick
-                return;
+            {}
+            else
+            {
+                timeWithoutKick = 0.0;
+                kickTick(elapsed);
+            }
 
-            timeWithoutKick = 0.0;
-
-            kickTick(elapsed);
         }
         else
         {
@@ -117,20 +118,30 @@ class SkateMovement extends MoveComponent
         if(dif > 4) 
             dif -= (dif - 4);
         //use the difference of direction (in eighths)
-        var p = [1.0, 0.97, 0.90, 0.75, 0.40];
+        var p = [1.0, 0.99, 0.90, 0.75, 0.40];
         var f = p[dif];
 
         //make separate x and y momentum and convert them differently when turning
     }
 
+    public function skid()
+    {
+
+    }
+
     public function roughFrictionTick()
     {
-        if(xMomentum < 0.2)
-            xMomentum = 0;
-        if(yMomentum < 0.2)
-            yMomentum = 0;
-        xMomentum *= baseFriction;
-        yMomentum *= baseFriction;
+        //cause the player to fully stop if NOT inputting move
+        //might want to expand on controlls affecting momentum later
+        if(!Controls.RUN)
+        {
+            if(xMomentum < 0.2)
+                xMomentum = 0;
+            if(yMomentum < 0.2)
+                yMomentum = 0;
+        }
+        xMomentum *= curFriction;
+        yMomentum *= curFriction;
     }
 
 }

@@ -346,4 +346,18 @@ class CharacterController
     {
         actions.push(action);
     }
+
+    public function getComponentByName(name:String):Dynamic
+    {
+        for(c in moveComponents)
+        {
+            trace(c.name);
+            if(name == c.name)
+            {
+                return c;
+            }
+        }
+        trace('ERROR: No component of this name found, returning null (component length: ${moveComponents.length})');
+        return null;
+    }
 }

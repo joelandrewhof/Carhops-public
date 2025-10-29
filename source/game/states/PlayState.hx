@@ -1,5 +1,6 @@
 package game.states;
 
+import game.ui.DebugHUD;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
@@ -8,6 +9,7 @@ import crowbar.states.game.TopDownState;
 import flixel.math.FlxPoint;
 import game.objects.*;
 import game.components.*;
+import crowbar.objects.Player;
 
 class PlayState extends TopDownState
 {
@@ -23,6 +25,8 @@ class PlayState extends TopDownState
 
 	//gameplay mechanics
 	public var inventory:Inventory;
+
+	public var debugHUD:DebugHUD;
 
 	public function new(?room:String, ?x:Int, ?y:Int, ?callback:Void->Void)
     {
@@ -41,6 +45,18 @@ class PlayState extends TopDownState
 		createLevel1Debug();
 
 	}
+
+	override function loadPlayer(x:Float, y:Float)
+    {
+        player = new Player("dummy", x, y);
+
+        playerController = new PlayerController(player);
+        //add movement components
+        playerController.addMoveComponent(new SkateMovement(playerController));
+
+        playerHitbox = new PlayerHitbox(player);
+        add(playerHitbox);
+    }
 
 	public function createLevel1Objects()
 	{
@@ -70,6 +86,10 @@ class PlayState extends TopDownState
 
 	public function createLevel1Debug()
 	{
+		debugHUD = new DebugHUD();
+		debugHUD.camera = this.camHUD;
+		add(debugHUD);
+
 		for(i in 0...4)
 		{
 			conductor.createOrderEntire();

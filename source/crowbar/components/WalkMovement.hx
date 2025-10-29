@@ -16,7 +16,7 @@ class WalkMovement extends MoveComponent
     public function new(controller:CharacterController)
     {
         super(controller);
-
+        name = "WalkMovement";
         priority = 500;
     }
 

@@ -10,7 +10,7 @@ class PlayerDirMovement extends MoveComponent
     public function new(controller:CharacterController)
     {
         super(controller);
-
+        name = "PlayerDirMovement";
         priority = 1000;
     }
 
