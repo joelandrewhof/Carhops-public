@@ -23,9 +23,13 @@ class DefaultState extends FlxState
 	{
 		super.create();
 
+		var spr:FlxSprite = new FlxSprite(100, 100).makeGraphic(1080, 520, FlxColor.BLUE);
+		add(spr);
+
 		var hello:CrowbarText = new CrowbarText(0, 0, "This is the default state", 48);
 		hello.screenCenter();
 		add(hello);
+		hello.setBorder(5, 0xFFFF0000);
 
 		var cbar:CrowbarSprite = new CrowbarSprite(800, 300);
 		cbar.loadGraphic(Paths.image('engine/icon64'));

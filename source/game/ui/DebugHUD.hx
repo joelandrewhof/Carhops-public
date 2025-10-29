@@ -25,14 +25,15 @@ class DebugHUD extends FlxSpriteGroup
         super.update(elapsed);
 
         text.text = ("NO KICK: " + Std.int(skate.timeWithoutKick * 100) * 0.01 
-        + "\n | STAMINA: " + Std.int(skate.kickStamina)
-        + "\n | MOMENTUM: x " + skate.xMomentum + " y" + skate.yMomentum);
+        + "\nSTAMINA: " + Std.int(skate.kickStamina)
+        + "\nMOMENTUM: x " + Std.int(skate.xMomentum * 100) * 0.01 + " y" + Std.int(skate.yMomentum * 100) * 0.01);
     }
 
     public function addElements()
     {
-        text = new CrowbarText(20, 680);
-        text.setFont("terminus", 20);
+        text = new CrowbarText(20, 600);
+        text.setFont("vcr", 32);
+        text.setBorder(3);
         add(text);
     }
 }

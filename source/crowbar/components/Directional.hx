@@ -14,6 +14,20 @@ enum abstract DirectionString(String) to String{
     var NORTHWEST = "nw";
 }
 
+enum abstract Orientation(Int) to Int{
+    var FRONT = 0;
+    var EQUAL = 0;
+    var DIAGONAL_RIGHT = 1;
+    var PERPENDICULAR_RIGHT = 2;
+    var DIAGONAL_RIGHT_REAR = 3;
+    var REAR = 4;
+    var BEHIND = 4;
+    var OPPOSITE = 4;
+    var DIAGONAL_LEFT_REAR = 5;
+    var PERPENDICULAR_LEFT = 6;
+    var DIAGONAL_LEFT = 7;
+}
+
 class Directional
 {
     public var degrees:Float = 0;

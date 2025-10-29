@@ -17,11 +17,22 @@ class CrowbarText extends FlxText
 	public function new(x:Float = 0, y:Float = 0, ?width:Float = 0, ?text:String, ?size:Int = 10):Void
 	{
 		super(x, y, width, text, size);
-		setFormat(AssetHelper.getAsset("terminus", FONT), size, 0xFFFFFFFF, LEFT, OUTLINE, 0xFF000000);
+		setFormat(AssetHelper.getAsset("vcr", FONT), size, 0xFFFFFFFF, LEFT, OUTLINE, 0xFF000000);
 	}
 
 	public function setFont(font:String, size:Int = 10)
 	{
 		setFormat(AssetHelper.getAsset(font, FONT), size);
+	}
+
+	public function setColor(color:FlxColor)
+	{
+		this.color = color;
+	}
+
+	public function setBorder(?weight:Int = 5, ?color:FlxColor = FlxColor.BLACK)
+	{
+		setBorderStyle(OUTLINE, color, weight);
+		updateHitbox();
 	}
 }
