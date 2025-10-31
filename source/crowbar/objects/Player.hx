@@ -86,6 +86,14 @@ class PlayerController extends CharacterController
     {
         super.update(elapsed);
 
+        collisionCheck();
+
+        requestMoveX = 0;
+        requestMoveY = 0;
+    }
+
+    function collisionCheck()
+    {
         //ROOM COLLISION MAP
         var dirCol = TopDownUtil.isPlayerTilemapCollideAfterMove(requestMoveX, requestMoveY);
 
@@ -95,8 +103,12 @@ class PlayerController extends CharacterController
             move(dirCol[0], dirCol[1]);
         }
 
-        requestMoveX = 0;
-        requestMoveY = 0;
+        //call collision functions
+        if(dirCol[0] || dirCol[1])
+        {
+            for(c in moveComponents)
+                c.onCollide(dirCol[0], dirCol[1]);
+        }
     }
 
 }

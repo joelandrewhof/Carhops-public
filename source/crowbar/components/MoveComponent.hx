@@ -35,4 +35,12 @@ class MoveComponent
     {
 
     }
+
+    /*
+    Is called when the controller collides with something.
+    */
+    public function onCollide(?x:Bool, ?y:Bool)
+    {
+
+    }
 }

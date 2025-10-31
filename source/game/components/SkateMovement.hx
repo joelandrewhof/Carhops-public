@@ -7,13 +7,13 @@ import flixel.tweens.FlxEase;
 
 class SkateMovement extends MoveComponent
 {
-    public final baseFriction:Float = 0.990; //default when moving forward on normal terrain
+    public final baseFriction:Float = 0.995; //default when moving forward on normal terrain
 
     public final kickCooldownBase:Float = 0.3; //cooldown to fully recharge the kick without the added exponent
     public final kickCooldownExp:Float = 2.0; //these exponents make kicking work best when done rhythmically
     public final kickStaminaExp:Float = 1.4; 
     public final kickStaminaMax:Float = 100;
-    public final kickStaminaDrain:Float = 1.2;
+    public final kickStaminaDrain:Float = 0;
     
     public final maxMomentum:Float = 20.0;
 
@@ -23,6 +23,11 @@ class SkateMovement extends MoveComponent
     public var kickPower:Float = 0.07;
     public var kickStamina:Float = 100;
     public var curFriction:Float;
+    //these variables subtract from the current friction value.
+    var backwardsPenalty = 0.02;
+    var diagonalPenalty = 0.03;
+    var perpendicularPenalty = 0.30;
+    var turnStrengthArray = [1.0, 0.99, 0.60, 0.75, 0.40];
 
     public var timeWithoutKick:Float = 0.0;
     public var skidTween:FlxTween;
@@ -56,28 +61,42 @@ class SkateMovement extends MoveComponent
                 timeWithoutKick = 0.0;
                 kickTick(elapsed);
             }
-
         }
         else
         {
             timeWithoutKick += elapsed;
-            recoverStaminaTick(elapsed);
+            //recoverStaminaTick(elapsed);
         }
 
         //turning
-        if(Math.abs(lastDir - curDir) % controller.character.direction.div == Std.int(controller.character.direction.div * 0.5))
-        {
-            skid();
+        if(lastDir != curDir) {
+            if(Math.abs(lastDir - curDir) % controller.character.direction.div == Std.int(controller.character.direction.div * 0.5)) {
+                skid();
+            }
+            else 
+                turn(lastDir - curDir);
         }
-        
 
         //add momentum to movement no matter what
         controller.requestMoveX += xMomentum;
         controller.requestMoveY += yMomentum;
 
-        roughFrictionTick();
+        directionalFrictionTick();
 
         lastDir = controller.character.direction.index;
+    }
+
+    override function onCollide(?x:Bool, ?y:Bool)
+    {
+        super.onCollide(x, y);
+
+        if(x == null) return;
+        else if(y == null) { //if only one parameter is given just use it for both
+            y = x;
+        }
+
+        if(x) xMomentum = 0;
+        if(y) yMomentum = 0;
     }
 
     public function kickTick(elapsed:Float)
@@ -126,17 +145,7 @@ class SkateMovement extends MoveComponent
             dif -= ((dif % 4) * 2); //[5 - 2 = 3] [6 - 4 = 2] [7 - 6 = 1]
         }
 
-        //use the difference of direction (in eighths)
-        var p = [1.0, 0.99, 0.90, 0.75, 0.40];
-        var f = p[dif];
-
-        //make separate x and y momentum and convert them differently when turning
-
-    }
-
-    public function transferMomentum()
-    {
-
+        momentumTurnConvert(curDir, turnStrengthArray[dif]);
     }
 
     public function skid()
@@ -151,7 +160,8 @@ class SkateMovement extends MoveComponent
     {
         if(dir == null)
             dir = controller.character.direction.index;
-        dir *= Std.int(8 / controller.character.direction.div);
+        //commenting out for performance, but this only works with 8dir characters like this
+        //dir *= Std.int(8 / controller.character.direction.div);
 
         var addX:Float = 0;
         var addY:Float = 0;
@@ -167,21 +177,19 @@ class SkateMovement extends MoveComponent
         else 
         {   //dont overthink it
             if (dir == 2) addX = 1;
-            if (dir == 4) addY = 1;
-            if (dir == 6) addX = -1;
-            if (dir == 0) addY = -1;
+            else if (dir == 4) addY = 1;
+            else if (dir == 6) addX = -1;
+            else if (dir == 0) addY = -1;
         }
 
         return [addX, addY];
     }
 
-    public function frictionTick()
+    /*
+    *   A more in-depth friction system that applies more friction to the direction the player is adjacent to.
+    */
+    public function directionalFrictionTick()
     {
-
-        var backwardsPenalty = 0.98;
-        var diagonalPenalty = 0.95;
-        var perpendicularPenalty = 0.90;
-
         var ary = directionToMoveCalc();
 
         for(z in ary) {
@@ -191,23 +199,50 @@ class SkateMovement extends MoveComponent
         var dx = xMomentum;
         var dy = yMomentum;
 
-        var px = 0;
-        var py = 0;
+        var xPenal:Float = 0;
+        var yPenal:Float = 0;
 
-        if(Math.abs(dx + ary[0]) > dx) //equal signs
-            px = 1;
-        else if(Math.abs(dx + ary[0] < dx)) //opposite signs
-            px = -1;
+        var bx = compare(Math.abs(dx + ary[0]), dx);
+        var by = compare(Math.abs(dy + ary[1]), dy);
 
-        if(Math.abs(dy + ary[1]) > dy) //equal signs
-            py = 1;
-        else if(Math.abs(dy + ary[1] < dy)) //opposite signs
-            py = -1;
+        if(curDir == 2 || curDir == 6)
+        {
+            if(bx == -1) {
+                xPenal += backwardsPenalty;
+            }
+            //all Y movement is perpendicular
+            yPenal += perpendicularPenalty;
+        }
+        else if(curDir == 0 || curDir == 4)
+        {
+            if(by == -1) { //opposite signs
+                yPenal += backwardsPenalty;
+            }
+            //all x movement is perpendicular
+            xPenal += perpendicularPenalty;
+        }
+        else
+        {
+            var i = 0;
+            //0 = backwards, 1 = perp, 2 = forwards
+            if(bx == 1) i++;
+            if(by == 1) i++;
 
+            if(i == 1) {
+                xPenal += perpendicularPenalty;
+                yPenal += perpendicularPenalty;
+            }
+            else if(i == 0) {
+                xPenal += backwardsPenalty;
+                yPenal += backwardsPenalty;
+            }
+        }
 
-
-        dx *= Math.abs(ary[0]); 
-        dx *= 1 - (Math.abs(ary[1]));
+        //prevent negative friction
+        dx *= Math.max(curFriction - xPenal, 0);
+        dy *= Math.max(curFriction - yPenal, 0);
+        xMomentum = dx;
+        yMomentum = dy;
     }
 
     public function roughFrictionTick()
@@ -228,6 +263,31 @@ class SkateMovement extends MoveComponent
         }
         xMomentum *= curFriction;
         yMomentum *= curFriction;
+    }
+
+    private function compare(a:Float, b:Float):Int
+    {
+        if(a>b) return 1;
+        else if(a<b) return -1;
+        else return 0;
+    }
+
+    //Merges xMomentum and yMomentum and returns a flattened value.
+    private inline function flattenMomentum():Float
+    {
+        return Math.sqrt(Math.abs(xMomentum * xMomentum) + Math.abs(yMomentum * yMomentum));
+    }
+
+
+    private function momentumTurnConvert(newDir:Int, ?strength:Float = 1.0)
+    {
+        var n = flattenMomentum() * strength;
+        xMomentum *= (1 - strength);
+        yMomentum *= (1 - strength);
+        var ary = directionToMoveCalc(newDir);
+
+        xMomentum += (n * ary[0]);
+        yMomentum += (n * ary[1]);
     }
 
 }
