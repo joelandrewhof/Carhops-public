@@ -1,3 +1,4 @@
+import crowbar.components.SoundManager;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.transition.FlxTransitionSprite;
@@ -9,6 +10,7 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.system.ui.FlxSoundTray;
 import haxe.ds.StringMap;
+import crowbar.components.SoundManager;
 
 class Init extends FlxState 
 {
@@ -16,6 +18,7 @@ class Init extends FlxState
     {
         super.create();
 
+		setupGlobals();
         setupDefaults();
 		setupTransition();
 		precacheAssets();
@@ -36,6 +39,10 @@ class Init extends FlxState
 
 		FlxG.switchState(Type.createInstance(Main.initialState, []));
     }
+
+	function setupGlobals():Void{
+		SoundManager.current = new SoundManager();
+	}
 
     function precacheAssets():Void {
         //can add these later; maybe put in cache folders, or ascribe a file listing which audio/visual files to cache

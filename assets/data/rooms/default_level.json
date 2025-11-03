@@ -4,7 +4,7 @@
   "height": 896,
   "offsetX": 800,
   "offsetY": 800,
-  "values": {"music": "", "ambience": "", "defaultSpawnX": 500, "defaultSpawnY": 300},
+  "values": {"music": "", "musicPitch": 1, "ambience": "", "defaultSpawnX": 500, "defaultSpawnY": 300},
   "layers": [
     {
       "name": "Foreground",

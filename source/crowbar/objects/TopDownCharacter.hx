@@ -46,8 +46,7 @@ class TopDownCharacter extends TopDownSprite
     public var specialAnimTimer:FlxTimer;
     public var collision:Collision;
     //FINALS
-    private final _defaultDataDirectory:String = "data/characters/";
-    private final _defaultSpriteDirectory:String = "images/characters/";
+    private final _subDir = "characters/";
 
 
     public function new(charName:String = "dummy", x:Float, y:Float, facing:String = "s")
@@ -71,17 +70,18 @@ class TopDownCharacter extends TopDownSprite
         collision.y = sprite.y + (sprite.height - collision.height) + collision.hbOffset.y;
     }
 
+    //some of this is copied code from the parent class, but im not changing it right now, dont want to break it.
     public function loadCharacterSprite(char:String):TopDownCharacter
     {
         this.characterName = char;
 
-        var data = AssetHelper.parseAsset(_defaultDataDirectory + characterName, YAML);
+        var data = AssetHelper.parseAsset(_defaultDataDirectory + _subDir + characterName, YAML);
         if (data == null) {
             trace('OW Character ${characterName} could not be parsed due to a inexistent file, Please provide a file called "${characterName}.yaml" in the "data/characters directory.');
             return this;
         }
 
-        loadSprite(_defaultSpriteDirectory + data.spritesheet, true);
+        loadSprite(_defaultSpriteDirectory + _subDir + data.spritesheet, true);
         //add animations
         var animations:Array<Dynamic> = data.animations ?? [];
         if (animations.length > 0) {

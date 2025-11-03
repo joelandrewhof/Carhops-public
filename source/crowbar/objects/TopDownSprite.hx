@@ -30,6 +30,9 @@ class TopDownSprite extends FlxSpriteGroup
 
     public var bottomCenter:FlxPoint; //this is the object/character's "feet": used for pathfinding and other stuff.
 
+    private final _defaultDataDirectory:String = "data/";
+    private final _defaultSpriteDirectory:String = "images/";
+
     public function new(x:Float, y:Float, ?elevation:Float = 0.0, ?layer:Int = DEFAULT, ?drawHeight:Int = 0, ?name:String = "NewSprite")
     {
         super(x, y);
@@ -49,11 +52,37 @@ class TopDownSprite extends FlxSpriteGroup
         if(animated)
             sprite.frames = AssetHelper.getAsset(spr, ATLAS);
 
-        sprite.antialiasing = false;
+        sprite.antialiasing = true;
         sprite.updateHitbox();
         this.add(sprite);
 
         return this;
+    }
+
+    public function loadFromYaml(yaml:String)
+    {
+        var data = AssetHelper.parseAsset(_defaultDataDirectory + yaml, YAML);
+        if (data == null) {
+            trace('OW Character ${yaml} could not be parsed due to a inexistent file, Please provide a file called "${yaml}.yaml" in the "data/" directory.');
+            return;
+        }
+
+        loadSprite(_defaultSpriteDirectory + yaml, true);
+
+        //add animations
+        var animations:Array<Dynamic> = data.animations ?? [];
+        if (animations.length == 0) {
+            trace('Object ${data.spritesheet} has no animations. Please assign animations to use a yaml file.');
+            return;
+        }
+        var j = 0;
+        for (i in animations) 
+        {
+            sprite.addAtlasAnim(i.name, i.prefix, i.fps ?? 12, i.loop ?? false, cast(i.indices ?? []));
+            if(j == 0) sprite.playAnim(i.name);
+            j++;
+        }
+        
     }
 
     override function update(elapsed:Float)

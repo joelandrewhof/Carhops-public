@@ -1,5 +1,6 @@
 package game.states;
 
+import game.ui.CarhopHUD;
 import game.ui.DebugHUD;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -26,6 +27,9 @@ class PlayState extends TopDownState
 	//gameplay mechanics
 	public var inventory:Inventory;
 
+	//hud
+	public var hud:CarhopHUD;
+
 	public var debugHUD:DebugHUD;
 
 	public function new(?room:String, ?x:Int, ?y:Int, ?callback:Void->Void)
@@ -40,6 +44,10 @@ class PlayState extends TopDownState
 	override public function create()
 	{
 		super.create();
+
+		hud = new CarhopHUD();
+		hud.camera = camHUD;
+		add(hud);
 
 		createLevel1Objects();
 		createLevel1Debug();
@@ -61,10 +69,10 @@ class PlayState extends TopDownState
 	public function createLevel1Objects()
 	{
 		customers = new FlxTypedGroup<CustomerCar>();
-		orderTable = new OrderTable(1000, 1000);
+		orderTable = new OrderTable(1280, 1600);
 
-		add(customers);
-		add(orderTable);
+		visMngr.add(customers);
+		visMngr.add(orderTable);
 
 		//create the stalls
 		var stallin:FlxPoint = new FlxPoint(128, 256);
@@ -75,9 +83,10 @@ class PlayState extends TopDownState
 				for(j in 0...7)
 				{
 					var id:String = (i == 0 ? "A" : "B");
-					var s = new Stall(Std.int(stallin.x), Std.int(stallin.y) + (352 * j), id + (j + 1));
+					var s = new Stall(Std.int(stallin.x), Std.int(stallin.y) + (352 * j), id + (j + 1), 
+						(id == "A" ? 3 : 7));
 					conductor.stalls.push(s);
-					this.add(s); //we can do this for now, but best to add them from the array later
+					visMngr.add(s); //we can do this for now, but best to add them from the array later
 				}
 				stallin.x += 2368;
 			}

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="hud_receipt.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="active0000" x="0" y="0" width="98" height="109"/>
+	<SubTexture name="empty0000" x="98" y="0" width="80" height="89" frameX="-9" frameY="-9" frameWidth="98" frameHeight="109"/>
+</TextureAtlas>

@@ -54,7 +54,6 @@ class TopDownState extends FlxState
     public var visMngr:TopDownVisualManager;
     //outsources some of the complex object interaction bullshit like collision to a helper class
     public var actMngr:TopDownInteractionManager;
-    public var soundMngr:SoundManager;
 
     //just to save some constants to reduce the math in update()
     var centerWidth = FlxG.width / 2;
@@ -80,8 +79,6 @@ class TopDownState extends FlxState
         super.create();
 
         setupCameras();
-
-        soundMngr = new SoundManager();
 
         current = this;
 
@@ -137,7 +134,8 @@ class TopDownState extends FlxState
         initiateManagers();
         roomParser = new RoomParser(curRoomName);
 
-        loadSound(roomParser.getRoomValues().music, roomParser.getRoomValues().ambience);
+        var roomVal = roomParser.getRoomValues();
+        loadSound(roomVal.music, roomVal.ambience, roomVal.musicPitch);
         loadRoom(curRoomName);
 
         //if there's no spawn point override, load from the map default
@@ -205,12 +203,11 @@ class TopDownState extends FlxState
         room = new TiledRoom(roomName);
     }
 
-    function loadSound(music:String, ambience:String)
+    function loadSound(music:String, ambience:String, ?pitch:Float = 1.0)
     {
-        soundMngr.updateMusic(music ?? "none");
-        soundMngr.updateAmbience(ambience ?? "none");
-        soundMngr.setMusicVolume(1.0);
-        soundMngr.setAmbienceVolume(1.0);
+        SoundManager.current.updateMusic(music ?? "none");
+        SoundManager.current.updateAmbience(ambience ?? "none");
+        SoundManager.current.setMusicPitch(pitch);
     }
 
     /*

@@ -7,18 +7,25 @@ import flixel.util.FlxTimer;
 
 class SoundManager
 {
-    var music:FlxSound;
-    var ambience:FlxSound;
+    public static var current:SoundManager;
+
+    public static var music:FlxSound;
+    public static var ambience:FlxSound;
 
     public var lastMus:String = "";
     public var lastAmb:String = "";
 
-    final musicFolder:String = 'audio/bgm';
+    final musicFolder:String = 'audio/mus';
+    final _defaultMusicVolume:Float = 0.25;
 
     public function new()
     {
+        current = this;
+
         music = new FlxSound();
         ambience = new FlxSound();
+
+        music.volume = _defaultMusicVolume;
     }
 
     public function updateMusic(mus:String, ?loop:Bool = true)
@@ -38,6 +45,7 @@ class SoundManager
             trace('updating music: ${mus}');
             lastMus = mus;
             music = new FlxSound().loadEmbedded(musTrack);
+            music.volume = _defaultMusicVolume;
             FlxG.sound.music = music;
             FlxG.sound.music.looped = loop;
             FlxG.sound.music.play();
@@ -96,6 +104,11 @@ class SoundManager
     {
         setMusicVolume(1.0);
         tweenMusicVolume(0.0, time);
+    }
+
+    public function setMusicPitch(pitch:Float)
+    {
+        music.pitch = pitch;
     }
 
     public function tweenAmbienceVolume(vol:Float, time:Float)

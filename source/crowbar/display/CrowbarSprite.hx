@@ -36,6 +36,15 @@ class CrowbarSprite extends FlxSprite
 		super.update(elapsed * timeScale);
 	}
 
+	public function loadSprite(spr:String, ?animated:Bool = false):CrowbarSprite
+    {
+        this.loadGraphic(AssetHelper.getAsset(spr, IMAGE));
+        if(animated)
+            this.frames = AssetHelper.getAsset(spr, ATLAS);
+
+        return this;
+    }
+
 	/**
 	 * Loads a Graphic with the given set of properties.
 	 * @param graphic		The name of the graphic (will be searched for in `assets/images`).

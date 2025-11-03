@@ -1,0 +1,8 @@
+spritesheet: "objects/tray"
+
+animations:
+ - {name: "empty", prefix: "empty", fps: 1, loop: true, indices: [0]}
+ - {name: "foodE_drinkE", prefix: "foodE_drinkE_", fps: 1, loop: true, indices: [0]}
+ - {name: "foodF_drinkE", prefix: "foodF_drinkE_", fps: 1, loop: true, indices: [0]}
+ - {name: "foodE_drinkF", prefix: "foodE_drinkF_", fps: 1, loop: true, indices: [0]}
+ - {name: "foodF_drinkF", prefix: "foodF_drinkF_", fps: 1, loop: true, indices: [0]}

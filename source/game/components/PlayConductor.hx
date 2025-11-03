@@ -2,6 +2,7 @@ package game.components;
 
 import game.objects.*;
 import game.states.PlayState;
+import crowbar.components.Directional;
 
 //DO LATER AS PART OF GAMEPLAY
 //keeps track of game elements and makes decisions
@@ -33,6 +34,7 @@ class PlayConductor
     private function createCustomer(stall:Stall):CustomerCar
     {
         var car = new CustomerCar(stall.spawnX, stall.spawnY, stall.id);
+        car.playBasicAnimation("idle", Directional.cardinalArray[stall.orientation]);
         PlayState.current.customers.add(car);
         stall.setOccupied(true);
         return car;

@@ -4,6 +4,7 @@ import crowbar.AssetHelper;
 import crowbar.Controls;
 import crowbar.Settings;
 import crowbar.tools.Paths;
+import crowbar.components.SoundManager;
 // FLIXEL IMPORTS
 import flixel.FlxG;
 import flixel.FlxSprite;

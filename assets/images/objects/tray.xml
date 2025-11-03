@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="tray.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="empty" x="0" y="0" width="99" height="64" frameX="0" frameY="-19" frameWidth="99" frameHeight="83"/>
+	<SubTexture name="foodE_drinkE_0000" x="99" y="0" width="99" height="64" frameX="0" frameY="-19" frameWidth="99" frameHeight="83"/>
+	<SubTexture name="foodF_drinkE_0000" x="0" y="64" width="99" height="75" frameX="0" frameY="-8" frameWidth="99" frameHeight="83"/>
+	<SubTexture name="foodE_drinkF_0000" x="99" y="64" width="99" height="83"/>
+	<SubTexture name="foodF_drinkF_0000" x="0" y="147" width="99" height="83"/>
+</TextureAtlas>
