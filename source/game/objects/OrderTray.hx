@@ -67,7 +67,6 @@ class OrderTray extends TopDownSprite
         var s = "food";
         s += (refOrder.items.food > 0 ? "F_" : "E_");
         s += 'drink' + (refOrder.items.drinks > 0 ? "F" : "E");
-        trace(s);
 
         sprite.animation.play(s);
         updateHitbox();

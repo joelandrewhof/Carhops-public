@@ -31,11 +31,28 @@ class PlayConductor
         return vacants;
     }
 
+    public function getStallFromID(id:String):Stall
+    {
+        for(s in stalls) {
+            if(s.id == id) 
+                return s;
+        }
+        return null;
+    }
+
+    public function isStallVacant(id:String):Bool
+    {
+        var s = getStallFromID(id);
+        return (s != null && !s.occupied);
+    }
+
     private function createCustomer(stall:Stall):CustomerCar
     {
         var car = new CustomerCar(stall.spawnX, stall.spawnY, stall.id);
-        car.playBasicAnimation("idle", Directional.cardinalArray[stall.orientation]);
+        car.direction.updateDir(stall.orientation);
+        car.playBasicAnimation("idle", car.direction.getDirString());
         PlayState.current.customers.add(car);
+        this.customers.push(car);
         stall.setOccupied(true);
         return car;
     }
@@ -46,7 +63,7 @@ class PlayConductor
         return createCustomer(vacants[FlxG.random.int(0, vacants.length - 1)]);
     }
 
-    public function createOrderEntire()
+    public function createOrderEntire(?id:String)
     {
         if(getVacantStalls().length <= 0)
         {
@@ -55,7 +72,12 @@ class PlayConductor
         }
         else
         {
-            spawnOrderTray(createOrderToCustomer(createCustomerAtRandomStall()));
+            if(isStallVacant(id)) {
+                spawnOrderTray(createOrderToCustomer(createCustomer(getStallFromID(id))));
+            }
+            else {
+                spawnOrderTray(createOrderToCustomer(createCustomerAtRandomStall()));
+            }
         }
     }
 

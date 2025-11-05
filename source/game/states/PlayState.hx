@@ -1,5 +1,6 @@
 package game.states;
 
+import crowbar.objects.TopDownCharacter;
 import game.ui.CarhopHUD;
 import game.ui.DebugHUD;
 import flixel.FlxSprite;
@@ -99,10 +100,20 @@ class PlayState extends TopDownState
 		debugHUD.camera = this.camHUD;
 		add(debugHUD);
 
+		var s = ["A1", "A4", "B1", "B7"];
 		for(i in 0...4)
 		{
-			conductor.createOrderEntire();
+			conductor.createOrderEntire(s[i]);
 		}
+
+		var car = new CustomerCar(200, 200, "A3");
+		car.direction.updateDir(3);
+		add(car);
+		trace(car.animation);
+
+		var retard = new TopDownCharacter("dummy", 500, 500, "ne");
+		retard.updateHitbox();
+		add(retard);
 
 	}
 
@@ -113,8 +124,7 @@ class PlayState extends TopDownState
 
 		if(Math.floor(elapsedTime + elapsed) > Math.floor(elapsedTime)) //call every ~1 second
 		{
-			//trace("active orders: " + conductor.orders);
-			//trace("active cars: " + conductor.customers);
+			trace("active cars: " + conductor.customers.length);
 		}
 	}
 

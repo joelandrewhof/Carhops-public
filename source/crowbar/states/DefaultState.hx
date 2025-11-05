@@ -14,10 +14,13 @@ import flixel.util.FlxTimer;
 //crowbar testing
 import crowbar.display.CrowbarSprite;
 import crowbar.display.CrowbarText;
+import crowbar.ui.ScrollSelectionList;
 
 class DefaultState extends FlxState
 {
 	var doCtrlCheck:Bool = true;
+
+	var sel:ScrollSelectionList;
 
     override public function create()
 	{
@@ -35,6 +38,14 @@ class DefaultState extends FlxState
 		cbar.loadGraphic(Paths.image('engine/icon64'));
 		cbar.updateHitbox();
 		add(cbar);
+
+		sel = new ScrollSelectionList(800, 500);
+		sel.addOption("NO");
+		sel.addOption("YES");
+		sel.addOption("NO");
+		sel.setAllHoverFields({color: 0xFFFFFF00}, 0.2);
+		add(sel);
+		sel.changeSelection(0);
 	}
 
 	override public function update(elapsed:Float):Void
@@ -43,14 +54,14 @@ class DefaultState extends FlxState
 
 		if(Controls.ACCEPT)
 		{
-			FlxG.sound.play(Paths.sound('engine/bip'));
+			if(sel.selection == 1)
+				FlxG.switchState(new TopDownState());
 		}
 
-		if(Controls.BACK)
-		{
-			FlxG.switchState(new TopDownState());
-		}
-		
+		if(Controls.UI_DOWN_P)
+			sel.addToSelection(1);
+		if(Controls.UI_UP_P)
+			sel.addToSelection(-1);
 		
 	}
 }
