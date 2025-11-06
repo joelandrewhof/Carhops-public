@@ -1,6 +1,8 @@
 package game.objects;
 
 import crowbar.objects.TopDownCharacter;
+import crowbar.components.Collision;
+import crowbar.components.Interactable;
 
 class CustomerCar extends TopDownCharacter
 {
@@ -15,10 +17,11 @@ class CustomerCar extends TopDownCharacter
     public var patienceDrainFactor:Float = 1.0;
     public var patienceDrainEnabled:Bool = false;
 
+    public var interactable:Interactable;
+
     /*
     *   CONSTANTS
     */
-    public final spritePath = "images/characters/";
     public static var patienceRange = [30.0, 45.0];
 
     public static var carVariants:Array<String> = [
@@ -31,6 +34,19 @@ class CustomerCar extends TopDownCharacter
         stallID = stall;
         setCar(variant);
         startPatience();
+
+        //collision has already been set, reset it to cover a more reasonable area
+        collision = new Collision(0, 30, sprite.width, sprite.height - 60);
+        interactable = new Interactable(-50, -50, sprite.width + 100, sprite.height + 100);
+        interactable.alpha = 1.0;
+        this.add(interactable);
+
+        this.setPosition(x, y);
+        sprite.setPosition(x, y);
+
+        sprite.updateHitbox();
+        updateHitbox();
+
     }
 
     override function update(elapsed:Float)
@@ -46,13 +62,20 @@ class CustomerCar extends TopDownCharacter
             expirePatienceCall();
         }
 
+        sprite.setPosition(x, y);
+        interactable.setPosition(x - 50, y - 50);
+        collision.setPosition(x, y + 30);
+
+        sprite.updateHitbox();
+        interactable.updateHitbox();
+
     }
 
     //might want to manage this through the director class for rare car spawns
     private function setCar(variant:String)
     {
         this.variant = variant;
-        loadSprite(spritePath+variant, true);
+        loadCharacterSprite(variant);
     }
 
     private function startPatience()

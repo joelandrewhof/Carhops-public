@@ -8,7 +8,7 @@ import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import crowbar.components.parsers.RoomParser;
 import crowbar.objects.LoadingZone;
-import crowbar.objects.Interactable;
+import crowbar.components.Interactable;
 import crowbar.objects.EventTrigger;
 import crowbar.components.Collision;
 

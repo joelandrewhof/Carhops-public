@@ -48,10 +48,13 @@ class PlayConductor
 
     private function createCustomer(stall:Stall):CustomerCar
     {
-        var car = new CustomerCar(stall.spawnX, stall.spawnY, stall.id);
+        var car = new CustomerCar(0, 0, stall.id);
+        car.setPosition(stall.x, stall.y);
         car.direction.updateDir(stall.orientation);
         car.playBasicAnimation("idle", car.direction.getDirString());
         PlayState.current.customers.add(car);
+        PlayState.current.actMngr.collisionArray.push(car.collision);
+        PlayState.current.actMngr.interactableArray.push(car.interactable);
         this.customers.push(car);
         stall.setOccupied(true);
         return car;

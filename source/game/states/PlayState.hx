@@ -1,5 +1,6 @@
 package game.states;
 
+import crowbar.components.Directional;
 import crowbar.objects.TopDownCharacter;
 import game.ui.CarhopHUD;
 import game.ui.DebugHUD;
@@ -106,14 +107,7 @@ class PlayState extends TopDownState
 			conductor.createOrderEntire(s[i]);
 		}
 
-		var car = new CustomerCar(200, 200, "A3");
-		car.direction.updateDir(3);
-		add(car);
-		trace(car.animation);
-
-		var retard = new TopDownCharacter("dummy", 500, 500, "ne");
-		retard.updateHitbox();
-		add(retard);
+		playerHitbox.alpha = 1.0;
 
 	}
 
@@ -124,7 +118,8 @@ class PlayState extends TopDownState
 
 		if(Math.floor(elapsedTime + elapsed) > Math.floor(elapsedTime)) //call every ~1 second
 		{
-			trace("active cars: " + conductor.customers.length);
+			trace("active cars: " + conductor.customers.length + " x" + conductor.customers[0].x + " y" + conductor.customers[0].y);
+
 		}
 	}
 

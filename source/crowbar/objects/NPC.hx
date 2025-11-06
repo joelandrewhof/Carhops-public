@@ -7,6 +7,7 @@ import flixel.group.FlxSpriteGroup;
 import crowbar.display.CrowbarSprite;
 import flixel.math.FlxMath;
 import crowbar.components.Collision;
+import crowbar.components.Interactable;
 
 /*
     standard NPCs in the overworld. extends overworldcharacter class.
@@ -32,8 +33,7 @@ class NPC extends TopDownCharacter
         collision.enableCollide = true;
 
         interactable = new Interactable(0, 0,
-            collision.width + (_interactableThickness * 2), collision.height + (_interactableThickness * 2),
-            dialogueName);
+            collision.width + (_interactableThickness * 2), collision.height + (_interactableThickness * 2));
 
         add(interactable);
         //visualDebug();

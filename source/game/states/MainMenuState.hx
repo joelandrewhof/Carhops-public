@@ -15,11 +15,11 @@ class MainMenuState extends FlxState
     {
         super.create();
 
-        title = new CrowbarText(0, 0, 0, "CARHOPS", 96);
+        title = new CrowbarText(50, 200, 0, "CARHOPS", 96);
         add(title);
 
 
-        menu = new ScrollSelectionList(Std.int(FlxG.width * 0.5), Std.int(FlxG.height * 0.5));
+        menu = new ScrollSelectionList(50, Std.int(FlxG.height * 0.5));
         menu.addOption("START");
         menu.addOption("OPTIONS");
         menu.addOption("EXIT");

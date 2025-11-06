@@ -1,7 +1,7 @@
 package game.objects;
 
 import crowbar.objects.TopDownSprite;
-import crowbar.objects.Interactable;
+import crowbar.components.Interactable;
 import game.objects.Order;
 import game.components.Inventory;
 import game.states.PlayState;

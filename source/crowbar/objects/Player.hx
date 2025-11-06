@@ -92,10 +92,10 @@ class PlayerController extends CharacterController
         requestMoveY = 0;
     }
 
-    function collisionCheck()
+    public function collisionCheck()
     {
         //ROOM COLLISION MAP
-        var dirCol = TopDownUtil.isPlayerTilemapCollideAfterMove(requestMoveX, requestMoveY);
+        var dirCol = TopDownState.current.actMngr.playerCollisionCheck(requestMoveX, requestMoveY);
 
         //if we can at least move in a direction
         if(!dirCol[0] || !dirCol[1])

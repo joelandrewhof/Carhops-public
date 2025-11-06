@@ -103,7 +103,7 @@ class Directional
 
     public inline function getDirString()
     {
-        return cardinalArray[Std.int(index * (8 / div))];
+        return cardinalArray[Std.int(index)];
     }
 
 

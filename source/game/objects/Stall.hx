@@ -24,8 +24,8 @@ class Stall extends FlxSprite
         this.id = id;
         this.orientation = orientation;
 
-        spawnX = x + 20;
-        spawnY = y + 20;
+        spawnX = x;
+        spawnY = y;
 
         if(showDebug)
         {
