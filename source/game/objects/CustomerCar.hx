@@ -3,6 +3,8 @@ package game.objects;
 import crowbar.objects.TopDownCharacter;
 import crowbar.components.Collision;
 import crowbar.components.Interactable;
+import game.components.Score;
+import game.states.PlayState;
 
 class CustomerCar extends TopDownCharacter
 {
@@ -37,8 +39,8 @@ class CustomerCar extends TopDownCharacter
 
         //collision has already been set, reset it to cover a more reasonable area
         collision = new Collision(0, 30, sprite.width, sprite.height - 60);
-        interactable = new Interactable(-50, -50, sprite.width + 100, sprite.height + 100);
-        interactable.alpha = 1.0;
+        interactable = new Interactable(-50, -100, sprite.width + 200, sprite.height + 100);
+        interactable.alpha = 0.0;
         this.add(interactable);
 
         this.setPosition(x, y);
@@ -46,6 +48,16 @@ class CustomerCar extends TopDownCharacter
 
         sprite.updateHitbox();
         updateHitbox();
+
+        interactable.checkCallback = function() {
+            var thisOrder = PlayState.current.inventory.getOrderFromStall(stallID);
+            if(thisOrder != null && thisOrder.destination == stallID)
+            {
+                Score.addScore(100);
+                PlayState.current.hud.scoreHUD.updateScoreDisplay();
+                PlayState.current.inventory.removeOrder(thisOrder.ticket);
+            }
+        }
 
     }
 
@@ -63,7 +75,7 @@ class CustomerCar extends TopDownCharacter
         }
 
         sprite.setPosition(x, y);
-        interactable.setPosition(x - 50, y - 50);
+        interactable.setPosition(x - 100, y - 50);
         collision.setPosition(x, y + 30);
 
         sprite.updateHitbox();

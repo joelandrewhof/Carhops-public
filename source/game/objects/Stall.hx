@@ -15,7 +15,7 @@ class Stall extends FlxSprite
     public var spawnX:Int;
     public var spawnY:Int;
 
-    public var showDebug:Bool = true;
+    public var showDebug:Bool = false;
 
     public function new(x:Int, y:Int, id:String, ?orientation:Int = 5)
     {
@@ -27,10 +27,8 @@ class Stall extends FlxSprite
         spawnX = x;
         spawnY = y;
 
-        if(showDebug)
-        {
-            makeGraphic(20, 20, FlxColor.YELLOW);
-        }
+        makeGraphic(20, 20, FlxColor.YELLOW);
+        alpha = (showDebug ? 1.0 : 0.0);
     }
 
     public function setOccupied(bool:Bool = false) {

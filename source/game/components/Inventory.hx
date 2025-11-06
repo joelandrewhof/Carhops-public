@@ -39,6 +39,17 @@ class Inventory
         return null;
     }
 
+    public function getOrderFromStall(stall:String):Order
+    {
+        for(o in orders)
+        {
+            if(o.destination == stall)
+                return o;
+        }
+        trace('Could not find an order to stall ${stall} in the inventory');
+        return null;
+    }
+
     public function removeOrder(ticket:Int):Order
     {
         var newO = new Array<Order>();

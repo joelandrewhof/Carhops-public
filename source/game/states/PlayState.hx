@@ -85,7 +85,7 @@ class PlayState extends TopDownState
 				for(j in 0...7)
 				{
 					var id:String = (i == 0 ? "A" : "B");
-					var s = new Stall(Std.int(stallin.x), Std.int(stallin.y) + (352 * j), id + (j + 1), 
+					var s = new Stall(Std.int(stallin.x), Std.int(stallin.y) + (352 * j), id + (6 - j + 1), 
 						(id == "A" ? 3 : 7));
 					conductor.stalls.push(s);
 					visMngr.add(s); //we can do this for now, but best to add them from the array later
@@ -107,7 +107,7 @@ class PlayState extends TopDownState
 			conductor.createOrderEntire(s[i]);
 		}
 
-		playerHitbox.alpha = 1.0;
+		playerHitbox.alpha = 0.0;
 
 	}
 

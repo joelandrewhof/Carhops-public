@@ -25,10 +25,7 @@ class Interactable extends FlxSprite
         clickCountdown = clickDecrementTime;
     }
 
-    public function checkCallback()
-    {
-        trace("test interaction");
-    }
+    public var checkCallback:() -> Void;
 
     public function checkIncrement()
     {
@@ -73,7 +70,7 @@ class Interactable extends FlxSprite
         clicks++;
         if (clicks >= clickRequirement) {
             if(autoCallback ?? overrideCheck) {
-                checkCallback();
+                if(checkCallback != null) checkCallback();
                 resetClicks();
             }
             return true;

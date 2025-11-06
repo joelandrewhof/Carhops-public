@@ -7,20 +7,20 @@ import flixel.tweens.FlxEase;
 
 class SkateMovement extends MoveComponent
 {
-    public final baseFriction:Float = 0.995; //default when moving forward on normal terrain
+    public final baseFriction:Float = 0.996; //default when moving forward on normal terrain
 
-    public final kickCooldownBase:Float = 0.3; //cooldown to fully recharge the kick without the added exponent
-    public final kickCooldownExp:Float = 2.0; //these exponents make kicking work best when done rhythmically
+    public final kickCooldownBase:Float = 5.0; //cooldown to fully recharge the kick without the added exponent
+    public final kickCooldownExp:Float = 1.2; //these exponents make kicking work best when done rhythmically
     public final kickStaminaExp:Float = 1.4; 
     public final kickStaminaMax:Float = 100;
-    public final kickStaminaDrain:Float = 0;
+    public final kickStaminaDrain:Float = 0.3;
     
-    public final maxMomentum:Float = 20.0;
+    public final maxMomentum:Float = 14.0;
 
     public var xMomentum:Float = 0.0;
     public var yMomentum:Float = 0.0;
     public var frameMomentum:Float = 0.0; //calculated per frame and distributed to actual momentum after
-    public var kickPower:Float = 0.07;
+    public var kickPower:Float = 0.03;
     public var kickStamina:Float = 100;
     public var curFriction:Float;
     //these variables subtract from the current friction value.
@@ -54,7 +54,7 @@ class SkateMovement extends MoveComponent
 
         if(Controls.RUN)
         {
-            if(kickStamina < 0 || kickStamina < 20 && timeWithoutKick != 0) //short cooldown for an exhaustive kick
+            if(kickStamina <= 0)
             {}
             else
             {
@@ -65,7 +65,7 @@ class SkateMovement extends MoveComponent
         else
         {
             timeWithoutKick += elapsed;
-            //recoverStaminaTick(elapsed);
+            recoverStaminaTick(elapsed);
         }
 
         //turning
@@ -112,7 +112,7 @@ class SkateMovement extends MoveComponent
 
     public function kickMathTick(elapsed:Float):Float
     {
-        var add = (Math.pow(kickStamina, kickStaminaExp) * 0.01) * kickPower;
+        var add = (Math.pow(100, kickStaminaExp) * 0.01) * kickPower;
         
         return add;
     }
