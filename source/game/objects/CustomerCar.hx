@@ -56,6 +56,7 @@ class CustomerCar extends TopDownCharacter
                 Score.addScore(100);
                 PlayState.current.hud.scoreHUD.updateScoreDisplay();
                 PlayState.current.inventory.removeOrder(thisOrder.ticket);
+                SoundManager.playSound("order_success", 0.4);
             }
         }
 

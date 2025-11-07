@@ -205,7 +205,7 @@ class CharacterController
     public var moveComponents:Array<MoveComponent>;
     public var actions:Array<Action>;
 
-    public var locked:Bool = false;
+    public var paused:Bool = false;
 
     public var isMoving:Bool = false;
     public var movingX:Int = 0; //1: right, -1: left
@@ -229,29 +229,32 @@ class CharacterController
 
     public function update(elapsed:Float)
     {
-        //clear previous actions
-        actions = new Array<Action>();
-
-        //sort priority
-        moveComponents.sort(function(a, b) {
-            if(a.priority > b.priority) return -1;
-            else if(a.priority < b.priority) return 1;
-            else return 0;
-        });
-
-        //Performs all movement actions from components
-        for(comp in moveComponents)
+        if(!paused)
         {
-            comp.update(elapsed);
-            comp.addAction();
-        }
+            //clear previous actions
+            actions = new Array<Action>();
 
-        if(autoUpdateMove)
-        {
-            move();
-        }
+            //sort priority
+            moveComponents.sort(function(a, b) {
+                if(a.priority > b.priority) return -1;
+                else if(a.priority < b.priority) return 1;
+                else return 0;
+            });
 
-        updateAnimation();
+            //Performs all movement actions from components
+            for(comp in moveComponents)
+            {
+                comp.update(elapsed);
+                comp.addAction();
+            }
+
+            if(autoUpdateMove)
+            {
+                move();
+            }
+
+            updateAnimation();
+        }
     }
 
     public function addMoveComponent(comp:MoveComponent)

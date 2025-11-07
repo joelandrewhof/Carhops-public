@@ -28,8 +28,8 @@ class ControlsManager {
 		"ui_up" => [W],
 		"ui_right" => [D],
 		//
-		"accept" => [ENTER, SPACE, J],
-		"back" => [BACKSPACE, ESCAPE, K],
+		"accept" => [SPACE, J],
+		"back" => [BACKSPACE, K],
 		"pause" => [ENTER, ESCAPE],
 	];
 

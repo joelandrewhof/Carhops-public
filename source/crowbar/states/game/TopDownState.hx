@@ -20,6 +20,7 @@ import crowbar.objects.*;
 import crowbar.objects.TopDownCharacter;
 import crowbar.objects.Player;
 import crowbar.components.*;
+import crowbar.states.sub.PauseMenu;
 
 import flixel.addons.display.FlxPieDial;
 
@@ -39,6 +40,8 @@ class TopDownState extends FlxState
 
     public var camGame:FlxCamera;
     public var camHUD:FlxCamera; //for dialogue, menus, transition screens, etc.
+    public var camAlt:FlxCamera; //for things like pausing
+
     public var camPoint:FlxObject;
     public var camBounds:FlxRect;
     public var camPlayerLock:Bool = true;
@@ -102,6 +105,10 @@ class TopDownState extends FlxState
         camHUD = new FlxCamera();
         camHUD.bgColor.alphaFloat = 0.0; //so we're not looking at a black screen
         FlxG.cameras.add(camHUD, false); //UI elements will need to be manually assigned to this camera with { object.cameras = [camHUD] }
+
+        camAlt = new FlxCamera();
+        camAlt.bgColor.alphaFloat = 0.0;
+        FlxG.cameras.add(camAlt, false);
     }
 
     public function updateCameras()
@@ -285,6 +292,8 @@ class TopDownState extends FlxState
         /* ----------------------------------------------------
         ---                      ESCAPE                     ---
         -----------------------------------------------------*/
+        if(Controls.PAUSE)
+            openPauseMenu();
     }
     
     private function debugInputCall()
@@ -358,12 +367,22 @@ class TopDownState extends FlxState
         visMngr.destroy();
     }
 
+    public function openPauseMenu()
+    {
+        final pause:PauseMenu = new PauseMenu();
+		pause.camera = camAlt;
+        setLockAllInput(true);
+        playerController.paused = true;
+		openSubState(pause);
+    }
+
     override function closeSubState():Void
     {
         //for allowing movement after dialogue boxes for now; may need to change
         if(player != null)
         {
             setLockAllInput(false);
+            playerController.paused = false;
         }
         super.closeSubState();
     }

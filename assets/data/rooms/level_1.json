@@ -4,7 +4,7 @@
   "height": 2880,
   "offsetX": 0,
   "offsetY": 0,
-  "values": {"music": "", "musicPitch": 0.9, "ambience": "", "defaultSpawnX": 1000, "defaultSpawnY": 2500},
+  "values": {"music": "80s", "musicPitch": 0.9, "ambience": "", "defaultSpawnX": 1000, "defaultSpawnY": 2500},
   "layers": [
     {
       "name": "Foreground",

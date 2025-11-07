@@ -18,12 +18,14 @@ class MainMenuState extends FlxState
         title = new CrowbarText(50, 200, 0, "CARHOPS", 96);
         add(title);
 
-
         menu = new ScrollSelectionList(50, Std.int(FlxG.height * 0.5));
         menu.addOption("START");
         menu.addOption("OPTIONS");
         menu.addOption("EXIT");
         add(menu);
+
+        SoundManager.current.updateMusic("cool2", true);
+        SoundManager.current.setMusicVolume(1.0);
     }
 
     override function update(elapsed:Float)

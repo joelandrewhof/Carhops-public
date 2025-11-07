@@ -13,6 +13,7 @@ import flixel.math.FlxPoint;
 import game.objects.*;
 import game.components.*;
 import crowbar.objects.Player;
+import game.states.sub.CarhopPauseMenu;
 
 class PlayState extends TopDownState
 {
@@ -122,5 +123,14 @@ class PlayState extends TopDownState
 
 		}
 	}
+
+	override public function openPauseMenu()
+    {
+        final pause:CarhopPauseMenu = new CarhopPauseMenu();
+		pause.camera = camAlt;
+        setLockAllInput(true);
+        playerController.paused = true;
+		openSubState(pause);
+    }
 
 }
