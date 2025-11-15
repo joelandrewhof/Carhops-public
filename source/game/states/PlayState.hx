@@ -59,7 +59,7 @@ class PlayState extends TopDownState
 
 	override function loadPlayer(x:Float, y:Float)
     {
-        player = new Player("dummy", x, y);
+        player = new Player("player_logan", x, y);
 
         playerController = new PlayerController(player);
         //add movement components

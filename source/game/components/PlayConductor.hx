@@ -21,6 +21,7 @@ class PlayConductor
         customers = new Array<CustomerCar>();
     }
 
+
     public function getVacantStalls():Array<Stall>
     {
         var vacants:Array<Stall> = new Array<Stall>();
@@ -29,6 +30,17 @@ class PlayConductor
                 vacants.push(s);
         }
         return vacants;
+    }
+
+    public function setVacantStall(id:String, vacant:Bool)
+    {
+        getStallFromID(id).occupied = !vacant;
+        return;
+    }
+
+    public function removeCar(id:String)
+    {
+        
     }
 
     public function getStallFromID(id:String):Stall

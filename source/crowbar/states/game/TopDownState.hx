@@ -191,7 +191,6 @@ class TopDownState extends FlxState
 
         //for(i in room.decals)
             //this.add(i);
-        trace(room.decals);
 
         visMngr.addSprite(player);
 
@@ -202,7 +201,6 @@ class TopDownState extends FlxState
         //visMngr.sortSprites();
         add(visMngr);
         add(room);
-        trace("VIS MNGR SPRITE LENGTH: " + visMngr.owSprites.members.length);
     }
 
     inline function loadRoom(roomName:String)

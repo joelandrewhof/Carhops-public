@@ -9,8 +9,10 @@ class SkateMovement extends MoveComponent
 {
     public final baseFriction:Float = 0.996; //default when moving forward on normal terrain
 
+    public var sprinting:Bool = false;
+
     public final kickCooldownBase:Float = 5.0; //cooldown to fully recharge the kick without the added exponent
-    public final kickCooldownExp:Float = 1.2; //these exponents make kicking work best when done rhythmically
+    public final kickCooldownExp:Float = 1.0; //these exponents make kicking work best when done rhythmically
     public final kickStaminaExp:Float = 1.4; 
     public final kickStaminaMax:Float = 100;
     public final kickStaminaDrain:Float = 0.3;
@@ -52,17 +54,14 @@ class SkateMovement extends MoveComponent
         super.update(elapsed);
         curDir = controller.character.direction.index;
 
-        if(Controls.RUN)
+        sprinting = (Controls.RUN && kickStamina > 0);
+
+        if(sprinting)
         {
-            if(kickStamina <= 0)
-            {}
-            else
-            {
-                timeWithoutKick = 0.0;
-                kickTick(elapsed);
-            }
+            timeWithoutKick = 0.0;
+            kickTick(elapsed);
         }
-        else
+        else if(!Controls.RUN)
         {
             timeWithoutKick += elapsed;
             recoverStaminaTick(elapsed);
@@ -99,6 +98,23 @@ class SkateMovement extends MoveComponent
         if(y) yMomentum = 0;
     }
 
+    override function addAction()
+    {
+        super.addAction();
+
+        var action:Action = {name: "idle", priority: 0};
+        if(sprinting)
+        {
+            if(xMomentum + yMomentum >= 5.0)
+                action = {name: "run", priority: 20};
+            else
+                action = {name: "walk", priority: 10};
+        }
+
+        controller.addAction(action);
+    }
+
+
     public function kickTick(elapsed:Float)
     {
         //calculate the momentum this frame
@@ -127,7 +143,7 @@ class SkateMovement extends MoveComponent
     public function recoverStaminaTick(elapsed:Float)
     {
         if(kickStamina < 100) {
-            kickStamina += (elapsed / kickCooldownBase) + (Math.pow(timeWithoutKick / kickCooldownBase, kickCooldownExp)); //recharges exponentially
+            kickStamina += (elapsed / kickCooldownBase * 100);// + (Math.pow(timeWithoutKick / kickCooldownBase, kickCooldownExp)); //recharges exponentially
         }
 
         if(kickStamina > 100) kickStamina = 100;

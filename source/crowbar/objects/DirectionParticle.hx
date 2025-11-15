@@ -68,7 +68,6 @@ class DirectionParticle extends CrowbarSprite
             }
             else {
                 visible = false;
-                trace('destroyed particle');
                 this.destroy();
             }
         }

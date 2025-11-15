@@ -44,9 +44,9 @@ class PlayerHitbox extends FlxSprite
         super();
         alpha = 0.0;
         this.player = player;
-        var halfHeight = Std.int(player.height / 2);
-        makeGraphic(Std.int(player.width), halfHeight, 0x3800FF00);
-        playerOffset = [0, halfHeight];
+        //var halfHeight = Std.int(player.height / 2);
+        makeGraphic(60, 60, 0x3800FF00);
+        playerOffset = [0, player.height - 60];
 
         prevPosition = new FlxPoint(x, y);
     }

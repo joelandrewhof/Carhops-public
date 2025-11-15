@@ -1,5 +1,6 @@
 package game.objects;
 
+import game.components.CarMovement;
 import crowbar.objects.TopDownCharacter;
 import crowbar.components.Collision;
 import crowbar.components.Interactable;
@@ -8,6 +9,8 @@ import game.states.PlayState;
 
 class CustomerCar extends TopDownCharacter
 {
+    public var tick:Float;
+
     public var stallID:String; //the stall the car spawned at. for orders to reference.
 
     public var ordered:Bool = false; //if the customer is vacant for an order or not
@@ -20,6 +23,8 @@ class CustomerCar extends TopDownCharacter
     public var patienceDrainEnabled:Bool = false;
 
     public var interactable:Interactable;
+
+    public var controller:CharacterController;
 
     /*
     *   CONSTANTS
@@ -43,6 +48,9 @@ class CustomerCar extends TopDownCharacter
         interactable.alpha = 0.0;
         this.add(interactable);
 
+        controller = new CharacterController(this);
+        controller.addMoveComponent(new CarMovement(controller));
+
         this.setPosition(x, y);
         sprite.setPosition(x, y);
 
@@ -57,6 +65,8 @@ class CustomerCar extends TopDownCharacter
                 PlayState.current.hud.scoreHUD.updateScoreDisplay();
                 PlayState.current.inventory.removeOrder(thisOrder.ticket);
                 SoundManager.playSound("order_success", 0.4);
+                
+                controller.getComponentByName("CarMovement").startReverse();
             }
         }
 
@@ -65,6 +75,19 @@ class CustomerCar extends TopDownCharacter
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+
+        controller.update(elapsed);
+
+        tick += elapsed;
+        if(tick > 0.2)
+        {
+            if(checkOffscreen()) 
+            {
+                cleanup();
+                kill();
+            }
+            tick = 0;
+        }
 
         if(patienceDrainEnabled) {
             curPatience -= elapsed * patienceDrainFactor;
@@ -82,6 +105,17 @@ class CustomerCar extends TopDownCharacter
         sprite.updateHitbox();
         interactable.updateHitbox();
 
+    }
+
+    public function checkOffscreen():Bool
+    {
+        var margin = 400;
+        if(x < 0 - margin || y < 0 - margin || 
+            x > PlayState.current.room.roomBounds.width + margin || y > PlayState.current.room.roomBounds.height + margin)
+        {
+            return true;
+        }
+        else return false;
     }
 
     //might want to manage this through the director class for rare car spawns
@@ -102,5 +136,16 @@ class CustomerCar extends TopDownCharacter
     public function expirePatienceCall()
     {
         
+    }
+
+    public function cleanup()
+    {
+        PlayState.current.conductor.setVacantStall(stallID, true);
+        PlayState.current.conductor.customers.remove(this);
+    }
+
+    override function kill()
+    {        
+        super.kill();
     }
 }

@@ -13,6 +13,7 @@ import crowbar.components.Collision;
 import crowbar.components.Directional;
 import flixel.math.FlxAngle;
 import crowbar.components.MoveComponent;
+import flixel.FlxBasic;
 
 
 //some basic actions
@@ -182,6 +183,12 @@ class TopDownCharacter extends TopDownSprite
     {
         faceTowards(obj.bottomCenter.x, obj.bottomCenter.y);
     }
+
+    override function destroy()
+    {
+        collision.destroy();
+        super.destroy();
+    }
 }
 
 /*
@@ -195,7 +202,7 @@ enum ScriptInput {
     ScriptInput(direction:String, running:Bool, time:Float);
 }
 
-class CharacterController
+class CharacterController extends FlxBasic
 {
     public var character:TopDownCharacter; //the character to be controlled
 
@@ -220,6 +227,8 @@ class CharacterController
 
     public function new(char:TopDownCharacter)
     {
+        super();
+
         character = char;
         prevPosition = new FlxPoint(character.x, character.y);
         
@@ -227,8 +236,10 @@ class CharacterController
         moveComponents = new Array<MoveComponent>();
     }
 
-    public function update(elapsed:Float)
+    override function update(elapsed:Float)
     {
+        super.update(elapsed);
+
         if(!paused)
         {
             //clear previous actions
@@ -354,7 +365,6 @@ class CharacterController
     {
         for(c in moveComponents)
         {
-            trace(c.name);
             if(name == c.name)
             {
                 return c;
