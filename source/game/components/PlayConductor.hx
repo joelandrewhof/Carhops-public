@@ -14,6 +14,8 @@ class PlayConductor
     public var customers:Array<CustomerCar>;
     public var nextOrder:Int = 1;
 
+    public var timeSinceLastSpawn:Float = 0.0;
+
     public function new()
     {
         orders = new Array<Order>();
@@ -21,6 +23,24 @@ class PlayConductor
         customers = new Array<CustomerCar>();
     }
 
+
+    public function update(elapsed:Float)
+    {
+        timeSinceLastSpawn += elapsed;
+
+        spawnOrderTimed();
+    }
+
+    public function spawnOrderTimed()
+    {
+        if(customers.length >= 6)
+            return;
+        if(timeSinceLastSpawn > 3.0 + (4.0 * customers.length))
+        {
+            createOrderEntire();
+            timeSinceLastSpawn = 0;
+        }
+    }
 
     public function getVacantStalls():Array<Stall>
     {
@@ -67,6 +87,7 @@ class PlayConductor
         PlayState.current.customers.add(car);
         PlayState.current.actMngr.collisionArray.push(car.collision);
         PlayState.current.actMngr.interactableArray.push(car.interactable);
+        PlayState.current.visMngr.addSprite(car);
         this.customers.push(car);
         stall.setOccupied(true);
         return car;

@@ -72,10 +72,9 @@ class PlayState extends TopDownState
 	public function createLevel1Objects()
 	{
 		customers = new FlxTypedGroup<CustomerCar>();
-		orderTable = new OrderTable(1280, 1600);
+		orderTable = new OrderTable(1280, 1400);
 
-		visMngr.add(customers);
-		visMngr.add(orderTable);
+		visMngr.addSprite(orderTable);
 
 		//create the stalls
 		var stallin:FlxPoint = new FlxPoint(128, 256);
@@ -89,7 +88,6 @@ class PlayState extends TopDownState
 					var s = new Stall(Std.int(stallin.x), Std.int(stallin.y) + (352 * j), id + (6 - j + 1), 
 						(id == "A" ? 3 : 7));
 					conductor.stalls.push(s);
-					visMngr.add(s); //we can do this for now, but best to add them from the array later
 				}
 				stallin.x += 2368;
 			}
@@ -117,10 +115,11 @@ class PlayState extends TopDownState
 		super.update(elapsed);
 		elapsedTime += elapsed;
 
+		conductor.update(elapsed);
+
 		if(Math.floor(elapsedTime + elapsed) > Math.floor(elapsedTime)) //call every ~1 second
 		{
-			trace("active cars: " + conductor.customers.length + " x" + conductor.customers[0].x + " y" + conductor.customers[0].y);
-
+			//insert code here
 		}
 	}
 

@@ -12,6 +12,8 @@ class OrderTray extends TopDownSprite
     public var refOrder:Order;
     public var interactable:Interactable;
 
+    public var isClosest:Bool = false;
+
     private final _interactableThickness:Int = 30;
 
     public function new(x:Int, y:Int, ?order:Order)
@@ -35,11 +37,6 @@ class OrderTray extends TopDownSprite
     override function update(elapsed:Float)
     {
         super.update(elapsed);
-
-        if(interactable.interactionCheck())
-        {
-            onPickup();
-        }
     }
 
     public function assignOrder(order:Order)
@@ -53,6 +50,7 @@ class OrderTray extends TopDownSprite
         trace("Order " + refOrder.destination + " has been picked up");
         SoundManager.playSound("select");
         PlayState.current.inventory.addOrder(refOrder);
+        PlayState.current.orderTable.removeOrderTray(refOrder.ticket);
         this.destroy();
     }
 

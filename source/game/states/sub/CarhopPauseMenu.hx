@@ -2,6 +2,7 @@ package game.states.sub;
 
 import crowbar.states.sub.PauseMenu;
 import game.states.*;
+import game.components.Score;
 
 class CarhopPauseMenu extends PauseMenu
 {
@@ -24,7 +25,7 @@ class CarhopPauseMenu extends PauseMenu
                     resume();
                 }
                 case 1: {
-                    FlxG.switchState(new PlayState());
+                    restart();
                 }
                 case 2: {
                     FlxG.switchState(new MainMenuState());
@@ -44,5 +45,11 @@ class CarhopPauseMenu extends PauseMenu
             menu.addToSelection(-1);
             SoundManager.playSound("tick");
         }
+    }
+
+    public function restart()
+    {
+        Score.clearActive();
+        FlxG.switchState(new PlayState());
     }
 }

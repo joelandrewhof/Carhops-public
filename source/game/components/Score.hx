@@ -9,4 +9,9 @@ class Score
         score += base;
     }
 
+    public static function clearActive()
+    {
+        score = 0;
+    }
+
 }
