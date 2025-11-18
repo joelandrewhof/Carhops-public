@@ -1,5 +1,6 @@
 package game.states;
 
+import game.ui.TutorialHUD;
 import crowbar.components.Directional;
 import crowbar.objects.TopDownCharacter;
 import game.ui.CarhopHUD;
@@ -32,6 +33,8 @@ class PlayState extends TopDownState
 
 	//hud
 	public var hud:CarhopHUD;
+	//separating tutorial hud as it's a more temporary thing with timed functions
+	public var tutorialHUD:TutorialHUD;
 
 	public var debugHUD:DebugHUD;
 
@@ -51,6 +54,10 @@ class PlayState extends TopDownState
 		hud = new CarhopHUD();
 		hud.camera = camHUD;
 		add(hud);
+
+		tutorialHUD = new TutorialHUD();
+		tutorialHUD.camera = camHUD;
+		add(tutorialHUD);
 
 		createLevel1Objects();
 		createLevel1Debug();
@@ -96,9 +103,11 @@ class PlayState extends TopDownState
 
 	public function createLevel1Debug()
 	{
+		/*
 		debugHUD = new DebugHUD();
 		debugHUD.camera = this.camHUD;
 		add(debugHUD);
+		*/
 
 		var s = ["A1", "A4", "B1", "B7"];
 		for(i in 0...4)

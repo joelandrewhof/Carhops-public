@@ -7,6 +7,7 @@ class CarhopHUD extends FlxSpriteGroup
 {
     public var invtHUD:InventoryHUD;
     public var scoreHUD:ScoreHUD;
+    public var staminaBar:StaminaBar;
 
     public function new()
     {
@@ -16,5 +17,8 @@ class CarhopHUD extends FlxSpriteGroup
 
         scoreHUD = new ScoreHUD(FlxG.width - 300, FlxG.height - 100);
         add(scoreHUD);
+
+        staminaBar = new StaminaBar(50, 650);
+        add(staminaBar);
     }
 }

@@ -47,11 +47,17 @@ class OrderTray extends TopDownSprite
 
     public function onPickup()
     {
-        trace("Order " + refOrder.destination + " has been picked up");
-        SoundManager.playSound("select");
-        PlayState.current.inventory.addOrder(refOrder);
-        PlayState.current.orderTable.removeOrderTray(refOrder.ticket);
-        this.destroy();
+        if(PlayState.current.inventory.addOrder(refOrder)) //successfully picked up the order; enough room in the inventory
+        {
+            trace("Order " + refOrder.destination + " has been picked up");
+            SoundManager.playSound("select");
+            PlayState.current.orderTable.removeOrderTray(refOrder.ticket);
+            this.destroy();
+        }
+        else //failed to pick up the order
+        {
+            //probably play a sound here
+        }
     }
 
     //probably temporary anyways
