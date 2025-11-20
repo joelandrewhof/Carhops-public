@@ -62,6 +62,8 @@ class PlayState extends TopDownState
 		createLevel1Objects();
 		createLevel1Debug();
 
+		SoundManager.current.setMusicVolume(0.40);
+
 	}
 
 	override function loadPlayer(x:Float, y:Float)

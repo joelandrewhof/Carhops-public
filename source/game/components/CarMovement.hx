@@ -1,5 +1,6 @@
 package game.components;
 
+import flixel.math.FlxPoint;
 import crowbar.components.MoveComponent;
 import crowbar.objects.TopDownCharacter;
 import flixel.tweens.FlxTween;
@@ -14,6 +15,9 @@ class CarMovement extends MoveComponent
     public var driving:Bool = false;
     public var friction:Float = 0.95;
     public var reversing:Bool = false;
+
+    public var origin:FlxPoint;
+    public var vibrateIntensity:Float = 0.0;
 
 
     public function new(controller:CharacterController)
@@ -51,8 +55,18 @@ class CarMovement extends MoveComponent
 
     public function startReverse()
     {
-        driving = true;
-        reversing = true;
+        FlxTween.tween(this, {vibrateIntensity: 2.0}, 0.5, {onComplete: function(twn:FlxTween) {
+            driving = true;
+            reversing = true;
+        }});
+    }
+
+    public function vibrate()
+    {
+        if(vibrateIntensity > 0.0)
+        {
+            
+        }
     }
 
     public function drive(elapsed:Float, ?direction:Int = 1)

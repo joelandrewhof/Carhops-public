@@ -11,6 +11,8 @@ class MainMenuState extends FlxState
 
     public var menu:ScrollSelectionList;
 
+    public var controlInfo:CrowbarText;
+
     override function create()
     {
         super.create();
@@ -26,6 +28,10 @@ class MainMenuState extends FlxState
 
         SoundManager.current.updateMusic("cool2", true);
         SoundManager.current.setMusicVolume(1.0);
+
+        controlInfo = new CrowbarText(800, 570, 0, "WASD - Move\nJ - Accept\nK - Cancel\n\nThis game does not use the mouse.", 24);
+        controlInfo.alignment = "right";
+        add(controlInfo);
     }
 
     override function update(elapsed:Float)

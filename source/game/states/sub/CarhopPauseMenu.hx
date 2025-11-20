@@ -34,6 +34,7 @@ class CarhopPauseMenu extends PauseMenu
         }
 
         if(Controls.BACK) {
+            SoundManager.playSound("cancel");
             resume();
         }
 

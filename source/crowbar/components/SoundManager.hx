@@ -30,7 +30,7 @@ class SoundManager
 
     public function updateMusic(mus:String, ?loop:Bool = true)
     {
-        if(mus == lastMus) return;
+        //if(mus == lastMus) return;
         if(mus == "none")
         {
             stopMusic();
@@ -77,6 +77,13 @@ class SoundManager
             ambience.looped = loop;
             ambience.resume();
         }
+    }
+
+    //use this util for sounds that need to be referenced and managed externally
+    public function addSound(sound:FlxSound)
+    {
+        FlxG.sound.list.add(sound);
+        sound.play();
     }
 
     public function setMusicVolume(vol:Float)

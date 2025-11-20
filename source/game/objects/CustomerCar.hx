@@ -65,11 +65,19 @@ class CustomerCar extends TopDownCharacter
                 PlayState.current.hud.scoreHUD.updateScoreDisplay();
                 PlayState.current.inventory.removeOrder(thisOrder.ticket);
                 SoundManager.playSound("order_success", 0.4);
+
+                ignitionSound();
                 
                 controller.getComponentByName("CarMovement").startReverse();
             }
         }
 
+    }
+
+    public function ignitionSound()
+    {
+        SoundManager.playSound('car_ignition${FlxG.random.int(1, 2)}');
+        SoundManager.playSound('car_start_short${FlxG.random.int(1, 2)}', 1.0, 0.4);
     }
 
     override function update(elapsed:Float)

@@ -35,7 +35,7 @@ class PlayConductor
     {
         if(customers.length >= 6)
             return;
-        if(timeSinceLastSpawn > 3.0 + (4.0 * customers.length))
+        if(timeSinceLastSpawn > 2.0 + (2.0 * customers.length))
         {
             createOrderEntire();
             timeSinceLastSpawn = 0;

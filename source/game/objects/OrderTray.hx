@@ -57,6 +57,7 @@ class OrderTray extends TopDownSprite
         else //failed to pick up the order
         {
             //probably play a sound here
+            SoundManager.playSound("error", 0.5);
         }
     }
 

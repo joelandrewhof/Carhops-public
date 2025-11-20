@@ -1,5 +1,6 @@
 package game.components;
 
+import flixel.sound.FlxSound;
 import crowbar.components.MoveComponent;
 import crowbar.objects.TopDownCharacter;
 import flixel.tweens.FlxTween;
@@ -21,6 +22,7 @@ class SkateMovement extends MoveComponent
 
     public var xMomentum:Float = 0.0;
     public var yMomentum:Float = 0.0;
+    public var totalMomentum:Float = 0.0;
     public var frameMomentum:Float = 0.0; //calculated per frame and distributed to actual momentum after
     public var kickPower:Float = 0.03;
     public var kickStamina:Float = 100;
@@ -40,6 +42,8 @@ class SkateMovement extends MoveComponent
     public var curDir:Int;
     public var lastDir:Int;
 
+    public var rollSound:FlxSound;
+
     public function new(controller:CharacterController)
     {
         super(controller);
@@ -47,6 +51,8 @@ class SkateMovement extends MoveComponent
         priority = 100;
 
         curFriction = baseFriction;
+
+        setupSound();
     }
 
     override function update(elapsed:Float)
@@ -80,9 +86,28 @@ class SkateMovement extends MoveComponent
         controller.requestMoveX += xMomentum;
         controller.requestMoveY += yMomentum;
 
+        totalMomentum = Math.abs(xMomentum) + Math.abs(yMomentum);
+
         directionalFrictionTick();
 
         lastDir = controller.character.direction.index;
+
+        updateSound();
+    }
+
+    public function setupSound()
+    {
+        rollSound = new FlxSound().loadEmbedded(AssetHelper.getAsset('audio/sfx/skate_loop_speed1', SOUND), true);
+        SoundManager.current.addSound(rollSound);
+        //FlxG.sound.play(rollSound);
+    }
+
+    public function updateSound()
+    {
+        var newVol = 0.0;
+        if(totalMomentum > 5.0)
+            newVol = 0.0 + ((totalMomentum - 5.0) * 0.03);
+        rollSound.volume = Math.min(newVol, 1.0);
     }
 
     override function onCollide(?x:Bool, ?y:Bool)
@@ -92,6 +117,11 @@ class SkateMovement extends MoveComponent
         if(x == null) return;
         else if(y == null) { //if only one parameter is given just use it for both
             y = x;
+        }
+
+        if(totalMomentum > 2.0)
+        {
+            SoundManager.playSound("wall_bump", totalMomentum * 0.03);
         }
 
         if(x) xMomentum = 0;
