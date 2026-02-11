@@ -29,12 +29,15 @@ class Score
     public static function doScoreCalculation(order:Order):Int
     {
         var tipPercent:Float = baseTipAmount; //later, might want to add different base amounts depending on different types of customers
-        tipPercent *= (Math.pow(comboExponent, combo)); //combo bonus
-        //each second over a quarter provides a small bonus; each second over half provides a greater bonus
-        var timeBonus:Float = Math.max(0, (order.patience - (order.basePatience * 0.25)) * 5);
-        if(order.patience > order.basePatience * 0.5)
-            timeBonus += ((order.patience - (order.basePatience * 0.5) + 10) * 10);
+        //* COMBO BONUS *//
+        tipPercent *= (Math.pow(comboExponent, combo));
 
+        //* TIME BONUS *//
+        var timeBonus:Float = Math.max(0, (order.patience - (order.basePatience * 0.25)) * 5); //remaining time over 25% is slightly rewarded
+        if(order.patience > order.basePatience * 0.5) //remaining time over 50% is significantly rewarded, plus 100 points bonus
+            timeBonus += ((order.patience - (order.basePatience * 0.5) + 10) * 10); 
+
+        //* STREAK BONUS *//
         var streakBonus:Int = Math.floor((streak * streakMultiplier) + (Math.max(streak, streakFalloff) * streakMultiplier) * 0.5);
 
         var tip:Int = Math.ceil(((order.cost + timeBonus) * tipPercent) + streakBonus);
@@ -42,19 +45,23 @@ class Score
         return tip;
     }
 
-    public static function addCombo()
-    {
+    public static inline function addCombo() {
         combo++;
         fillComboTime();
     }
 
-    public static function breakCombo()
-    {
+    public static inline function breakCombo() {
         combo = 0;
     }
+    public static inline function addStreak() {
+        streak++;
+    }
 
-    public static function fillComboTime()
-    {
+    public static inline function breakStreak() {
+        streak = 0;
+    }
+
+    public static inline function fillComboTime() {
         comboTime = maxComboTime;
     }
 
