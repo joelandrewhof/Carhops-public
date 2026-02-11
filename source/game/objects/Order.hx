@@ -12,6 +12,7 @@ class Order
     public var ticket:Int;
     public var destination:String;
     public var items:OrderItems;
+    public var cost:Int = 0; //cost in cents; adds to the score, affects tips
     public var weight:Float; //probably important later
     public var satisfied:Bool = false;
     public var inInventory:Bool = false;
@@ -31,6 +32,7 @@ class Order
         patience = basePatience;
 
         setRandomItems();
+        generateCost();
     }
 
     public function setItems(food:Float = 0.0, drinks:Int = 0)
@@ -55,8 +57,16 @@ class Order
 
     public function setRandomItems()
     {
-        var f = FlxG.random.getObject([0.0, 0.0, 3.0, 10.0]);
+        var f = FlxG.random.getObject([0.0, 3.0, 6.0, 10.0], [0.4, 0.2, 0.25, 0.15]);
         var d = (f == 0 ? 1 : FlxG.random.int(0, 1));
         setItems(f, d);
+    }
+
+    public function generateCost():Int
+    {
+        //for now cost calculation will be simplified, only based on food and drinks.
+        //specific items for these may be made later, or not depending on complexity.
+        cost = Std.int((items.food * 300) + (items.drinks * 150));
+        return cost;
     }
 }

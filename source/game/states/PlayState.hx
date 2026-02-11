@@ -129,6 +129,8 @@ class PlayState extends TopDownState
 
 		conductor.update(elapsed);
 
+		comboTick(elapsed);
+
 		if(Math.floor(elapsedTime + elapsed) > Math.floor(elapsedTime)) //call every ~1 second
 		{
 			//insert code here
@@ -147,9 +149,10 @@ class PlayState extends TopDownState
 	public function deliverOrder(car:CustomerCar)
 	{
 		var thisOrder = PlayState.current.inventory.getOrderFromStall(car.stallID);
-		if(thisOrder != null && thisOrder.destination == car.stallID)
+		if(thisOrder != null && thisOrder.destination == car.stallID) //if the order is in the inventory and it matches this car
 		{
-			Score.addScore(100);
+			Score.addCombo();
+			Score.doScoreCalculation(thisOrder);
 			hud.scoreHUD.updateScoreDisplay();
 			inventory.removeOrder(thisOrder.ticket);
 			thisOrder.satisfied = true;
@@ -160,6 +163,18 @@ class PlayState extends TopDownState
 			car.controller.getComponentByName("CarMovement").startReverse();
 		}
 		
+	}
+
+	private function comboTick(elapsed:Float, ?modifier:Float = 1.0)
+	{
+		if(Score.combo > 0)
+		{
+			Score.comboTime -= elapsed * modifier;
+			if(Score.comboTime <= 0.0)
+			{
+				Score.breakCombo();
+			}
+		}
 	}
 
 }
