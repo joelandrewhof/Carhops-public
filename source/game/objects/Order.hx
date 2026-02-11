@@ -13,14 +13,22 @@ class Order
     public var destination:String;
     public var items:OrderItems;
     public var weight:Float; //probably important later
+    public var satisfied:Bool = false;
+    public var inInventory:Bool = false;
 
     public final maxDrinks:Int = 4;
     public final maxFood:Float = 10.0;
+
+    public var basePatience:Float = 30.0;
+    public var patience:Float;
+    public var unheldDrainResist:Float = 0.67; //patience drains slower when order is not in the inventory.
 
     public function new(ticket:Int, dest:String)
     {
         this.ticket = ticket;
         destination = dest;
+
+        patience = basePatience;
 
         setRandomItems();
     }
@@ -37,6 +45,12 @@ class Order
             drinks = maxDrinks;
 
         items = {food: food, drinks: drinks};
+    }
+
+    public function drainPatience(elapsed:Float)
+    {
+        var drain = elapsed * (inInventory ? 1 : (1 - unheldDrainResist));
+        patience -= drain;
     }
 
     public function setRandomItems()

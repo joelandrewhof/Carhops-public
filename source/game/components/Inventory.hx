@@ -24,6 +24,7 @@ class Inventory
         if(orders.length >= capacity)
             return false;
         orders.push(order);
+        order.inInventory = true;
         updateHUD();
         return true;
     }
@@ -64,6 +65,7 @@ class Inventory
             }
         }
         orders = newO;
+        old.inInventory = false;
         updateHUD();
         return old;
     }

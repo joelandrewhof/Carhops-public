@@ -29,6 +29,7 @@ class PlayConductor
         timeSinceLastSpawn += elapsed;
 
         spawnOrderTimed();
+        updateUnsatisfiedOrders(elapsed);
     }
 
     public function spawnOrderTimed()
@@ -138,5 +139,15 @@ class PlayConductor
     public function spawnOrderTray(order:Order)
     {
         PlayState.current.orderTable.spawnOrderTray(order);
+    }
+
+    public function updateUnsatisfiedOrders(elapsed:Float)
+    {
+        for(order in orders)
+        {
+            if(!order.satisfied) {
+                order.drainPatience(elapsed);
+            }
+        }
     }
 }

@@ -58,19 +58,8 @@ class CustomerCar extends TopDownCharacter
         updateHitbox();
 
         interactable.checkCallback = function() {
-            var thisOrder = PlayState.current.inventory.getOrderFromStall(stallID);
-            if(thisOrder != null && thisOrder.destination == stallID)
-            {
-                Score.addScore(100);
-                PlayState.current.hud.scoreHUD.updateScoreDisplay();
-                PlayState.current.inventory.removeOrder(thisOrder.ticket);
-                SoundManager.playSound("order_success", 0.4);
-
-                ignitionSound();
-                
-                controller.getComponentByName("CarMovement").startReverse();
+                PlayState.current.deliverOrder(this);
             }
-        }
 
     }
 

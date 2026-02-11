@@ -105,11 +105,12 @@ class PlayState extends TopDownState
 
 	public function createLevel1Debug()
 	{
-		/*
+		
 		debugHUD = new DebugHUD();
 		debugHUD.camera = this.camHUD;
 		add(debugHUD);
-		*/
+		
+		
 
 		var s = ["A1", "A4", "B1", "B7"];
 		for(i in 0...4)
@@ -142,5 +143,23 @@ class PlayState extends TopDownState
         playerController.paused = true;
 		openSubState(pause);
     }
+
+	public function deliverOrder(car:CustomerCar)
+	{
+		var thisOrder = PlayState.current.inventory.getOrderFromStall(car.stallID);
+		if(thisOrder != null && thisOrder.destination == car.stallID)
+		{
+			Score.addScore(100);
+			hud.scoreHUD.updateScoreDisplay();
+			inventory.removeOrder(thisOrder.ticket);
+			thisOrder.satisfied = true;
+
+			SoundManager.playSound("order_success", 0.4);
+
+			car.ignitionSound();
+			car.controller.getComponentByName("CarMovement").startReverse();
+		}
+		
+	}
 
 }
