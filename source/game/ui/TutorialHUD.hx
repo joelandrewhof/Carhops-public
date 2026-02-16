@@ -39,7 +39,7 @@ class TutorialHUD extends FlxSpriteGroup
 
     public function sprintTipCreate()
     {
-        sprintPopup = new TutorialPopup(60, 620);
+        sprintPopup = new TutorialPopup(400, 620);
         sprintPopup.setText(0, 0, 0, "Hold K to skate forward!", 28);
         sprintPopup.setSprite();
         sprintPopup.flashIntensity = 0.5;

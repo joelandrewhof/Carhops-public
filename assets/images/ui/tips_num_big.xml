@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="tips_num_big.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="zero0" x="5" y="5" width="72" height="111" frameX="-7" frameY="-1" frameWidth="82" frameHeight="113"/>
+	<SubTexture name="one0" x="82" y="5" width="50" height="102" frameX="-18" frameY="-3" frameWidth="82" frameHeight="113"/>
+	<SubTexture name="two0" x="137" y="5" width="70" height="110" frameX="-6" frameY="-3" frameWidth="82" frameHeight="113"/>
+	<SubTexture name="three0" x="212" y="5" width="76" height="109" frameX="-2" frameY="0" frameWidth="82" frameHeight="113"/>
+	<SubTexture name="four0" x="293" y="5" width="69" height="106" frameX="-4" frameY="-2" frameWidth="82" frameHeight="113"/>
+	<SubTexture name="five0" x="367" y="5" width="82" height="101" frameX="0" frameY="-5" frameWidth="82" frameHeight="113"/>
+	<SubTexture name="six0" x="5" y="121" width="77" height="95" frameX="-3" frameY="-9" frameWidth="82" frameHeight="113"/>
+	<SubTexture name="seven0" x="87" y="121" width="72" height="94" frameX="-4" frameY="-8" frameWidth="82" frameHeight="113"/>
+	<SubTexture name="eight0" x="164" y="121" width="72" height="105" frameX="-8" frameY="-5" frameWidth="82" frameHeight="113"/>
+	<SubTexture name="nine0" x="241" y="121" width="77" height="102" frameX="-3" frameY="-4" frameWidth="82" frameHeight="113"/>
+</TextureAtlas>
