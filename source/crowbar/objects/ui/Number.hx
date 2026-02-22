@@ -91,7 +91,6 @@ class NumberGroup extends FlxTypedSpriteGroup<Number>
         while(s.length < minimumLength) {
             s = "0" + s;
         }
-        trace(s);
         return s;
     }
 }

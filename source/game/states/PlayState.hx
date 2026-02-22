@@ -112,7 +112,7 @@ class PlayState extends TopDownState
 		
 		
 
-		var s = ["A1", "A4", "B1", "B7"];
+		var s = ["A1", "A2", "A3", "A4"];
 		for(i in 0...4)
 		{
 			conductor.createOrderEntire(s[i]);

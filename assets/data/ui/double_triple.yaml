@@ -1,0 +1,7 @@
+spritesheet: "double_triple"
+
+animations:
+ - {name: "double-in", prefix: "double", fps: 30, loop: false, indices: [0, 1, 2, 3, 4, 5, 6, 7]}
+ - {name: "double-loop", prefix: "double", fps: 30, loop: true, indices: [8]}
+ - {name: "triple-in", prefix: "triple", fps: 30, loop: false, indices: [0, 1, 2, 3, 4, 5, 6, 7]}
+ - {name: "triple-loop", prefix: "triple", fps: 30, loop: true, indices: [8, 9, 10, 11, 12, 13, 14, 15]}

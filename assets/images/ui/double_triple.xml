@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="double_triple.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="double0000" x="5" y="5" width="461" height="81" frameX="0" frameY="-21" frameWidth="461" frameHeight="134"/>
+	<SubTexture name="double0001" x="471" y="5" width="318" height="86" frameX="-72" frameY="-28" frameWidth="461" frameHeight="134"/>
+	<SubTexture name="double0002" x="794" y="5" width="221" height="125" frameX="-121" frameY="-5" frameWidth="461" frameHeight="134"/>
+	<SubTexture name="double0003" x="1020" y="5" width="193" height="134" frameX="-135" frameY="0" frameWidth="461" frameHeight="134"/>
+	<SubTexture name="double0004" x="1218" y="5" width="213" height="121" frameX="-125" frameY="-3" frameWidth="461" frameHeight="134"/>
+	<SubTexture name="double0005" x="1436" y="5" width="239" height="114" frameX="-112" frameY="-5" frameWidth="461" frameHeight="134"/>
+	<SubTexture name="double0006" x="1680" y="5" width="227" height="107" frameX="-118" frameY="-9" frameWidth="461" frameHeight="134"/>
+	<SubTexture name="double0007" x="5" y="144" width="221" height="104" frameX="-121" frameY="-10" frameWidth="461" frameHeight="134"/>
+	<SubTexture name="double0008" x="231" y="144" width="223" height="102" frameX="-120" frameY="-11" frameWidth="461" frameHeight="134"/>
+	<SubTexture name="triple0000" x="459" y="144" width="222" height="298" frameX="-49" frameY="-11" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0001" x="686" y="144" width="277" height="286" frameX="-12" frameY="-15" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0002" x="968" y="144" width="287" height="242" frameX="0" frameY="-36" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0003" x="1260" y="144" width="182" height="287" frameX="-53" frameY="-4" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0004" x="1447" y="144" width="210" height="273" frameX="-50" frameY="0" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0005" x="1662" y="144" width="242" height="227" frameX="-32" frameY="-18" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0006" x="5" y="447" width="253" height="146" frameX="-26" frameY="-61" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0007" x="263" y="447" width="266" height="129" frameX="-25" frameY="-78" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0008" x="534" y="447" width="272" height="121" frameX="-24" frameY="-87" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0009" x="811" y="447" width="272" height="121" frameX="-24" frameY="-87" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0010" x="1088" y="447" width="272" height="121" frameX="-24" frameY="-87" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0011" x="1365" y="447" width="272" height="121" frameX="-24" frameY="-87" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0012" x="1642" y="447" width="272" height="121" frameX="-24" frameY="-87" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0013" x="5" y="598" width="272" height="121" frameX="-24" frameY="-87" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0014" x="282" y="598" width="272" height="121" frameX="-24" frameY="-87" frameWidth="296" frameHeight="309"/>
+	<SubTexture name="triple0015" x="559" y="598" width="272" height="121" frameX="-24" frameY="-87" frameWidth="296" frameHeight="309"/>
+</TextureAtlas>

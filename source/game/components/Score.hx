@@ -9,7 +9,7 @@ class Score
     public static var streak:Int = 0;
     public static var comboTime:Float = 0.0;
 
-    public static final maxComboTime:Float = 1.0;
+    public static final maxComboTime:Float = 1.8;
     public static final baseTipAmount:Float = 0.20;
     public static final comboExponent:Float = 1.2;
     public static final streakMultiplier:Float = 4;

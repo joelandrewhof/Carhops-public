@@ -4,6 +4,7 @@ import crowbar.Settings;
 import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 import openfl.text.TextFormatAlign;
+import yaml.Yaml;
 
 /**
  * Global Sprite tools
@@ -177,6 +178,32 @@ class CrowbarSprite extends FlxSprite
 	{
 		FlxTween.cancelTweensOf(this, fieldPaths);
 	}
+
+	public function loadFromYaml(yaml:String)
+    {
+        var data = AssetHelper.parseAsset("data/" + yaml, YAML);
+        if (data == null) {
+            trace('OW Character ${yaml} could not be parsed due to a inexistent file, Please provide a file called "${yaml}.yaml" in the "data/" directory.');
+            return;
+        }
+
+        loadSprite("images/" + yaml, true);
+
+        //add animations
+        var animations:Array<Dynamic> = data.animations ?? [];
+        if (animations.length == 0) {
+            trace('Object ${data.spritesheet} has no animations. Please assign animations to use a yaml file.');
+            return;
+        }
+        var j = 0;
+        for (i in animations) 
+        {
+            this.addAtlasAnim(i.name, i.prefix, i.fps ?? 12, i.loop ?? false, cast(i.indices ?? []));
+            if(j == 0) this.playAnim(i.name);
+            j++;
+        }
+        
+    }
 }
 
 class ChildSprite extends CrowbarSprite

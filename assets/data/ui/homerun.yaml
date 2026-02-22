@@ -1,0 +1,7 @@
+spritesheet: "homerun"
+
+animations:
+ - {name: "home-bump", prefix: "combo_homerun_home", fps: 30, loop: false, indices: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]}
+ - {name: "home-loop", prefix: "combo_homerun_home", fps: 30, loop: true, indices: [15]}
+ - {name: "run-bump", prefix: "combo_homerun_run", fps: 30, loop: false, indices: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]}
+ - {name: "run-loop", prefix: "combo_homerun_run", fps: 30, loop: true, indices: [19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]}
