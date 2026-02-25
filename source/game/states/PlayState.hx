@@ -154,7 +154,7 @@ class PlayState extends TopDownState
 			Score.addCombo();
 			Score.addStreak();
 			Score.doScoreCalculation(thisOrder);
-			hud.scoreHUD.updateScoreDisplay();
+			//hud.scoreHUD.updateScoreDisplay();
 			inventory.removeOrder(thisOrder.ticket);
 			thisOrder.satisfied = true;
 

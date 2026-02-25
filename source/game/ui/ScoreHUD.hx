@@ -4,6 +4,8 @@ import crowbar.display.CrowbarText;
 import flixel.group.FlxSpriteGroup;
 import game.components.Score;
 
+
+//OUTDATED CLASS
 class ScoreHUD extends FlxSpriteGroup
 {
     public var score:CrowbarText;

@@ -9,6 +9,9 @@ import game.components.Score;
 
 class OrderRating extends FlxTypedSpriteGroup<CrowbarSprite>
 {
+    public var originX:Float = 0;
+    public var originY:Float = 0;
+
     public var doubleTriple:CrowbarSprite;
     public var home:CrowbarSprite;
     public var run:CrowbarSprite;
@@ -25,10 +28,19 @@ class OrderRating extends FlxTypedSpriteGroup<CrowbarSprite>
 
     public var spinning:Bool = false;
 
+    public var secondaryOffsetMap:Map<Int, Array<Int>> = [
+        1 => [-50, -20],
+        2 => [20, 20],
+        3 => [30, 50],
+        4 => [40, 60]
+    ];
+
     public function new(x:Float, y:Float)
     {
         super(x, y);
         directAlpha = true;
+        originX = x;
+        originY = y;
 
         doubleTriple = new CrowbarSprite(0, 0);
         doubleTriple.loadFromYaml("ui/double_triple");
@@ -93,12 +105,22 @@ class OrderRating extends FlxTypedSpriteGroup<CrowbarSprite>
     {
         this.setPosition(x, y);
         doubleTriple.setPosition(0 + x, 0 + y);
-        home.setPosition(0 + x, 0 + y);
+        home.setPosition(-50 + x, -70 + y);
         run.setPosition(home.x + 190, home.y - 85);
 
-        timeBonus.setPosition(80 + x, 130 + x);
-        streakText.setPosition(timeBonus.x + 70, timeBonus.y + 55);
+        var c = returnOffsetFromCombo();
+        trace(c);
+        timeBonus.setPosition(300 + x + c[0], 70 + y + c[1]);
+        streakText.setPosition(timeBonus.x + 150, timeBonus.y + 55);
         streakFire.setPosition(streakText.x - 30, streakText.y - 55);
+    }
+
+    public function returnOffsetFromCombo():Array<Int>
+    {
+        var c = Score.combo;
+        if(c > 4) c = 4;
+        if(c < 1) c = 1;
+        return secondaryOffsetMap.get(c);
     }
 
     public function updateRatingAnimation()
@@ -106,11 +128,14 @@ class OrderRating extends FlxTypedSpriteGroup<CrowbarSprite>
         if(lastCombo < Score.combo) //if combo increased, add it
         {
             bonusTween();
+            positionElements(originX, originY);
             switch(Score.combo)
             {
                 case 1: {
                         animStartup();
-                        positionElements(100, 400);
+                        doubleTriple.visible = false;
+                        home.visible = false;
+                        run.visible = false;
                     }
                 case 2:
                     animDouble();
@@ -150,8 +175,10 @@ class OrderRating extends FlxTypedSpriteGroup<CrowbarSprite>
             streakText.alpha = num;
         if(streakFire.alpha < num )
             streakFire.alpha = num;
-        timeBonus.x = this.x + 80 - (50 * num);
-        streakText.x = this.x + 200 - (75 * num);
+
+        var c = returnOffsetFromCombo();
+        timeBonus.x = this.x + 300 + c[0] - (50 * num);
+        streakText.x = this.x + 450 + c[0] - (75 * num);
         streakFire.x = streakText.x - 30;
     }
 

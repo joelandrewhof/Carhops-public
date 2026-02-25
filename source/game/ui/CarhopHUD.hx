@@ -6,7 +6,7 @@ import game.ui.*;
 class CarhopHUD extends FlxSpriteGroup
 {
     public var invtHUD:InventoryHUD;
-    public var scoreHUD:ScoreHUD;
+    //public var scoreHUD:ScoreHUD;
     public var staminaBar:StaminaBar;
     public var tipsHUD:TipsHUD;
     public var orderRating:OrderRating;
@@ -17,10 +17,8 @@ class CarhopHUD extends FlxSpriteGroup
         invtHUD = new InventoryHUD(FlxG.width - 130, 30);
         add(invtHUD);
 
-        scoreHUD = new ScoreHUD(FlxG.width - 300, FlxG.height - 100);
-        add(scoreHUD);
-
         staminaBar = new StaminaBar(50, 650);
+        staminaBar.x = ((FlxG.width * 0.5) - (staminaBar.width * 0.5));
         add(staminaBar);
 
         tipsHUD = new TipsHUD(40, 560);
@@ -28,7 +26,7 @@ class CarhopHUD extends FlxSpriteGroup
         tipsHUD.numWhole.updateNumbers();
         tipsHUD.numDec.updateNumbers();
 
-        orderRating = new OrderRating(100, 400);
+        orderRating = new OrderRating(150, 450);
         add(orderRating);
     }
 }

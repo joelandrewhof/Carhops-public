@@ -21,11 +21,6 @@ class DebugHUD extends FlxSpriteGroup
         addElements();
         //NULL CHECK THIS
         skate = PlayState.current.playerController.getComponentByName("SkateMovement");
-
-        add(new DialClock(50, 50));
-
-        numGrp = new NumberGroup(0, 0, "tips_num_big", 123);
-        add(numGrp);
     }
 
     override function update(elapsed:Float)
