@@ -86,8 +86,8 @@ class HUDReceipt extends FlxSpriteGroup
         add(receipt);
 
         ticket = new CrowbarText(x + 10, y + 10);
-        ticket.setFormat("vcr", 54, FlxColor.BLACK, CENTER);
-        ticket.setFont("vcr", 54);
+        ticket.setFormat("OCR-B", 54, FlxColor.BLACK, CENTER);
+        ticket.setFont("OCR-B", 54);
         ticket.setColor(FlxColor.BLACK);
         ticket.antialiasing = false;
         ticket.updateHitbox();
@@ -95,7 +95,7 @@ class HUDReceipt extends FlxSpriteGroup
         add(ticket);
 
         stall = new CrowbarText(x + 10, y + 75);
-        stall.setFont("vcr", 24);
+        stall.setFont("OCR-B", 24);
         stall.setColor(0xFF991010);
         stall.antialiasing = false;
         add(stall);

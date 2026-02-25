@@ -1,5 +1,6 @@
 package game.ui;
 
+import flixel.input.keyboard.FlxKey;
 import crowbar.display.CrowbarSprite;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.tweens.FlxTween;
@@ -12,16 +13,22 @@ class OrderRating extends FlxTypedSpriteGroup<CrowbarSprite>
     public var home:CrowbarSprite;
     public var run:CrowbarSprite;
 
+    public var timeBonus:CrowbarSprite;
+    public var streakFire:CrowbarSprite;
+    public var streakText:CrowbarSprite;
+
     public var lastCombo:Int;
 
     public var fadeTween:FlxTween;
     public var landTween:FlxTween;
+    public var bonusTweenIn:FlxTween;
 
     public var spinning:Bool = false;
 
     public function new(x:Float, y:Float)
     {
         super(x, y);
+        directAlpha = true;
 
         doubleTriple = new CrowbarSprite(0, 0);
         doubleTriple.loadFromYaml("ui/double_triple");
@@ -42,6 +49,23 @@ class OrderRating extends FlxTypedSpriteGroup<CrowbarSprite>
         home.visible = false;
         run.visible = false;
 
+        streakText = new CrowbarSprite(0, 50, "images/ui/streak_text");
+
+        streakFire = new CrowbarSprite(0, 50);
+        streakFire.loadSprite("images/ui/streak_fire", true);
+        streakFire.addAtlasAnim("loop", "streak_fire", 12, true);
+        streakFire.playAnim("loop");
+
+        timeBonus = new CrowbarSprite(0, 0, "images/ui/time_bonus");
+
+        add(timeBonus);
+        add(streakFire);
+        add(streakText);
+
+        timeBonus.visible = false;
+        streakFire.visible = false;
+        streakText.visible = false;
+
     }
 
     override function update(elapsed:Float)
@@ -60,15 +84,34 @@ class OrderRating extends FlxTypedSpriteGroup<CrowbarSprite>
             }
         }
 
+        updateSecondaries();
+
         lastCombo = Score.combo;
+    }
+
+    public function positionElements(x:Float, y:Float)
+    {
+        this.setPosition(x, y);
+        doubleTriple.setPosition(0 + x, 0 + y);
+        home.setPosition(0 + x, 0 + y);
+        run.setPosition(home.x + 190, home.y - 85);
+
+        timeBonus.setPosition(80 + x, 130 + x);
+        streakText.setPosition(timeBonus.x + 70, timeBonus.y + 55);
+        streakFire.setPosition(streakText.x - 30, streakText.y - 55);
     }
 
     public function updateRatingAnimation()
     {
         if(lastCombo < Score.combo) //if combo increased, add it
         {
+            bonusTween();
             switch(Score.combo)
             {
+                case 1: {
+                        animStartup();
+                        positionElements(100, 400);
+                    }
                 case 2:
                     animDouble();
                 case 3:
@@ -86,14 +129,93 @@ class OrderRating extends FlxTypedSpriteGroup<CrowbarSprite>
         }
     }
 
+    public function updateSecondaries()
+    {
+        animTimeBonus();
+        animStreakBonus();
+    }
+
+    public function bonusTween()
+    {
+        bonusTweenIn = FlxTween.num(0.0, 1.2, 0.3, {
+            ease:FlxEase.circOut
+        }, _bonusNumTwnFunc);
+    }
+
+    private function _bonusNumTwnFunc(num:Float){
+        //these if's will make it so it doesn't fade back in on subsequent combos.
+        if(timeBonus.alpha < num)
+            timeBonus.alpha = num;
+        if(streakText.alpha < num)
+            streakText.alpha = num;
+        if(streakFire.alpha < num )
+            streakFire.alpha = num;
+        timeBonus.x = this.x + 80 - (50 * num);
+        streakText.x = this.x + 200 - (75 * num);
+        streakFire.x = streakText.x - 30;
+    }
+
+    public function animTimeBonus()
+    {
+        if(Score.combo > 0 && Score.lastTimeBonus > 0)
+        {
+            if(!timeBonus.visible) {
+                timeBonus.visible = true;
+
+            }
+            
+        }
+        else if(Score.lastTimeBonus <= 0)
+        {
+            timeBonus.visible = false;
+            timeBonus.alpha = 0.0;
+        }
+    }
+
+    public function animStreakBonus()
+    {
+        if(Score.combo > 0 && Score.lastStreakBonus > 0)
+        {
+            streakText.visible = true;
+            streakFire.visible = true;
+
+            /*
+            if(streakTweenIn == null || !streakTweenIn.active)
+            {
+                streakTweenIn = FlxTween.tween(streakText, {x: streakText.x - 50, alpha: 1.0}, 0.3);
+            }
+            */
+        }
+        else if(Score.lastStreakBonus <= 0)
+        {
+            streakText.visible = false;
+            streakFire.visible = false;
+            streakText.alpha = 0.0;
+            streakFire.alpha = 0.0;
+        }
+    }
+
     public function animClear()
     {
 
     }
 
+    public function invisibleAll(?twn:FlxTween)
+    {
+        home.visible = false;
+        run.visible = false;
+        doubleTriple.visible = false;
+        streakText.visible = false;
+        streakFire.visible = false;
+        timeBonus.visible = false;
+        streakText.alpha = 0.0;
+        streakFire.alpha = 0.0;
+        timeBonus.alpha = 0.0;
+    }
+
     public function fadeOut()
     {
-        fadeTween = FlxTween.tween(this, {alpha: 0.0}, 0.3);
+        fadeTween = FlxTween.tween(this, {alpha: 0.0}, 0.3, {onComplete: invisibleAll});
     }
 
     public function animStartup()

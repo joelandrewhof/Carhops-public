@@ -152,6 +152,7 @@ class PlayState extends TopDownState
 		if(thisOrder != null && thisOrder.destination == car.stallID) //if the order is in the inventory and it matches this car
 		{
 			Score.addCombo();
+			Score.addStreak();
 			Score.doScoreCalculation(thisOrder);
 			hud.scoreHUD.updateScoreDisplay();
 			inventory.removeOrder(thisOrder.ticket);
