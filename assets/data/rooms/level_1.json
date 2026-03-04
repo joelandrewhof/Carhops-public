@@ -389,6 +389,246 @@
           "originX": 0,
           "originY": 0,
           "values": {"flipX": false, "flipY": false, "elevation": -1000}
+        },
+        {
+          "x": 480,
+          "y": 2224,
+          "texture": "kiosk_left.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 480,
+          "y": 1888,
+          "texture": "kiosk_left.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 480,
+          "y": 1200,
+          "texture": "kiosk_left.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 480,
+          "y": 1536,
+          "texture": "kiosk_left.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 496,
+          "y": 512,
+          "texture": "kiosk_left.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 496,
+          "y": 848,
+          "texture": "kiosk_left.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 496,
+          "y": 144,
+          "texture": "kiosk_left.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 563,
+          "y": 2234,
+          "texture": "kiosk_num_A1.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 563,
+          "y": 1897,
+          "texture": "kiosk_num_A2.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 563,
+          "y": 1546,
+          "texture": "kiosk_num_A3.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 563,
+          "y": 1210,
+          "texture": "kiosk_num_A4.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 579,
+          "y": 859,
+          "texture": "kiosk_num_A5.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 579,
+          "y": 522,
+          "texture": "kiosk_num_A6.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 579,
+          "y": 153,
+          "texture": "kiosk_num_A7.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 2448,
+          "y": 240,
+          "texture": "kiosk_right_back.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 2448,
+          "y": 592,
+          "texture": "kiosk_right_back.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 2448,
+          "y": 1280,
+          "texture": "kiosk_right_back.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 2448,
+          "y": 928,
+          "texture": "kiosk_right_back.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 2448,
+          "y": 1984,
+          "texture": "kiosk_right_back.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 2448,
+          "y": 1632,
+          "texture": "kiosk_right_back.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 2448,
+          "y": 2336,
+          "texture": "kiosk_right_back.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
+        },
+        {
+          "x": 2494,
+          "y": 268,
+          "texture": "kiosk_num_B7.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 2493,
+          "y": 620,
+          "texture": "kiosk_num_B6.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 2493,
+          "y": 956,
+          "texture": "kiosk_num_B5.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 2494,
+          "y": 1308,
+          "texture": "kiosk_num_B4.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 2494,
+          "y": 1660,
+          "texture": "kiosk_num_B3.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 2494,
+          "y": 2012,
+          "texture": "kiosk_num_B2.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 2494,
+          "y": 2364,
+          "texture": "kiosk_num_B1.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 400}
+        },
+        {
+          "x": 1845.881420120114,
+          "y": 2331.0600249269773,
+          "texture": "floor_paint_letter_b.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": -1000}
+        },
+        {
+          "x": 990.2898576389584,
+          "y": 2324.6819008575653,
+          "texture": "floor_paint_letter_a.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": -1000}
         }
       ],
       "folder": "../../images/rooms/decals"
