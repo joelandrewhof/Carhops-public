@@ -178,7 +178,16 @@
       "gridCellsX": 19,
       "gridCellsY": 14,
       "entities": [
-        {"name": "CustomerCar", "id": 0, "_eid": "99649641", "x": 512, "y": 384, "originX": 0, "originY": 0}
+        {
+          "name": "Stall",
+          "id": 0,
+          "_eid": "99649641",
+          "x": 512,
+          "y": 384,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "", "orientation": 5}
+        }
       ]
     }
   ]

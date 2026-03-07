@@ -360,7 +360,7 @@
     },
     {
       "exportID": "99649641",
-      "name": "CustomerCar",
+      "name": "Stall",
       "limit": -1,
       "size": {"x": 16, "y": 16},
       "origin": {"x": 0, "y": 0},
@@ -392,7 +392,10 @@
       "nodeDisplay": 0,
       "nodeGhost": true,
       "tags": [],
-      "values": []
+      "values": [
+        {"name": "id", "definition": "String", "display": 0, "defaults": "", "maxLength": 0, "trimWhitespace": true},
+        {"name": "orientation", "definition": "Integer", "display": 0, "defaults": 5, "bounded": true, "min": 0, "max": 7}
+      ]
     }
   ],
   "tilesets": [

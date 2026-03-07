@@ -629,6 +629,14 @@
           "originX": 0,
           "originY": 0,
           "values": {"flipX": false, "flipY": false, "elevation": -1000}
+        },
+        {
+          "x": 752,
+          "y": 2496,
+          "texture": "trashCan_outside_right.png",
+          "originX": 0,
+          "originY": 0,
+          "values": {"flipX": false, "flipY": false, "elevation": 0}
         }
       ],
       "folder": "../../images/rooms/decals"
@@ -754,7 +762,18 @@
       "gridCellHeight": 64,
       "gridCellsX": 49,
       "gridCellsY": 45,
-      "entities": []
+      "entities": [
+        {
+          "name": "Stall",
+          "id": 0,
+          "_eid": "99649641",
+          "x": 1472,
+          "y": 704,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "", "orientation": 5}
+        }
+      ]
     }
   ]
 }

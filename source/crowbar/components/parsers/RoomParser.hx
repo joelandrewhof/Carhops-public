@@ -54,6 +54,11 @@ class RoomParser
         };
     }
 
+    public function loadObject(className:String, data:Dynamic):Null<Dynamic>
+    {
+        var obj = Type.resolveClass(className)
+    }
+
     public function loadAllTilemapLayers(?exclude:Array<String>):FlxTypedGroup<CrowbarTilemap>
     {
         //returns all tilemap layers from the json as tilemaps.
