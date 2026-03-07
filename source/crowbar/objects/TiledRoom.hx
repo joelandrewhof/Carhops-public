@@ -1,5 +1,6 @@
 package crowbar.objects;
 
+import crowbar.states.game.TopDownState;
 import flixel.tile.FlxTilemap;
 import flixel.math.FlxRect;
 import flixel.group.FlxGroup;
@@ -7,6 +8,7 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import crowbar.components.parsers.RoomParser;
+import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import crowbar.objects.LoadingZone;
 import crowbar.components.Interactable;
 import crowbar.objects.EventTrigger;
@@ -19,7 +21,8 @@ import crowbar.components.Collision;
 */
 class TiledRoom extends FlxTypedGroup<FlxObject>
 {
-    var parser:RoomParser;
+    //reference
+    public var parser:RoomParser;
 
     //all map visuals
     public var black:FlxSprite;
@@ -40,16 +43,15 @@ class TiledRoom extends FlxTypedGroup<FlxObject>
     //the boundaries of the room
     public var roomBounds:FlxRect;
 
-    public function new(roomName:String)
+    public function new(roomName:String, mainState:TopDownState)
     {
         super();
-        load(roomName);
+        load(roomName, mainState);
     }
 
-    public function load(roomName:String)
+    public function load(roomName:String, mainState:TopDownState)
     {
-        parser = new RoomParser(roomName);
-
+        this.parser = mainState.roomParser;
         //add the collision grid before the sprites, i think black needs it to prevent null exception
         collisionGrid = parser.loadGridLayer("collision");
         add(collisionGrid);
@@ -57,12 +59,12 @@ class TiledRoom extends FlxTypedGroup<FlxObject>
 
         //sprite/tilemap setup
         black = new FlxSprite().makeGraphic(Std.int(roomBounds.width), Std.int(roomBounds.height), 0xFF000000);
-        tilemaps = parser.loadAllTilemapLayers(["foreground"]);
-        background = parser.loadDecalLayer(parser.getDecalLayerByName("Background"));
-        decals = parser.loadDecalLayer(parser.getDecalLayerByName("Decals"));
+        tilemaps = parser.loadAllTilemapLayers(["foreground", "background"]);
+        background = parser.loadDecalLayerAdvanced(parser.getDecalLayerByName("Background"));
+        decals = parser.loadDecalLayerAdvanced(parser.getDecalLayerByName("Decals"));
             
         foregroundTilemap = parser.initializeTilemap(parser.getTileLayerByName("foreground"));
-        foregroundDecals = parser.loadDecalLayer(parser.getDecalLayerByName("Foreground"));
+        foregroundDecals = parser.loadDecalLayerAdvanced(parser.getDecalLayerByName("Foreground"));
 
         //add the black backdrop
         //add(black);

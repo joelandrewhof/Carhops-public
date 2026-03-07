@@ -30,6 +30,8 @@ class TopDownState extends FlxState
 {
     public static var current:TopDownState;
 
+    public var roomParser:RoomParser;
+
     public var curRoomName:String = "default_level";
     var spawnX:Int;
     var spawnY:Int;
@@ -48,8 +50,6 @@ class TopDownState extends FlxState
     public var camOffset:FlxPoint;
     public var cameraScale:Float = 1.0;
 
-    //mainly for NPC parsing, i don't want NPCs in the room object but it makes sense to store them in the room file.
-    public var roomParser:RoomParser;
     public var foregroundDecals:Array<FlxSprite>;
     public var foregroundTiles:FlxTilemap;
 
@@ -139,7 +139,7 @@ class TopDownState extends FlxState
     {
         curRoomName = roomName;
         initiateManagers();
-        roomParser = new RoomParser(curRoomName);
+        roomParser = new RoomParser("carhops.ogmo", curRoomName + ".json");
 
         var roomVal = roomParser.getRoomValues();
         loadSound(roomVal.music, roomVal.ambience, roomVal.musicPitch);
@@ -205,7 +205,7 @@ class TopDownState extends FlxState
 
     inline function loadRoom(roomName:String)
     {
-        room = new TiledRoom(roomName);
+        room = new TiledRoom(roomName, this);
     }
 
     function loadSound(music:String, ambience:String, ?pitch:Float = 1.0)

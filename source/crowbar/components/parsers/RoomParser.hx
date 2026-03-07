@@ -1,5 +1,6 @@
 package crowbar.components.parsers;
 
+import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import funkin.components.parsers.*;
 import flixel.tile.FlxTilemap;
 import flixel.group.FlxGroup;
@@ -10,53 +11,28 @@ import crowbar.states.game.TopDownState;
 import crowbar.objects.TopDownSprite;
 import crowbar.objects.CrowbarTilemap;
 
-class RoomParser
+class RoomParser extends FlxOgmo3Loader
 {
-    //look i know it's probably stupid to not just import the ogmo addons
-    //but i don't necessarily want to fuck with these addons for a game mod
-
-    var json:LevelData;
-
     private final _defaultRoom:String = "default_level";
 
     // **FILEPATHS**
     public static final _defaultDecalDirectory:String = 'images/rooms/decals/';
+    public static final _defaultTileDirectory:String = 'images/rooms/tile/';
+    public static final _defaultRoomDirectory:String = "assets/data/rooms/";
 
-    public function new(?jsonFile:String)
+    public function new(projectFile:String, roomFile:String)
     {
-        if(jsonFile != null) 
-            updateRoomJson(jsonFile);
-    }
-
-    public function updateRoomJson(jsonFile:String, ?folder:String = "")
-    {
-        if(folder == null) folder = "";
-        if(folder != "") folder += "/";
-
-        if(roomFileExists(folder + jsonFile))
-            json = cast(AssetHelper.parseAsset('data/rooms/${folder}${jsonFile}', JSON));
-        else
-        {
-            json = cast(AssetHelper.parseAsset('data/rooms/${_defaultRoom}', JSON));
-        }
-    }
-
-    public function roomFileExists(filePath:String):Bool
-    {
-        return Tools.fileExists(AssetHelper.getPath('data/rooms/${filePath}', JSON));
+        super(_defaultRoomDirectory + projectFile, _defaultRoomDirectory + roomFile);
     }
     
     public function getRoomValues():Dynamic
     {
-        return json.values ?? {
-            music: "none",
-            ambience: "none",
-        };
+        return level.values;
     }
 
-    public function loadObject(className:String, data:Dynamic):Null<Dynamic>
+    public function getRoomValue(value:String):Dynamic
     {
-        var obj = Type.resolveClass(className)
+        return getLevelValue(value);
     }
 
     public function loadAllTilemapLayers(?exclude:Array<String>):FlxTypedGroup<CrowbarTilemap>
@@ -71,31 +47,31 @@ class RoomParser
 
         var mapGroup:FlxTypedGroup<CrowbarTilemap> = new FlxTypedGroup<CrowbarTilemap>();
         //this reverse for-loop returns layers bottom to top, so the uppermost layers in the .json file are drawn on top.
-        for(i in 0...json.layers.length)
+        for(i in 0...level.layers.length)
         {
-            var j = json.layers.length - 1 - i;
-            if(Reflect.hasField(json.layers[j], "tileset") && !exclude.contains(json.layers[j].name.toLowerCase()))
+            var j = level.layers.length - 1 - i;
+            if(Reflect.hasField(level.layers[j], "tileset") && !exclude.contains(level.layers[j].name.toLowerCase()))
             {
 
-                mapGroup.add(initializeTilemap(cast json.layers[j]));
+                mapGroup.add(initializeTilemap(cast level.layers[j]));
             }
         }
         return mapGroup;
     }
 
     //set includes to true in order to check if the layer includes the string rather than equals to it.
-    public function getTileLayerByName(name:String = "do the stanky leg", ?includes:Bool = false):TileLayer
+    public function getTileLayerByName(name:String = "", ?includes:Bool = false):TileLayer
     {
         var tl:TileLayer = null;
-        for(i in 0...json.layers.length)
+        for(i in 0...level.layers.length)
         {
-            if(Reflect.hasField(json.layers[i], "tileset") && //if it's a tilemap
-                Reflect.hasField(json.layers[i], "name")) //null safety for name field
+            if(Reflect.hasField(level.layers[i], "tileset") && //if it's a tilemap
+                Reflect.hasField(level.layers[i], "name")) //null safety for name field
             {
-                if(json.layers[i].name.toLowerCase() == name.toLowerCase() || 
-                    (includes && StringTools.contains(json.layers[i].name.toLowerCase(), name.toLowerCase())))
+                if(level.layers[i].name.toLowerCase() == name.toLowerCase() || 
+                    (includes && StringTools.contains(level.layers[i].name.toLowerCase(), name.toLowerCase())))
                 {
-                    tl = cast json.layers[i];
+                    tl = cast level.layers[i];
                     return tl;
                 }
             }
@@ -106,12 +82,12 @@ class RoomParser
     public function loadAllGridLayers():FlxTypedGroup<CrowbarTilemap>
     {
         var mapGroup:FlxTypedGroup<CrowbarTilemap> = new FlxTypedGroup<CrowbarTilemap>();
-        for(i in 0...json.layers.length)
+        for(i in 0...level.layers.length)
         {
-            var j = json.layers.length - 1 - i;
-            if(Reflect.hasField(json.layers[j], "grid"))
+            var j = level.layers.length - 1 - i;
+            if(Reflect.hasField(level.layers[j], "grid"))
             {
-                mapGroup.add(initializeTilemap(cast json.layers[j]));
+                mapGroup.add(initializeTilemap(cast level.layers[j]));
             }
         }
         return mapGroup;
@@ -121,12 +97,12 @@ class RoomParser
         {
             //loads a specific grid layer by name
             var map:CrowbarTilemap = new CrowbarTilemap();
-            for(i in 0...json.layers.length)
+            for(i in 0...level.layers.length)
             {
-                var j = json.layers.length - 1 - i;
-                if(Reflect.hasField(json.layers[j], "grid") && json.layers[j].name == layerName)
+                var j = level.layers.length - 1 - i;
+                if(Reflect.hasField(level.layers[j], "grid") && level.layers[j].name == layerName)
                 {
-                    map = initializeGridmap(cast json.layers[j]);
+                    map = initializeGridmap(cast level.layers[j]);
                 }
             }
             return map;
@@ -158,7 +134,7 @@ class RoomParser
     {
         //am i doing it right
         var entityLayers:Array<EntityLayer> = new Array<EntityLayer>();
-        for(layer in json.layers)
+        for(layer in level.layers)
         {
             if(Reflect.hasField(layer, "entities"))
             {
@@ -170,7 +146,7 @@ class RoomParser
 
     public function getEntityLayerByName(name:String):EntityLayer
     {
-        for(layer in json.layers)
+        for(layer in level.layers)
         {
             if(Reflect.hasField(layer, "entities") && layer.name == name)
             {
@@ -250,7 +226,7 @@ class RoomParser
     public function getDecalLayers():Array<DecalLayer>
     {
         var decalLayers:Array<DecalLayer> = new Array<DecalLayer>();
-        for(layer in json.layers)
+        for(layer in level.layers)
         {
             if(Reflect.hasField(layer, "decals"))
             {
@@ -278,7 +254,7 @@ class RoomParser
     public function getDecalLayerByName(name:String):DecalLayer
     {
         var decalLayer:DecalLayer = null;
-        for(layer in json.layers)
+        for(layer in level.layers)
         {
             if(Reflect.hasField(layer, "decals")) //if it's a decal layer
             {
@@ -303,11 +279,11 @@ class RoomParser
 
         //NOTE: THE NAME OF THE TILESET IN OGMO HAS TO BE EXACTLY THE SAME AS THE TILESHEET FILE.
         var graphic = null;
-        graphic = AssetHelper.getAsset('images/rooms/tile/${layer.tileset}', IMAGE);
+        graphic = AssetHelper.getAsset(_defaultTileDirectory + layer.tileset, IMAGE);
         if(graphic == null) //backup
         {
-            trace('WARNING: could not find tile graphic at images/rooms/tile/${layer.tileset}');
-            graphic = AssetHelper.getAsset('images/rooms/tile/tile_default', IMAGE);
+            trace('WARNING: could not find tile graphic at ${_defaultTileDirectory + layer.tileset}');
+            graphic = AssetHelper.getAsset('${_defaultTileDirectory}tile_default', IMAGE);
         }
             
 
@@ -344,7 +320,7 @@ class RoomParser
                 csv.push(Std.parseInt(i));
             }
             //and i guess you need a graphic too
-            var graphic = AssetHelper.getAsset('images/rooms/tile/empty_grid', IMAGE);
+            var graphic = AssetHelper.getAsset('${_defaultTileDirectory}empty_grid', IMAGE);
             //the loadMapFromCSV doesn't work but this one does... just don't question it
             //trace("CSV " + csv);
             //trace("LAYER " + layer);
@@ -361,12 +337,12 @@ class RoomParser
             return gridmap;
     }
 
-    public function loadDecalLayer(layer:DecalLayer):FlxTypedGroup<TopDownSprite>
+    public function loadDecalLayerAdvanced(layer:DecalLayer):FlxTypedGroup<TopDownSprite>
     {
         var decalGrp:FlxTypedGroup<TopDownSprite> = new FlxTypedGroup<TopDownSprite>();
 
         for(i in 0...layer.decals.length)
-            decalGrp.add(loadDecal(layer.decals[i]));
+            decalGrp.add(loadDecalAdvanced(layer.decals[i]));
 
         decalGrp.members.sort((a:TopDownSprite, b:TopDownSprite) -> 
         FlxSort.byValues(FlxSort.ASCENDING, (a.drawHeight), (b.drawHeight)));
@@ -374,7 +350,7 @@ class RoomParser
         return decalGrp;
     }
 
-    public function loadDecal(decal:DecalData):TopDownSprite
+    public function loadDecalAdvanced(decal:DecalData):TopDownSprite
     {
         //directory removal from ogmo formatting.
         var tex:String = decal.texture;
@@ -423,10 +399,7 @@ class RoomParser
 
     public function getDefaultSpawn():Array<Int>
     {
-        if(json != null)
-            return [json.values.defaultSpawnX, json.values.defaultSpawnY];
-        else
-            return [0, 0];
+        return [level.values.defaultSpawnX ?? 0, level.values.defaultSpawnY ?? 0];
     }
 
     function _flagStringToArray(str:String):Array<String>
@@ -456,121 +429,6 @@ class RoomParser
     }
 }
 
-//imported from ogmoLoader lol
-
-typedef LevelData =
-{
-	width:Int,
-	height:Int,
-	offsetX:Int,
-	offsetY:Int,
-	layers:Array<LayerData>,
-	?values:Dynamic,
-}
-
-/**
- * Level Layer data
- */
-typedef LayerData =
-{
-	name:String,
-	_eid:String,
-	offsetX:Int,
-	offsetY:Int,
-	gridCellWidth:Int,
-	gridCellHeight:Int,
-	gridCellsX:Int,
-	gridCellsY:Int,
-	?entities:Array<EntityData>,
-	?decals:Array<DecalData>,
-	?tileset:String,
-	?data:Array<Int>,
-	?data2D:Array<Array<Int>>,
-	?dataCSV:String,
-	?exportMode:Int,
-	?arrayMode:Int,
-}
-
-/**
- * Tile subset of LayerData
- */
-typedef TileLayer =
-{
-	name:String,
-	_eid:String,
-	offsetX:Int,
-	offsetY:Int,
-	gridCellWidth:Int,
-	gridCellHeight:Int,
-	gridCellsX:Int,
-	gridCellsY:Int,
-	tileset:String,
-	exportMode:Int,
-	arrayMode:Int,
-	?data:Array<Int>,
-	?tileFlags:Array<Int>,
-	?data2D:Array<Array<Int>>,
-	?tileFlags2D:Array<Array<Int>>,
-	?dataCSV:String,
-	?dataCoords:Array<Array<Int>>,
-	?dataCoords2D:Array<Array<Array<Int>>>,
-}
-
-/**
- * Grid subset of LayerData
- */
-typedef GridLayer =
-{
-	name:String,
-	_eid:String,
-	offsetX:Int,
-	offsetY:Int,
-	gridCellWidth:Int,
-	gridCellHeight:Int,
-	gridCellsX:Int,
-	gridCellsY:Int,
-	arrayMode:Int,
-	?grid:Array<String>,
-	?grid2D:Array<Array<String>>,
-}
-
-/**
- * Entity subset of LayerData
- */
-typedef EntityLayer =
-{
-	name:String,
-	_eid:String,
-	offsetX:Int,
-	offsetY:Int,
-	gridCellWidth:Int,
-	gridCellHeight:Int,
-	gridCellsX:Int,
-	gridCellsY:Int,
-	entities:Array<EntityData>,
-}
-
-/**
- * Individual Entity data
- */
-typedef EntityData =
-{
-	name:String,
-	id:Int,
-	_eid:String,
-	x:Int,
-	y:Int,
-	?width:Int,
-	?height:Int,
-	?originX:Int,
-	?originY:Int,
-	?rotation:Float,
-	?flippedX:Bool,
-	?flippedY:Bool,
-	?nodes:Array<{x:Float, y:Float}>,
-	?values:Dynamic,
-}
-
 /**
  * Decal subset of LayerData
  */
@@ -584,7 +442,7 @@ typedef DecalLayer =
 	gridCellHeight:Int,
 	gridCellsX:Int,
 	gridCellsY:Int,
-	decals:Array<DecalData>,
+	decals:Array<RoomParser.DecalData>,
 }
 
 /**
