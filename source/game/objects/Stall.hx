@@ -12,12 +12,12 @@ class Stall extends FlxSprite
     public var currentCar:CustomerCar;
     public var orientation:Int; //range from 0-7, cardinal directions clockwise. depends which way the spawned car faces.
 
-    public var spawnX:Int;
-    public var spawnY:Int;
+    public var spawnX:Float;
+    public var spawnY:Float;
 
     public var showDebug:Bool = false;
 
-    public function new(x:Int, y:Int, id:String, ?orientation:Int = 5)
+    public function new(x:Float, y:Float, id:String, ?orientation:Int = 5)
     {
         super(x, y);
 

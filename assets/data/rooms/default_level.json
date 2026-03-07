@@ -173,10 +173,10 @@
       "_eid": "99640963",
       "offsetX": 0,
       "offsetY": 0,
-      "gridCellWidth": 64,
-      "gridCellHeight": 64,
-      "gridCellsX": 19,
-      "gridCellsY": 14,
+      "gridCellWidth": 16,
+      "gridCellHeight": 16,
+      "gridCellsX": 76,
+      "gridCellsY": 56,
       "entities": [
         {
           "name": "Stall",

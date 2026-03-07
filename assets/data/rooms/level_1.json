@@ -758,21 +758,152 @@
       "_eid": "99640963",
       "offsetX": 0,
       "offsetY": 0,
-      "gridCellWidth": 64,
-      "gridCellHeight": 64,
-      "gridCellsX": 49,
-      "gridCellsY": 45,
+      "gridCellWidth": 16,
+      "gridCellHeight": 16,
+      "gridCellsX": 196,
+      "gridCellsY": 180,
       "entities": [
         {
           "name": "Stall",
-          "id": 0,
+          "id": 1,
           "_eid": "99649641",
-          "x": 1472,
-          "y": 704,
+          "x": 64,
+          "y": 256,
           "originX": 0,
           "originY": 0,
-          "values": {"id": "", "orientation": 5}
-        }
+          "values": {"id": "A7", "orientation": 3}
+        },
+        {
+          "name": "Stall",
+          "id": 2,
+          "_eid": "99649641",
+          "x": 64,
+          "y": 640,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "A6", "orientation": 3}
+        },
+        {
+          "name": "Stall",
+          "id": 3,
+          "_eid": "99649641",
+          "x": 64,
+          "y": 960,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "A5", "orientation": 3}
+        },
+        {
+          "name": "Stall",
+          "id": 4,
+          "_eid": "99649641",
+          "x": 64,
+          "y": 1344,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "A4", "orientation": 3}
+        },
+        {
+          "name": "Stall",
+          "id": 5,
+          "_eid": "99649641",
+          "x": 64,
+          "y": 1664,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "A3", "orientation": 3}
+        },
+        {
+          "name": "Stall",
+          "id": 6,
+          "_eid": "99649641",
+          "x": 64,
+          "y": 1984,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "A2", "orientation": 3}
+        },
+        {
+          "name": "Stall",
+          "id": 7,
+          "_eid": "99649641",
+          "x": 64,
+          "y": 2368,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "A1", "orientation": 3}
+        },
+        {
+          "name": "Stall",
+          "id": 8,
+          "_eid": "99649641",
+          "x": 2496,
+          "y": 2368,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "B1", "orientation": 7}
+        },
+        {
+          "name": "Stall",
+          "id": 9,
+          "_eid": "99649641",
+          "x": 2464,
+          "y": 1984,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "B2", "orientation": 7}
+        },
+        {
+          "name": "Stall",
+          "id": 10,
+          "_eid": "99649641",
+          "x": 2464,
+          "y": 1632,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "B3", "orientation": 7}
+        },
+        {
+          "name": "Stall",
+          "id": 11,
+          "_eid": "99649641",
+          "x": 2464,
+          "y": 1280,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "B4", "orientation": 7}
+        },
+        {
+          "name": "Stall",
+          "id": 12,
+          "_eid": "99649641",
+          "x": 2448,
+          "y": 928,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "B5", "orientation": 7}
+        },
+        {
+          "name": "Stall",
+          "id": 13,
+          "_eid": "99649641",
+          "x": 2464,
+          "y": 576,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "B6", "orientation": 7}
+        },
+        {
+          "name": "Stall",
+          "id": 14,
+          "_eid": "99649641",
+          "x": 2448,
+          "y": 224,
+          "originX": 0,
+          "originY": 0,
+          "values": {"id": "B7", "orientation": 7}
+        },
+        {"name": "OrderTable", "id": 15, "_eid": "87006136", "x": 1280, "y": 1424, "originX": 0, "originY": 0}
       ]
     }
   ]

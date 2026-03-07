@@ -21,6 +21,7 @@ import crowbar.objects.TopDownCharacter;
 import crowbar.objects.Player;
 import crowbar.components.*;
 import crowbar.states.sub.PauseMenu;
+import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 
 import flixel.addons.display.FlxPieDial;
 
@@ -31,7 +32,7 @@ class TopDownState extends FlxState
     public static var current:TopDownState;
 
     public var roomParser:RoomParser;
-
+    public var ogmoProjectName:String = "carhops";
     public var curRoomName:String = "default_level";
     var spawnX:Int;
     var spawnY:Int;
@@ -139,7 +140,7 @@ class TopDownState extends FlxState
     {
         curRoomName = roomName;
         initiateManagers();
-        roomParser = new RoomParser("carhops.ogmo", curRoomName + ".json");
+        roomParser = new RoomParser(ogmoProjectName + ".ogmo", curRoomName + ".json");
 
         var roomVal = roomParser.getRoomValues();
         loadSound(roomVal.music, roomVal.ambience, roomVal.musicPitch);
@@ -159,6 +160,7 @@ class TopDownState extends FlxState
         loadPlayer(playerX, playerY);
         
         loadRoomVisuals();
+        roomParser.loadEntities(loadEntity, "objects");
 
         //add newly loaded objects to the managers for them to track
         actMngr.setupInteractables();
@@ -231,9 +233,9 @@ class TopDownState extends FlxState
         add(playerHitbox);
     }
 
-    function loadNPCs(roomName:String)
+    public function loadEntity(entity:EntityData):Void
     {
-
+        
     }
 
     public function setLoadCallback(func:Void->Void)

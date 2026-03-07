@@ -15,6 +15,8 @@ import game.objects.*;
 import game.components.*;
 import crowbar.objects.Player;
 import game.states.sub.CarhopPauseMenu;
+import game.components.CarhopsEntityParser;
+import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 
 class PlayState extends TopDownState
 {
@@ -59,7 +61,9 @@ class PlayState extends TopDownState
 		tutorialHUD.camera = camHUD;
 		add(tutorialHUD);
 
-		createLevel1Objects();
+		customers = new FlxTypedGroup<CustomerCar>();
+
+		//createLevel1Objects();
 		createLevel1Debug();
 
 		SoundManager.current.setMusicVolume(0.40);
@@ -80,7 +84,7 @@ class PlayState extends TopDownState
 
 	public function createLevel1Objects()
 	{
-		customers = new FlxTypedGroup<CustomerCar>();
+		
 		orderTable = new OrderTable(1280, 1400);
 
 		visMngr.addSprite(orderTable);
@@ -145,6 +149,11 @@ class PlayState extends TopDownState
         playerController.paused = true;
 		openSubState(pause);
     }
+
+	override public function loadEntity(entity:EntityData)
+	{
+		CarhopsEntityParser.loadEntity(entity);
+	}
 
 	public function deliverOrder(car:CustomerCar)
 	{
