@@ -10,6 +10,7 @@ class CarhopHUD extends FlxSpriteGroup
     public var staminaBar:StaminaBar;
     public var tipsHUD:TipsHUD;
     public var orderRating:OrderRating;
+    public var angerHUD:AngerHUD;
 
     public function new()
     {
@@ -28,5 +29,13 @@ class CarhopHUD extends FlxSpriteGroup
 
         orderRating = new OrderRating(150, 450);
         add(orderRating);
+
+        angerHUD = new AngerHUD(0, 0);
+        angerHUD.x = FlxG.width - angerHUD.base.width;
+        angerHUD.y = FlxG.height - angerHUD.base.height;
+        angerHUD.rageGauge.updateNeedlePosition();
+        angerHUD.startX = angerHUD.x;
+        angerHUD.rageToggleTween(false, 0.01);
+        add(angerHUD);
     }
 }

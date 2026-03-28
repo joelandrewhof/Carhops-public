@@ -33,5 +33,7 @@ class Stall extends FlxSprite
 
     public function setOccupied(bool:Bool = false) {
         occupied = bool;
+        if(!occupied)
+            currentCar = null;
     }
 }

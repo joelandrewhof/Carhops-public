@@ -17,6 +17,7 @@ import crowbar.objects.Player;
 import game.states.sub.CarhopPauseMenu;
 import game.components.CarhopsEntityParser;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
+import game.components.MannyStateManager;
 
 class PlayState extends TopDownState
 {
@@ -162,8 +163,9 @@ class PlayState extends TopDownState
 		{
 			Score.addCombo();
 			Score.addStreak();
-			Score.doScoreCalculation(thisOrder);
-			//hud.scoreHUD.updateScoreDisplay();
+			conductor.deliveryRageReduction(Score.doScoreCalculation(thisOrder));
+			
+
 			inventory.removeOrder(thisOrder.ticket);
 			thisOrder.satisfied = true;
 
@@ -173,6 +175,27 @@ class PlayState extends TopDownState
 			car.controller.getComponentByName("CarMovement").startReverse();
 		}
 		
+	}
+
+	public function failOrder(order:Order)
+	{
+		var car = PlayState.current.conductor.getCustomerAtStall(order.destination);
+		trace('FAILING ${car.stallID} ${order.destination}');
+		if(car != null && order.destination == car.stallID)
+		{
+			Score.breakCombo();
+			Score.breakStreak();
+			//hud.scoreHUD.updateScoreDisplay();
+			inventory.removeOrder(order.ticket);
+			order.satisfied = true; //satisfied may be a bad word for this, change maybe
+
+			//SoundManager.playSound("order_failure", 0.4);
+
+			car.ignitionSound();
+			car.controller.getComponentByName("CarMovement").startReverse();
+
+			conductor.addMannyAnger();
+		}
 	}
 
 	private function comboTick(elapsed:Float, ?modifier:Float = 1.0)
