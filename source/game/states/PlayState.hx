@@ -127,6 +127,14 @@ class PlayState extends TopDownState
 
 	}
 
+	public function debugInput(elapsed:Float)
+	{
+		if(FlxG.keys.pressed.CONTROL)
+		{
+			conductor.mannyStateManager.decreaseRage(0.2 * elapsed);
+		}
+	}
+
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
@@ -140,6 +148,8 @@ class PlayState extends TopDownState
 		{
 			//insert code here
 		}
+
+		debugInput(elapsed);
 	}
 
 	override public function openPauseMenu()

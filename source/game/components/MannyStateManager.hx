@@ -17,6 +17,8 @@ class MannyStateManager
     public var timesEnraged:Int = 0;
     public var rageTickPauseTimer:Float = 0; //used to "stun" manny's rage from building when delivering orders
 
+    public var angerArray = [OK, ANNOYED, ANGRY, PISSED];
+
     public var ragePerSecond:Float = 0.004;
     public var maxAnger:Int = PISSED;
 
@@ -44,6 +46,15 @@ class MannyStateManager
                 }
             }
         }
+    }
+
+    public function getAngerInt():Int
+    {
+        for(i in 0...angerArray.length){
+            if(angerStage == angerArray[i])
+                return i;
+        }
+        return -1;
     }
 
     public function addRage(add:Float)

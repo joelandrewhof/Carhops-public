@@ -10,6 +10,8 @@ class AngerHUD extends FlxSpriteGroup
 {
     public var base:CrowbarSprite;
     public var rageGauge:RageGauge;
+    public var angerTextBase:CrowbarSprite;
+    public var angerOdometer:Odometer;
     public var showingRage:Bool = true;
 
     public var startX:Float;
@@ -23,6 +25,12 @@ class AngerHUD extends FlxSpriteGroup
 
         rageGauge = new RageGauge(180, 10);
         add(rageGauge);
+
+        angerTextBase = new CrowbarSprite(18, 125, "images/ui/anger_text_base");
+        add(angerTextBase);
+
+        angerOdometer = new Odometer(18, 125, "images/ui/anger_text", 4);
+        add(angerOdometer);
     }
 
     override function update(elapsed:Float)
@@ -36,6 +44,16 @@ class AngerHUD extends FlxSpriteGroup
         else if(!showingRage && rageGauge.percent > 0.0) {
             rageToggleTween(true);
         }
+
+        if(PlayState.current.conductor.mannyStateManager.getAngerInt() != angerOdometer.index)
+        {
+            setAngerOdometer(PlayState.current.conductor.mannyStateManager.getAngerInt());
+        }
+    }
+
+    public function setAngerOdometer(anger:Int)
+    {
+        angerOdometer.updateIndex(anger);
     }
 
     public function rageToggleTween(enraged:Bool, ?time:Float = 1.0)
