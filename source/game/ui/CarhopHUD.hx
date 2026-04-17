@@ -11,6 +11,7 @@ class CarhopHUD extends FlxSpriteGroup
     public var tipsHUD:TipsHUD;
     public var orderRating:OrderRating;
     public var angerHUD:AngerHUD;
+    public var timeHUD:TimeHUD;
 
     public function new()
     {
@@ -37,5 +38,8 @@ class CarhopHUD extends FlxSpriteGroup
         angerHUD.startX = angerHUD.x;
         angerHUD.rageToggleTween(false, 0.01);
         add(angerHUD);
+
+        timeHUD = new TimeHUD();
+        add(timeHUD);
     }
 }

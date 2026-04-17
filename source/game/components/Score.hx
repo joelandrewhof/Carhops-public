@@ -26,6 +26,20 @@ class Score
     public static final streakMultiplier:Float = 4;
     public static final streakFalloff:Int = 50;
 
+    public static function reset()
+    {
+        score = 0;
+        combo = 0;
+        streak = 0;
+        comboTime = 0.0;
+        streakBreaks = 0;
+        doubles = 0;
+        triples = 0;
+        homeruns = 0;
+        lastTimeBonus = 0;
+        lastStreakBonus = 0;
+    }
+
     public static function addScore(base:Int)
     {
         score += base;

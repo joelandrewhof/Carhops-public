@@ -36,7 +36,7 @@ class AngerHUD extends FlxSpriteGroup
     override function update(elapsed:Float)
     {
         super.update(elapsed);
-        rageGauge.percent = PlayState.current.conductor.mannyStateManager.rage;
+        rageGauge.percent = PlayState.current.manny.stateManager.rage;
 
         if(showingRage && rageGauge.percent <= 0.0) {
             rageToggleTween(false);
@@ -45,9 +45,9 @@ class AngerHUD extends FlxSpriteGroup
             rageToggleTween(true);
         }
 
-        if(PlayState.current.conductor.mannyStateManager.getAngerInt() != angerOdometer.index)
+        if(PlayState.current.manny.stateManager.getAngerInt() != angerOdometer.index)
         {
-            setAngerOdometer(PlayState.current.conductor.mannyStateManager.getAngerInt());
+            setAngerOdometer(PlayState.current.manny.stateManager.getAngerInt());
         }
     }
 

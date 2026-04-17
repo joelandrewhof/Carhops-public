@@ -53,7 +53,7 @@ class TopDownInteractionManager extends FlxBasic
         if(Controls.ACCEPT) {
             for(i in interactableArray)
             {
-                var a = i.collision.checkOverlap(TopDownState.current.playerHitbox);
+                var a = i.hitbox.checkOverlap(TopDownState.current.playerHitbox);
                 if(a) {
                     i.addClick(true);
                     return true;

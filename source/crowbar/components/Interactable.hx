@@ -1,12 +1,12 @@
 package crowbar.components;
 
 import flixel.FlxSprite;
-import crowbar.components.Collision;
+import crowbar.components.Hitbox;
 import crowbar.states.game.TopDownState;
 
 class Interactable extends FlxSprite
 {
-    public var collision:Collision;
+    public var hitbox:Hitbox;
     public var checkCount:Int = 0; //how many times the interactable has been interacted with. used for progressing dialogue.
     public var overrideCheck:Bool = false;
 
@@ -21,7 +21,7 @@ class Interactable extends FlxSprite
         super(x, y);
         makeGraphic(Std.int(width), Std.int(height), 0x4D15C1FF);
         alpha = 0.0;
-        collision = new Collision(x, y, width, height);
+        hitbox = new Hitbox(x, y, width, height);
         clickCountdown = clickDecrementTime;
     }
 
@@ -32,10 +32,10 @@ class Interactable extends FlxSprite
         checkCount++;
     }
 
-    //check for interaction; putting controls first should limit how often collision is checked
+    //check for interaction; putting controls first should limit how often hitbox is checked
     public function interactionCheck():Bool
     {
-        if(Controls.ACCEPT && collision.checkOverlap(TopDownState.current.player))
+        if(Controls.ACCEPT && hitbox.checkOverlap(TopDownState.current.player))
         {
             return addClick();
         }
@@ -45,8 +45,8 @@ class Interactable extends FlxSprite
     override function update(elapsed:Float)
     {
         super.update(elapsed);
-        collision.x = this.x;
-        collision.y = this.y;
+        hitbox.x = this.x;
+        hitbox.y = this.y;
 
         if(!overrideCheck) {
             interactionCheck();

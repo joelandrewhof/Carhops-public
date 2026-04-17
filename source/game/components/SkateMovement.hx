@@ -16,7 +16,7 @@ class SkateMovement extends MoveComponent
     public final kickCooldownExp:Float = 1.0; //these exponents make kicking work best when done rhythmically
     public final kickStaminaExp:Float = 1.4; 
     public final kickStaminaMax:Float = 100;
-    public final kickStaminaDrain:Float = 0.3;
+    public final kickStaminaDrain:Float = 0.0;
     
     public final maxMomentum:Float = 14.0;
 

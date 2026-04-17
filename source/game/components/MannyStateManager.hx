@@ -1,6 +1,8 @@
 package game.components;
 
 import flixel.math.FlxMath;
+import flixel.FlxBasic;
+import game.objects.Manny;
 
 enum abstract AngerValue(Int) to Int {
     var OK = 0;
@@ -11,6 +13,8 @@ enum abstract AngerValue(Int) to Int {
 
 class MannyStateManager
 {
+    public var manny:Manny;
+
     public var mannyState:Int = 0;
     public var angerStage:AngerValue = OK;
     public var rage:Float = 0.0;
@@ -22,9 +26,9 @@ class MannyStateManager
     public var ragePerSecond:Float = 0.004;
     public var maxAnger:Int = PISSED;
 
-    public function new()
+    public function new(manny:Manny)
     {
-
+        this.manny = manny; //reference to parent manny class
     }
 
     public function update(elapsed:Float)
@@ -103,12 +107,15 @@ class MannyStateManager
 
     private function mannyTransformAngryState()
     {
-
+        manny.head.activate();
+        manny.headController.paused = false;
+        trace("manny is pissed");
     }
 
     private function mannyTransformNeutralState()
     {
-
+        manny.head.deactivate();
+        manny.headController.paused = true;
     }
 
 

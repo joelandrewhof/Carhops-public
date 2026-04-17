@@ -1,6 +1,6 @@
 package crowbar.objects;
 
-import crowbar.components.Collision;
+import crowbar.components.Hitbox;
 
 /*
     an object that takes the player to another room and a set of coordinates when collided with.
@@ -14,7 +14,7 @@ class LoadingZone extends FlxSprite
     public var toX:Float = 0; 
     public var toY:Float = 0;
     //collision
-    public var collision:Collision;
+    public var hitbox:Hitbox;
     //debug
     public var hitboxVisible:Bool = false;
 
@@ -26,7 +26,7 @@ class LoadingZone extends FlxSprite
         alpha = 0.0;
         setWarp(toRoom, toX, toY);
         //use LoadingZone.collision.checkOverlap to check for things overlapping the loading zone
-        collision = new Collision(x, y, width, height);
+        hitbox = new Hitbox(x, y, width, height);
     }
 
     public function setWarp(toRoom:String, toX:Float, toY:Float)

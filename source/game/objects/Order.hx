@@ -21,7 +21,7 @@ class Order
     public final maxDrinks:Int = 4;
     public final maxFood:Float = 10.0;
 
-    public var basePatience:Float = 10.0;
+    public var basePatience:Float = 30.0;
     public var patience:Float;
     public var unheldDrainResist:Float = 0.67; //patience drains slower when order is not in the inventory.
 

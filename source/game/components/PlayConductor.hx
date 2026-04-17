@@ -16,17 +16,12 @@ class PlayConductor
 
     public var timeSinceLastSpawn:Float = 0.0;
 
-    public var mannyStateManager:MannyStateManager;
-
     public function new()
     {
         orders = new Array<Order>();
         stalls = new Array<Stall>();
         customers = new Array<CustomerCar>();
-
-        mannyStateManager = new MannyStateManager();
     }
-
 
     public function update(elapsed:Float)
     {
@@ -34,8 +29,14 @@ class PlayConductor
 
         spawnOrderTimed();
         updateUnsatisfiedOrders(elapsed);
+    }
 
-        mannyStateManager.update(elapsed);
+    public function reset()
+    {
+        nextOrder = 1;
+        orders = new Array<Order>();
+        stalls = new Array<Stall>();
+        customers = new Array<CustomerCar>();
     }
 
     public function spawnOrderTimed()
@@ -165,17 +166,17 @@ class PlayConductor
 
     public function addMannyAnger()
     {
-        mannyStateManager.addAnger();
+        PlayState.current.manny.stateManager.addAnger();
     }
 
     public function deliveryRageReduction(tip:Int)
     {
         //reduces rage when you deliver an order.
-        if(mannyStateManager.angerStage == MannyStateManager.AngerValue.PISSED)
+        if(PlayState.current.manny.stateManager.angerStage == MannyStateManager.AngerValue.PISSED)
         {
             var ragePerDollar = 0.002; //five dollars reduces 1% rage
-            mannyStateManager.decreaseRage(0.02 + (tip * ragePerDollar * 0.01));
-            mannyStateManager.addToPauseTimer(0.5, 0.5);
+            PlayState.current.manny.stateManager.decreaseRage(0.02 + (tip * ragePerDollar * 0.01));
+            PlayState.current.manny.stateManager.addToPauseTimer(0.5, 0.5);
         }
     }
 }

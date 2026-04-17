@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="manny_head.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="walk_s" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="walk_n" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="walk_w" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="walk_e" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="walk_sw" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="walk_se" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="walk_nw" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="walk_ne" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="idle_s" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="idle_n" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="idle_w" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="idle_e" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="idle_sw" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="idle_se" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="idle_nw" x="5" y="5" width="562" height="625"/>
+	<SubTexture name="idle_ne" x="5" y="5" width="562" height="625"/>
+</TextureAtlas>

@@ -18,6 +18,8 @@ import game.states.sub.CarhopPauseMenu;
 import game.components.CarhopsEntityParser;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import game.components.MannyStateManager;
+import game.objects.Manny;
+import game.components.LevelTime;
 
 class PlayState extends TopDownState
 {
@@ -25,9 +27,11 @@ class PlayState extends TopDownState
 
 	public var conductor:PlayConductor;
 
+	public var levelTime:LevelTime;
 	public var elapsedTime:Float = 0.0;
 
 	//object lists
+	public var manny:Manny;
 	public var customers:FlxTypedGroup<CustomerCar>;
 	public var orderTable:OrderTable;
 
@@ -48,11 +52,20 @@ class PlayState extends TopDownState
 
 		conductor = new PlayConductor();
 		inventory = new Inventory();
+		levelTime = new LevelTime();
+		add(levelTime);
     }
 
 	override public function create()
 	{
 		super.create();
+
+		Score.reset();
+		levelTime.reset();
+		conductor.reset();
+
+		manny = new Manny();
+		add(manny);
 
 		hud = new CarhopHUD();
 		hud.camera = camHUD;
@@ -131,8 +144,15 @@ class PlayState extends TopDownState
 	{
 		if(FlxG.keys.pressed.CONTROL)
 		{
-			conductor.mannyStateManager.decreaseRage(0.2 * elapsed);
+			manny.stateManager.decreaseRage(0.2 * elapsed);
 		}
+
+		if(FlxG.keys.justPressed.SPACE)
+		{
+			manny.stateManager.addAnger();
+		}
+
+		levelTime.minsPerSecond = (FlxG.keys.pressed.SHIFT ? 30.0 : 1.0);
 	}
 
 	override public function update(elapsed:Float)
@@ -140,7 +160,9 @@ class PlayState extends TopDownState
 		super.update(elapsed);
 		elapsedTime += elapsed;
 
+		//update objects
 		conductor.update(elapsed);
+		manny.update(elapsed);
 
 		comboTick(elapsed);
 
