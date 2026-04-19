@@ -25,8 +25,8 @@ class CarhopHUD extends FlxSpriteGroup
 
         tipsHUD = new TipsHUD(40, 560);
         add(tipsHUD);
-        tipsHUD.numWhole.updateNumbers();
-        tipsHUD.numDec.updateNumbers();
+        tipsHUD.numTotal.updateNumbers();
+        tipsHUD.addTotal.updateNumbers();
 
         orderRating = new OrderRating(150, 450);
         add(orderRating);

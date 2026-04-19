@@ -1,5 +1,6 @@
 package game.ui;
 
+import flixel.math.FlxPoint;
 import crowbar.display.CrowbarSprite;
 import flixel.group.FlxSpriteGroup;
 import crowbar.objects.ui.Number;
@@ -15,12 +16,14 @@ class TipsHUD extends FlxSpriteGroup
     public var dollar:CrowbarSprite;
     public var decimalPoint:CrowbarSprite;
 
+    public var numTotal:NumberDecimalGroup;
+
     public var addBase:CrowbarSprite;
     public var addTotal:NumberDecimalGroup;
 
     public var recentPoints:Int;
-    public var addDisplayTimer:Float = 0.0;
-    private final addDisplayMaxTime:Float = 3.0;
+    public var addDisplayTimer:Float = -10.0;
+    private final addDisplayMaxTime:Float = 1.8;
 
 
     public function new(x:Int, y:Int)
@@ -36,23 +39,25 @@ class TipsHUD extends FlxSpriteGroup
         tipText = new CrowbarSprite(-10, 70, "images/ui/tips_text");
         add(tipText);
 
-        decimalPoint = new CrowbarSprite(240, 35, "images/ui/tips_num_decimal");
-        add(decimalPoint);
+        numTotal = new NumberDecimalGroup(150, 0, "tips_num", 0);
+        numTotal.whole.numberSkew = 10;
+        numTotal.whole.numberSpacing = 0.9;
+        numTotal.decimal.minimumLength = 2;
+        numTotal.decimal.numberSkew = 4;
+        numTotal.decimal.numberSpacing = 0.9;
+        numTotal.pointOffset = new FlxPoint(0, -40);
+        numTotal.decimalOffset = new FlxPoint(-12, 5);
+        add(numTotal);
 
-        numWhole = new NumberGroup(150, 0, "tips_num_big", 0);
-        numWhole.numberSkew = 10;
-        numWhole.numberSpacing = -5;
-        add(numWhole);
+        addBase = new CrowbarSprite(30, -60, "images/ui/tips_add_base");
+        add(addBase);
 
-        numDec = new NumberGroup(Std.int(decimalPoint.x) - 30, 5, "tips_num_small", 0);
-        numDec.minimumLength = 2;
-        numDec.numberSkew = 4;
-        numDec.numberSpacing = -3;
-        add(numDec);
-
-        addTotal = new NumberDecimalGroup(0, -100, "tips_add", 0);
+        addTotal = new NumberDecimalGroup(90, -50, "tips_add", 0);
         addTotal.decimal.minimumLength = 2;
         add(addTotal);
+
+        addBase.alpha = 0.0;
+        addTotal.alpha = 0.0;
     }
 
     override function update(elapsed:Float)
@@ -64,6 +69,7 @@ class TipsHUD extends FlxSpriteGroup
         if(addDisplayTimer <= 0) {
             recentPoints = 0;
             addTotal.alpha = (addDisplayTimer * 2) + 1;
+            addBase.alpha = (addDisplayTimer * 2) + 1;
         }
 
         trace(addTotal.alpha);
@@ -74,15 +80,15 @@ class TipsHUD extends FlxSpriteGroup
         addDisplayTimer = addDisplayMaxTime;
         recentPoints += points;
         addTotal.alpha = 1.0;
+        addBase.alpha = 1.0;
     }
 
     public function updateNumbers()
     {
-        var f = (numWhole.number * 100) + numDec.number;
-        if(numWhole.setNumbers(Math.floor(Score.score / 100)) || 
-            numDec.setNumbers(Score.score % 100)) {
-                updatePositions();
-                addPoints(Score.score - f);
+        var f:Int = Std.int(numTotal.number * 100);
+        if(numTotal.setNumbers(Score.score * 0.01)) {
+            updatePositions();
+            addPoints(Score.score - f);
         }
         if(recentPoints > 0 && addTotal.setNumbers(recentPoints * 0.01)) {
             addTotal.updatePositions();
@@ -100,16 +106,8 @@ class TipsHUD extends FlxSpriteGroup
         tipText.x = this.x - 10;
         tipText.y = this.y + 70;
 
-        numWhole.x = this.x + 150;
-        numWhole.y = this.y + 0;
-        numWhole.updateNumbers();
-
-        decimalPoint.x = numWhole.getLast().x + 85;
-        decimalPoint.y = numWhole.getLast().y + 35;
-
-        numDec.x = decimalPoint.x + 10;
-        numDec.y = decimalPoint.y - 30;
-
+        numTotal.updatePositions();
+        numTotal.updateNumbers();
 
         addTotal.updatePositions();
         addTotal.updateNumbers();

@@ -14,6 +14,7 @@ class NumberDecimalGroup extends FlxSpriteGroup
     public var point:CrowbarSprite;
 
     public var pointOffset:FlxPoint;
+    public var decimalOffset:FlxPoint;
 
     public function new(x:Int, y:Int, ?generalSpritePath:String, ?number:Float = 0,)
     {
@@ -21,6 +22,7 @@ class NumberDecimalGroup extends FlxSpriteGroup
 
         this.number = number;
         pointOffset = new FlxPoint(0, 0);
+        decimalOffset = new FlxPoint(0, 0);
 
         if(generalSpritePath != null)
         {
@@ -44,6 +46,7 @@ class NumberDecimalGroup extends FlxSpriteGroup
     public function setNumbers(float:Float):Bool
     {
         var changed:Bool = false;
+        number = float;
         if(whole.setNumbers(Math.floor(float)))
             changed = true;
         if(decimal.setNumbers(Math.floor((float % 1) * Math.pow(10, decimal.minimumLength))))
@@ -66,8 +69,8 @@ class NumberDecimalGroup extends FlxSpriteGroup
         point.x = whole.getLast().x + whole.getLast().width + pointOffset.x;
         point.y = whole.getLast().y + whole.getLast().height - point.height + pointOffset.y;
 
-        decimal.x = point.x + (point.width * 2);
-        decimal.y = point.y + point.height - decimal.height;
+        decimal.x = point.x + (point.width * 2) + decimalOffset.x;
+        decimal.y = point.y + point.height - decimal.height + decimalOffset.y;
     }
 
     public function sortNumbersOrder()
@@ -84,7 +87,8 @@ class NumberGroup extends FlxTypedSpriteGroup<Number>
     public var number:Int;
     public var minimumLength:Int = 1; //useful for decimals. should always be at least 1.
 
-    public var numberSpacing:Float = 0.0;
+    public var numberSpacing:Float = 1.0;
+    public var oneSpacing:Float = 0.8;
     public var numberSkew:Float = 0.0;
 
     public function new(x:Int, y:Int, file:String, ?number:Int = 0)
@@ -111,9 +115,13 @@ class NumberGroup extends FlxTypedSpriteGroup<Number>
 
         for(i in 0...members.length)
         {
-            var oneFactor:Float = (members[i].animation.name == '1' ? 0.7 : 1.0);
+            var oneFactor:Float;
+            if(i > 0 && members[i-1].animation.name == '1')
+                oneFactor = oneSpacing;
+            else 
+                oneFactor = numberSpacing;
             members[i].updateDigit(numToString().charAt(i));
-            members[i].setOrigin((i > 0 ? members[i-1].originX + (members[i-1].width * oneFactor) : this.x) + numberSpacing,
+            members[i].setOrigin((i > 0 ? members[i-1].originX + (members[i-1].width * oneFactor) : this.x),
                 this.y + (numberSkew * i * oneFactor));
             members[i].updatePosition();
         }
