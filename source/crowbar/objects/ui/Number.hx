@@ -1,8 +1,81 @@
 package crowbar.objects.ui;
 
+import flixel.math.FlxPoint;
 import crowbar.display.CrowbarSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxSort;
+
+class NumberDecimalGroup extends FlxSpriteGroup
+{
+    public var number:Float;
+
+    public var whole:NumberGroup;
+    public var decimal:NumberGroup;
+    public var point:CrowbarSprite;
+
+    public var pointOffset:FlxPoint;
+
+    public function new(x:Int, y:Int, ?generalSpritePath:String, ?number:Float = 0,)
+    {
+        super(x, y);
+
+        this.number = number;
+        pointOffset = new FlxPoint(0, 0);
+
+        if(generalSpritePath != null)
+        {
+            loadSprites(generalSpritePath);
+        }
+    }
+
+    public function loadSprites(?generalSpritePath:String)
+    {
+        if(generalSpritePath != null)
+        {
+            whole = new NumberGroup(0, 0, generalSpritePath + "_big");
+            decimal = new NumberGroup(0, 0, generalSpritePath + "_small");
+            point = new CrowbarSprite(0, 0, "images/ui/" + generalSpritePath + "_decimal");
+            add(whole);
+            add(decimal);
+            add(point);
+        }
+    }
+
+    public function setNumbers(float:Float):Bool
+    {
+        var changed:Bool = false;
+        if(whole.setNumbers(Math.floor(float)))
+            changed = true;
+        if(decimal.setNumbers(Math.floor((float % 1) * Math.pow(10, decimal.minimumLength))))
+            changed = true;
+        return changed;
+    }
+
+    public function updateNumbers()
+    {
+        whole.updateNumbers();
+        decimal.updateNumbers();
+    }
+
+    public function updatePositions()
+    {
+        whole.x = this.x;
+        whole.y = this.y;
+
+        //by default, decimal point goes at the bottom-right of the whole numbers
+        point.x = whole.getLast().x + whole.getLast().width + pointOffset.x;
+        point.y = whole.getLast().y + whole.getLast().height - point.height + pointOffset.y;
+
+        decimal.x = point.x + (point.width * 2);
+        decimal.y = point.y + point.height - decimal.height;
+    }
+
+    public function sortNumbersOrder()
+    {
+        whole.sortNumbersOrder();
+        decimal.sortNumbersOrder();
+    }
+}
 
 class NumberGroup extends FlxTypedSpriteGroup<Number>
 {

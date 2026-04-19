@@ -33,10 +33,10 @@ class PlayConductor
 
     public function reset()
     {
+        //DO NOT RESET PERMANENT LEVEL OBJECTS (STALLS, ETC.)
         nextOrder = 1;
         orders = new Array<Order>();
-        stalls = new Array<Stall>();
-        customers = new Array<CustomerCar>();
+        customers.clearArray();
     }
 
     public function spawnOrderTimed()

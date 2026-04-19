@@ -96,31 +96,6 @@ class PlayState extends TopDownState
         add(playerHitbox);
     }
 
-	public function createLevel1Objects()
-	{
-		
-		orderTable = new OrderTable(1280, 1400);
-
-		visMngr.addSprite(orderTable);
-
-		//create the stalls
-		var stallin:FlxPoint = new FlxPoint(128, 256);
-		if(conductor.stalls != null)
-		{
-			for(i in 0...2)
-			{
-				for(j in 0...7)
-				{
-					var id:String = (i == 0 ? "A" : "B");
-					var s = new Stall(Std.int(stallin.x), Std.int(stallin.y) + (352 * j), id + (6 - j + 1), 
-						(id == "A" ? 3 : 7));
-					conductor.stalls.push(s);
-				}
-				stallin.x += 2368;
-			}
-		}
-	}
-
 	public function createLevel1Debug()
 	{
 		

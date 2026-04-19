@@ -15,6 +15,14 @@ class TipsHUD extends FlxSpriteGroup
     public var dollar:CrowbarSprite;
     public var decimalPoint:CrowbarSprite;
 
+    public var addBase:CrowbarSprite;
+    public var addTotal:NumberDecimalGroup;
+
+    public var recentPoints:Int;
+    public var addDisplayTimer:Float = 0.0;
+    private final addDisplayMaxTime:Float = 3.0;
+
+
     public function new(x:Int, y:Int)
     {
         super(x, y);
@@ -41,19 +49,43 @@ class TipsHUD extends FlxSpriteGroup
         numDec.numberSkew = 4;
         numDec.numberSpacing = -3;
         add(numDec);
+
+        addTotal = new NumberDecimalGroup(0, -100, "tips_add", 0);
+        addTotal.decimal.minimumLength = 2;
+        add(addTotal);
     }
 
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+        addDisplayTimer -= elapsed;
         updateNumbers();
+
+        if(addDisplayTimer <= 0) {
+            recentPoints = 0;
+            addTotal.alpha = (addDisplayTimer * 2) + 1;
+        }
+
+        trace(addTotal.alpha);
+    }
+
+    public function addPoints(points:Int)
+    {
+        addDisplayTimer = addDisplayMaxTime;
+        recentPoints += points;
+        addTotal.alpha = 1.0;
     }
 
     public function updateNumbers()
     {
+        var f = (numWhole.number * 100) + numDec.number;
         if(numWhole.setNumbers(Math.floor(Score.score / 100)) || 
             numDec.setNumbers(Score.score % 100)) {
                 updatePositions();
+                addPoints(Score.score - f);
+        }
+        if(recentPoints > 0 && addTotal.setNumbers(recentPoints * 0.01)) {
+            addTotal.updatePositions();
         }
     }
 
@@ -79,5 +111,7 @@ class TipsHUD extends FlxSpriteGroup
         numDec.y = decimalPoint.y - 30;
 
 
+        addTotal.updatePositions();
+        addTotal.updateNumbers();
     }
 }

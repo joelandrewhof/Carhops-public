@@ -15,7 +15,7 @@ class LevelTime extends FlxBasic
     public var shiftEnd:Int = 2000;
     public var storeClose:Int = 2400;
 
-    public var startBufferTime:Int = 400;
+    public var startBufferTime:Int = 10;
     public var shiftLength:Int;
 
     override public function new(?start:Int = 1200, ?end:Int = 2000)

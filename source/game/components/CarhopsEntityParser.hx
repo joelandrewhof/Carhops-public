@@ -9,7 +9,6 @@ class CarhopsEntityParser
     //maybe this could be scripted later
     public static function loadEntity(data:EntityData):Void
     {
-        trace("entity parser running");
         switch data.name
         {
             case "Stall":
