@@ -223,6 +223,8 @@ class PlayState extends TopDownState
 	public function openGameOverState()
 	{
 		inGameOverScreen = true;
+		allowPause = false;
+		SoundManager.music.stop();
 		final gameOver:GameOverSubState = new GameOverSubState();
 		gameOver.camera = camAlt;
 		openSubState(gameOver);

@@ -65,6 +65,8 @@ class TopDownState extends FlxState
 
     var loadCallback:Void->Void;
 
+    public var allowPause:Bool = true;
+
     //such as not triggering a loading zone when spawning within one, and only triggering the transition once
 
     public function new(?room:String, ?x:Int, ?y:Int, ?callback:Void->Void)
@@ -292,7 +294,7 @@ class TopDownState extends FlxState
         /* ----------------------------------------------------
         ---                      ESCAPE                     ---
         -----------------------------------------------------*/
-        if(Controls.PAUSE)
+        if(Controls.PAUSE && allowPause)
             openPauseMenu();
     }
     
