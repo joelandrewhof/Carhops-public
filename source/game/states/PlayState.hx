@@ -31,6 +31,8 @@ class PlayState extends TopDownState
 	public var levelTime:LevelTime;
 	public var elapsedTime:Float = 0.0;
 
+	public var inGameOverScreen:Bool = false;
+
 	//object lists
 	public var manny:Manny;
 	public var customers:FlxTypedGroup<CustomerCar>;
@@ -220,7 +222,9 @@ class PlayState extends TopDownState
 
 	public function openGameOverState()
 	{
+		inGameOverScreen = true;
 		final gameOver:GameOverSubState = new GameOverSubState();
+		gameOver.camera = camAlt;
 		openSubState(gameOver);
 	}
 

@@ -25,10 +25,10 @@ class MannyHead extends TopDownCharacter
     override function update(elapsed:Float)
     {
         super.update(elapsed);
-        hitbox.x = (sprite.width * 0.5) - (hitbox.width * 0.5);
-        hitbox.y = (sprite.height * 0.5) - (hitbox.height * 0.5);
+        hitbox.x = sprite.x + (sprite.width * 0.5) - (hitbox.width * 0.5);
+        hitbox.y = sprite.y + (sprite.height * 0.5) - (hitbox.height * 0.5);
 
-        if(hitbox.checkOverlap(PlayState.current.playerHitbox))
+        if(!PlayState.current.inGameOverScreen && hitbox.checkOverlap(PlayState.current.playerHitbox))
         {
             if(canKill)
                 killPlayer();
