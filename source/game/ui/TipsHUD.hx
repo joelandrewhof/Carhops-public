@@ -23,7 +23,7 @@ class TipsHUD extends FlxSpriteGroup
 
     public var recentPoints:Int;
     public var addDisplayTimer:Float = -10.0;
-    private final addDisplayMaxTime:Float = 1.8;
+    private final addDisplayMaxTime:Float = 2.3;
 
 
     public function new(x:Int, y:Int)
@@ -68,8 +68,8 @@ class TipsHUD extends FlxSpriteGroup
 
         if(addDisplayTimer <= 0) {
             recentPoints = 0;
-            addTotal.alpha = (addDisplayTimer * 2) + 1;
-            addBase.alpha = (addDisplayTimer * 2) + 1;
+            addTotal.alpha = (addDisplayTimer * 2);
+            addBase.alpha = (addDisplayTimer * 2);
         }
 
         trace(addTotal.alpha);

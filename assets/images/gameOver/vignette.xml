@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="vignette.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="vignette00" x="0" y="0" width="1920" height="1080"/>
+	<SubTexture name="vignette01" x="1920" y="0" width="1920" height="1080"/>
+	<SubTexture name="vignette02" x="0" y="1080" width="1920" height="1080"/>
+	<SubTexture name="vignette03" x="1920" y="1080" width="1920" height="1080"/>
+</TextureAtlas>

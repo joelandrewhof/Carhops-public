@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="retry.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="retry0000" x="5" y="5" width="241" height="76" frameX="-1" frameY="-3" frameWidth="242" frameHeight="79"/>
+	<SubTexture name="retry0001" x="251" y="5" width="242" height="77" frameX="0" frameY="-2" frameWidth="242" frameHeight="79"/>
+	<SubTexture name="retry0002" x="5" y="87" width="239" height="75" frameX="0" frameY="-3" frameWidth="242" frameHeight="79"/>
+	<SubTexture name="retry0003" x="249" y="87" width="241" height="77" frameX="-1" frameY="0" frameWidth="242" frameHeight="79"/>
+</TextureAtlas>

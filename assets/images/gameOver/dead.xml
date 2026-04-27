@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="dead.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="dead0000" x="5" y="5" width="223" height="37"/>
+	<SubTexture name="dead0001" x="5" y="47" width="222" height="35" frameX="0" frameY="-1" frameWidth="223" frameHeight="37"/>
+	<SubTexture name="dead0002" x="5" y="87" width="222" height="36" frameX="0" frameY="-1" frameWidth="223" frameHeight="37"/>
+	<SubTexture name="dead0003" x="5" y="128" width="221" height="36" frameX="-1" frameY="-1" frameWidth="223" frameHeight="37"/>
+</TextureAtlas>

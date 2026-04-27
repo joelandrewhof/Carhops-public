@@ -38,6 +38,7 @@ class MannyHead extends TopDownCharacter
     public function killPlayer()
     {
         trace("KILL");
+        PlayState.current.openGameOverState();
     }
 
     public function activate()

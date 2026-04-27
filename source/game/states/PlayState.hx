@@ -20,6 +20,7 @@ import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import game.components.MannyStateManager;
 import game.objects.Manny;
 import game.components.LevelTime;
+import game.states.sub.GameOverSubState;
 
 class PlayState extends TopDownState
 {
@@ -215,6 +216,12 @@ class PlayState extends TopDownState
 				Score.breakCombo();
 			}
 		}
+	}
+
+	public function openGameOverState()
+	{
+		final gameOver:GameOverSubState = new GameOverSubState();
+		openSubState(gameOver);
 	}
 
 }

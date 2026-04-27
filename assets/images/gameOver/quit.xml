@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="quit.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="quit0000" x="5" y="5" width="217" height="71" frameX="0" frameY="0" frameWidth="222" frameHeight="73"/>
+	<SubTexture name="quit0001" x="227" y="5" width="219" height="70" frameX="0" frameY="-2" frameWidth="222" frameHeight="73"/>
+	<SubTexture name="quit0002" x="5" y="81" width="220" height="70" frameX="-1" frameY="-3" frameWidth="222" frameHeight="73"/>
+	<SubTexture name="quit0003" x="230" y="81" width="220" height="68" frameX="-2" frameY="-3" frameWidth="222" frameHeight="73"/>
+</TextureAtlas>

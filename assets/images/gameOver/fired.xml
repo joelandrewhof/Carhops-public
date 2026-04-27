@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="fired.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="fired0000" x="5" y="5" width="791" height="139" frameX="0" frameY="0" frameWidth="791" frameHeight="142"/>
+	<SubTexture name="fired0001" x="5" y="149" width="782" height="142" frameX="-7" frameY="0" frameWidth="791" frameHeight="142"/>
+	<SubTexture name="fired0002" x="5" y="296" width="781" height="140" frameX="-8" frameY="-1" frameWidth="791" frameHeight="142"/>
+</TextureAtlas>
