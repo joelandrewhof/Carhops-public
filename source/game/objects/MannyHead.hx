@@ -16,7 +16,7 @@ class MannyHead extends TopDownCharacter
     {
         super(spritePath, x, y, "s");
         sprite.scale.set(0.5, 0.5);
-        hitbox = new Hitbox(x, y, Std.int(sprite.width * 0.70), Std.int(sprite.height * 0.70));
+        hitbox = new Hitbox(x, y, Std.int(sprite.width * 0.30), Std.int(sprite.height * 0.30));
 
         visible = false;
         canKill = false;
@@ -28,7 +28,7 @@ class MannyHead extends TopDownCharacter
         hitbox.x = sprite.x + (sprite.width * 0.5) - (hitbox.width * 0.5);
         hitbox.y = sprite.y + (sprite.height * 0.5) - (hitbox.height * 0.5);
 
-        if(!PlayState.current.inGameOverScreen && hitbox.checkOverlap(PlayState.current.playerHitbox))
+        if(!PlayState.current.inGameOverScreen && hitbox.checkOverlapHitbox(PlayState.current.player.collision))
         {
             if(canKill)
                 killPlayer();

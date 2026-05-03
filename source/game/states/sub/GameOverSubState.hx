@@ -126,10 +126,12 @@ class GameOverSubState extends FlxSubState
         sceneStage = 2;
         trace("PART 2");
 
+        SoundManager.playSound('gore', 0.4);
+
         white.alpha = 1.3;
         FlxTween.tween(white, {alpha: 0.0}, 0.8, {
             onUpdate:function(twn:FlxTween) {
-                white.color = FlxColor.fromRGBFloat(1.0, 1.5 * white.alpha, 1.5 * white.alpha, white.alpha);
+                white.color = FlxColor.fromRGBFloat(1.0, 1.0 - ((1 - white.alpha) * 2), 1.0 - ((1 - white.alpha) * 2), white.alpha);
             }
         });
         vignette.visible = true;

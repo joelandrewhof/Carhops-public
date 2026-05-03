@@ -28,4 +28,20 @@ class Hitbox extends FlxRect
         else
             return false;
     }
+
+    public function checkOverlapHitbox(hitbox:Hitbox):Bool
+    {
+        //generic in-bounds check. returns true if player is overlapping this area.
+        if(hitbox.x + hitbox.width > this.left && hitbox.x < this.right) //horizontal check
+        {
+            if(hitbox.y + hitbox.height > this.top && hitbox.y < this.bottom) //vertical check
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+        else
+            return false;
+    }
 }
